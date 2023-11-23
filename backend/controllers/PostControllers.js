@@ -4,7 +4,7 @@ import CommentModel from "../models/Comment.js";
 import { v4 as uuidv4 } from "uuid";
 import { fileRemover } from "../utils/fileRemover.js";
 
-// POST /api/posts/create
+// POST /api/posts/
 const createPost = async (req, res, next) => {
   try {
     const post = new PostModel({
@@ -26,7 +26,7 @@ const createPost = async (req, res, next) => {
   }
 };
 
-// POST /api/posts/edit/:slug
+// POST /api/posts/:slug
 const updatePost = async (req, res, next) => {
   try {
     const post = await PostModel.findOne({ slug: req.params.slug });
@@ -80,7 +80,7 @@ const updatePost = async (req, res, next) => {
   }
 };
 
-// DELETE /api/posts/delete/:slug
+// DELETE /api/posts/:slug
 const deletePost = async (req, res, next) => {
   try {
     const post = await PostModel.findOneAndDelete({ slug: req.params.slug });
@@ -107,7 +107,7 @@ const deletePost = async (req, res, next) => {
   }
 };
 
-// GET /api/posts/detail/:slug
+// GET /api/posts/:slug
 const getDetailPost = async (req, res, next) => {
   try {
     const post = await PostModel.findOne({ slug: req.params.slug }).populate([
