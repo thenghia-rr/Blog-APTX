@@ -4,10 +4,19 @@ import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewComment, deleteComment, updateComment } from "../../services/index/comments";
+import {
+  createNewComment,
+  deleteComment,
+  updateComment,
+} from "../../services/index/comments";
 import toast from "react-hot-toast";
 
-const CommentContainer = ({ className, logginedUserId, comments, postSlug }) => {
+const CommentContainer = ({
+  className,
+  logginedUserId,
+  comments,
+  postSlug,
+}) => {
   const [affectedComment, setAffectedComment] = useState(null);
   const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
@@ -29,36 +38,32 @@ const CommentContainer = ({ className, logginedUserId, comments, postSlug }) => 
         console.log(error);
       },
     });
-    
+
   // Update comment useMutation
-  const { mutate: mutateUpdateComment } =
-  useMutation({
-    mutationFn: ({ token,desc, commentId  }) => {
-      return updateComment({ token, desc, commentId});
+  const { mutate: mutateUpdateComment } = useMutation({
+    mutationFn: ({ token, desc, commentId }) => {
+      return updateComment({ token, desc, commentId });
     },
     onSuccess: () => {
       toast.success(
         "Your comment is updated successfully, It will be change after a few seconds"
       );
-      queryClient.invalidateQueries(['blog', postSlug])
+      queryClient.invalidateQueries(["blog", postSlug]);
     },
     onError: (error) => {
       toast.error(error.message);
       console.log(error);
     },
   });
-  
+
   // Update comment useMutation
-  const { mutate: mutateDeleteComment } =
-  useMutation({
-    mutationFn: ({ token, commentId  }) => {
-      return deleteComment({ token, commentId});
+  const { mutate: mutateDeleteComment } = useMutation({
+    mutationFn: ({ token, commentId }) => {
+      return deleteComment({ token, commentId });
     },
     onSuccess: () => {
-      toast.success(
-        "Your comment is deleted successfully"
-      );
-      queryClient.invalidateQueries(['blog', postSlug])
+      toast.success("Your comment is deleted successfully");
+      queryClient.invalidateQueries(["blog", postSlug]);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -72,19 +77,19 @@ const CommentContainer = ({ className, logginedUserId, comments, postSlug }) => 
       desc: value,
       parent,
       replyOnUser,
-      token: userState.userInfo.token,
+      token: userState?.userInfo?.token,
       slug: postSlug,
     });
     setAffectedComment(null);
   };
 
-  // Update Comment 
+  // Update Comment
   const updateCommentHandler = (value, commentId) => {
     mutateUpdateComment({
       token: userState.userInfo.token,
       desc: value,
-      commentId
-    })
+      commentId,
+    });
     setAffectedComment(null);
   };
 
@@ -93,7 +98,7 @@ const CommentContainer = ({ className, logginedUserId, comments, postSlug }) => 
     mutateDeleteComment({
       token: userState.userInfo.token,
       commentId,
-    })
+    });
   };
 
   return (
@@ -126,6 +131,6 @@ CommentContainer.propTypes = {
   className: propTypes.any,
   logginedUserId: propTypes.any,
   comments: propTypes.any,
-  postSlug: propTypes.any
+  postSlug: propTypes.any,
 };
 export default CommentContainer;

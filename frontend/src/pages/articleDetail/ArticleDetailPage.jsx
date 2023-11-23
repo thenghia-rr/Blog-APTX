@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentContainer from "../../components/comments/CommentContainer";
 import BtnSocialShare from "../../components/BtnSocialShare";
-import { getSinglePost } from "../../services/index/posts";
+import { getAllPosts, getSinglePost } from "../../services/index/posts";
 // Body content
 import parse from "html-react-parser";
 import Bold from "@tiptap/extension-bold";
@@ -20,48 +20,28 @@ import ArticleDetailSkeleton from "../articleDetail/components/ArticleDetailSkel
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
 
-const postsData = [
-  {
-    _id: "1",
-    image: images.Post1Image,
-    title: "Help children get better education",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "2",
-    image: images.Post1Image,
-    title: "Help children get better education",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "3",
-    image: images.Post1Image,
-    title: "Help children get better education",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-  {
-    _id: "4",
-    image: images.Post1Image,
-    title: "Help children get better education",
-    createdAt: "2023-01-28T15:35:53.607+0000",
-  },
-];
-
-const tags = [
-  "Medical",
-  "Lifestyle",
-  "Learn",
-  "Healthy",
-  "Food",
-  "Technology",
-  "Education",
-];
+// const tags = [
+//   "Medical",
+//   "Lifestyle",
+//   "Learn",
+//   "Healthy",
+//   "Food",
+//   "Technology",
+//   "Education",
+// ];
 const ArticleDetailPage = () => {
   const [breadCrumbsData, setBreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
   const { slug } = useParams();
   const userState = useSelector((state) => state.user);
 
+  // Get All posts
+  const { data: postsData } = useQuery({
+    queryFn: () => getAllPosts(),
+    queryKey: ["posts"],
+  });
+
+  // Get sigle post
   const { data, isError, isLoading } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ["blog", slug],
@@ -88,6 +68,8 @@ const ArticleDetailPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+
   return (
     <MainLayout>
       {isLoading ? (
@@ -137,7 +119,7 @@ const ArticleDetailPage = () => {
               className="mt-8 lg:mt-0 lg:max-w-xs"
               header="Latest Article"
               posts={postsData}
-              tags={tags}
+              tags={data?.tags}
             />
             <div className="mt-7">
               <h2 className="w-fit font-roboto font-medium text-light-hard mb-4 md:text-xl ">

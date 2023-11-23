@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { images, stables } from "../../../constants";
+import { useNavigate } from "react-router-dom";
 
 const SuggestedPosts = ({ className, header, posts = [], tags }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 ${className}`}
@@ -16,12 +20,22 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
             className="flex space-x-3 flex-nowrap items-center"
           >
             <img
-              src={post.image}
-              alt="post image"
-              className="aspect-square object-cover rounded-lg w-1/5"
+              src={
+                post?.photo
+                  ? stables.UPLOAD_FOLDER_BASE_URL + post.photo
+                  : images.sampleImage
+              }
+              alt={post?.title}
+              className="aspect-square object-cover rounded-lg w-1/5 cursor-pointer"
+              onClick={() => navigate(`/blog/${post.slug}`)}
             />
             <div className="text-sm font-roboto text-light-hard font-medium">
-              <h3 className="md:text-base lg:text-lg">{post.title}</h3>
+              <h3
+                className="md:text-base lg:text-lg cursor-pointer"
+                onClick={() => navigate(`/blog/${post.slug}`)}
+              >
+                {post.title}
+              </h3>
               <span className="text-xs opacity-60">
                 {new Date(post.createdAt).toLocaleDateString("en-US", {
                   day: "numeric",
