@@ -13,7 +13,8 @@ export const authGuard = async (req, res, next) => {
       req.user = await UserModel.findById(id).select("-password");
       next();
     } catch (error) {
-      let err = new Error("Not authorized, Token failed");
+      // let err = new Error("Not authorized, Token failed");
+      let err = new Error("Đăng nhập để sử dụng tính năng này !");
       err.statusCode = 401;
       next(err);
     }
