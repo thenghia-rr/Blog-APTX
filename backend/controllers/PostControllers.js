@@ -163,19 +163,44 @@ const getDetailPost = async (req, res, next) => {
 // GET /api/post/
 const getAllPosts = async (req, res, next) => {
   try {
-    const posts = await PostModel.find({}).populate([
-      {
-        path: "user",
-        select: ["avatar", "name", "verified"],
-      },
-    ]);
-
-    if (!posts) {
-      const error = new Error("Nothing Posts in database");
-      return next(error);
+    const filter = req.query.search;
+    let where = {};
+    if (filter) {
+      where.title = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
     }
 
-    res.json(posts);
+    let query = PostModel.find(where); // KHông cần dùng await
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+    const total = await PostModel.countDocuments();
+    const pages = Math.ceil(total / pageSize);
+
+    if (page > pages) {
+      const error = new Error("No page found");
+      next(error);
+    }
+
+    const result = await query
+      .skip(skip)
+      .limit(pageSize)
+      .populate([
+        {
+          path: "user",
+          select: ["avatar", "name", "verified"],
+        },
+      ])
+      .sort({ updateAt: "descending" });
+
+    res.header({
+      "x-filter": filter,
+      "x-totalcount": JSON.stringify(total),
+      "x-currentpage": JSON.stringify(page),
+      "x-pagesize": JSON.stringify(pageSize),
+      "x-totalpagecount": JSON.stringify(pages),
+    });
+
+    return res.json(result);
   } catch (error) {
     next(error);
   }
