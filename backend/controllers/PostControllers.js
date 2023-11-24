@@ -26,7 +26,7 @@ const createPost = async (req, res, next) => {
   }
 };
 
-// POST /api/posts/:slug
+// PUT /api/posts/:slug
 const updatePost = async (req, res, next) => {
   try {
     const post = await PostModel.findOne({ slug: req.params.slug });
@@ -40,6 +40,13 @@ const updatePost = async (req, res, next) => {
     const upload = uploadPicture.single("postPicture");
 
     const handleUpdatePostData = async (data) => {
+      // Kiểm tra nếu req.body.document là undefined hoặc null
+      // Note: Test postman thì bắt buộc thêm field document (VD:{"title":"New title"})
+      if (!data) {
+        const error = new Error("Invalid JSON data");
+        next(error);
+        return;
+      }
       const { title, caption, slug, body, tags, categories } = JSON.parse(data);
       post.title = title || post.title;
       post.caption = caption || post.caption;

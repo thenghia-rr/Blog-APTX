@@ -19,8 +19,8 @@ const navItemsInfo = [
       { title: "Contact Us", href: "/contact" },
     ],
   },
-  { name: "Pricing", type: "link", href: '/pricing' },
-  { name: "FAQ", type: "link", href: '/faq' },
+  { name: "Pricing", type: "link", href: "/pricing" },
+  { name: "FAQ", type: "link", href: "/faq" },
 ];
 
 const NavItem = ({ item }) => {
@@ -34,7 +34,7 @@ const NavItem = ({ item }) => {
     <li className="relative group">
       {item.type === "link" ? (
         <>
-          <Link 
+          <Link
             to={item.href}
             className="px-4 py-2  hover:text-blue-500 transition-all duration-500"
           >
@@ -145,6 +145,15 @@ const Header = () => {
                       } lg:hidden transition-all duration-500 pt-4 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max`}
                     >
                       <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
+                        {userState?.userInfo?.admin && (
+                          <button
+                            onClick={() => navigate("/admin")}
+                            type="button"
+                            className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2  lg:text-dark-soft"
+                          >
+                            Dashboard Admin
+                          </button>
+                        )}
                         <button
                           onClick={() => navigate("/profile")}
                           type="button"

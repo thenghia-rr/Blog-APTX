@@ -69,7 +69,6 @@ const ArticleDetailPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-
   return (
     <MainLayout>
       {isLoading ? (
@@ -127,9 +126,9 @@ const ArticleDetailPage = () => {
               </h2>
               <BtnSocialShare
                 url={encodeURI(
-                  "https://www.pinterest.com/search/pins/?q=B%E1%BA%A1ch%20l%E1%BB%99c&rs=rs&eq=&etslf=5966"
+                 window.location.href
                 )}
-                title={encodeURIComponent("Nữ diễn viên Bạch Lộc xinh đẹp")}
+                title={encodeURIComponent(data?.title)}
               />
             </div>
           </div>

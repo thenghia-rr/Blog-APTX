@@ -20,7 +20,9 @@ const CommentForm = ({
       formSubmitHandler(valueText);
     }
     setValueText("");
+    
   };
+
   return (
     <form onSubmit={submitHandler}>
       <div className="flex flex-col items-end border border-primary rounded-lg p-4">

@@ -51,15 +51,21 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
         Tags
       </h2>
       <div className="flex flex-wrap gap-2 mt-4">
-        {tags.map((tag) => (
-          <Link
-            key={tag}
-            to="/"
-            className="inline-block rounded-md px-3 py-2 bg-primary font-roboto text-xs text-white md:text-sm"
-          >
-            {tag}
-          </Link>
-        ))}
+        {tags.length === 0 ? (
+          <h3 className="text-light-soft text-xs md:text-sm">
+            There are no tags to display
+          </h3>
+        ) : (
+          tags.map((tag) => (
+            <Link
+              key={tag}
+              to="/"
+              className="inline-block rounded-md px-3 py-2 bg-primary font-roboto text-xs text-white md:text-sm"
+            >
+              {tag}
+            </Link>
+          ))
+        )}
       </div>
     </div>
   );

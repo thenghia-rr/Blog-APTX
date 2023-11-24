@@ -30,8 +30,10 @@ const CommentContainer = ({
       },
       onSuccess: () => {
         toast.success(
-          "Your comment is send successfully, It will be display after the confirmation of the Admin !"
+          // "Your comment is send successfully, It will be display after the confirmation of the Admin !"
+         " Your comment is sent successfully"
         );
+        queryClient.invalidateQueries(["blog", postSlug]); // reload data and show new comment
       },
       onError: (error) => {
         toast.error(error.message);
@@ -46,7 +48,7 @@ const CommentContainer = ({
     },
     onSuccess: () => {
       toast.success(
-        "Your comment is updated successfully, It will be change after a few seconds"
+        "Your comment is updated successfully"
       );
       queryClient.invalidateQueries(["blog", postSlug]);
     },
@@ -56,7 +58,7 @@ const CommentContainer = ({
     },
   });
 
-  // Update comment useMutation
+  // Delete comment useMutation
   const { mutate: mutateDeleteComment } = useMutation({
     mutationFn: ({ token, commentId }) => {
       return deleteComment({ token, commentId });
