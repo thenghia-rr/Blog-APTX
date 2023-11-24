@@ -190,7 +190,7 @@ const getAllPosts = async (req, res, next) => {
           select: ["avatar", "name", "verified"],
         },
       ])
-      .sort({ updateAt: "descending" });
+      .sort({ updatedAt: "descending" });
 
     res.header({
       "x-filter": filter,
