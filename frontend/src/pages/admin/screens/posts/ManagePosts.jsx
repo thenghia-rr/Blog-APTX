@@ -1,32 +1,45 @@
 import { images, stables } from "../../../../constants";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts } from "../../../../services/index/posts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Pagination from "../../../../components/Pagination";
+import { Link } from 'react-router-dom';
+
+let isFirstRun = true;
 
 const ManagePosts = () => {
   const [searchKeyWord, setSearchKeyWord] = useState("");
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     data: postsData,
     isLoading,
     isFetching,
-    refetch
+    refetch,
   } = useQuery({
     queryFn: () => getAllPosts(searchKeyWord, currentPage),
     queryKey: ["posts"],
   });
 
+  useEffect(() => {
+    if (isFirstRun) {
+      isFirstRun = false;
+      return;
+    }
+    refetch();
+  }, [refetch, currentPage]);
+
   const searchKeyWordHandler = (e) => {
     const { value } = e.target;
-    setSearchKeyWord(value)
-  }
+    setSearchKeyWord(value);
+  };
 
-  const submitSearchHandler =(e) => {
+  const submitSearchHandler = (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     refetch();
-  }
-
+  };
+console.log(postsData.data)
   return (
     <div>
       <h1 className="text-2xl font-semibold uppercase text-light-soft text-center">
@@ -37,7 +50,10 @@ const ManagePosts = () => {
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
             <h2 className="text-xl leading-tight">All Posts</h2>
             <div className="text-end">
-              <form onClick={submitSearchHandler} className="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0">
+              <form
+                onClick={submitSearchHandler}
+                className="flex flex-col justify-center w-3/4 max-w-sm space-y-3 md:flex-row md:w-full md:space-x-3 md:space-y-0"
+              >
                 <div className=" relative ">
                   <input
                     type="text"
@@ -105,7 +121,7 @@ const ManagePosts = () => {
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <div className="flex items-center">
                             <div className="flex-shrink-0">
-                              <a href="#" className="relative block">
+                              <Link to={`/blog/${post.slug}`} className="relative block">
                                 <img
                                   alt={post?.title}
                                   src={
@@ -116,7 +132,7 @@ const ManagePosts = () => {
                                   }
                                   className="mx-auto object-cover rounded-lg h-10 aspect-square "
                                 />
-                              </a>
+                              </Link>
                             </div>
                             <div className="ml-3">
                               <p className="text-gray-900 whitespace-no-wrap">
@@ -169,64 +185,15 @@ const ManagePosts = () => {
                   )}
                 </tbody>
               </table>
-              <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
-                <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100"
-                  >
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      className=""
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100 "
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
-                  >
-                    2
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border-t border-b hover:bg-gray-100"
-                  >
-                    3
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full px-4 py-2 text-base text-gray-600 bg-white border hover:bg-gray-100"
-                  >
-                    4
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100"
-                  >
-                    <svg
-                      width="9"
-                      fill="currentColor"
-                      height="8"
-                      className=""
-                      viewBox="0 0 1792 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
+              {!isLoading && (
+                <Pagination
+                  onPageChange={(page) => setCurrentPage(page)}
+                  currentPage={currentPage}
+                  totalPageCount={JSON.parse(
+                    postsData?.headers?.["x-totalpagecount"]
+                  )}
+                />
+              )}
             </div>
           </div>
         </div>

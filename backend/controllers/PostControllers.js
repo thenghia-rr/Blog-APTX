@@ -8,12 +8,12 @@ import { fileRemover } from "../utils/fileRemover.js";
 const createPost = async (req, res, next) => {
   try {
     const post = new PostModel({
-      title: "Test tile",
+      title: "Test title",
       caption: "Test caption",
       slug: uuidv4(),
       body: {
-        type: "doc",
-        content: [],
+        "type": "doc",
+        "content": [],
       },
       photo: "",
       user: req.user._id,
