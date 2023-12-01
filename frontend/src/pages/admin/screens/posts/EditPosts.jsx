@@ -4,15 +4,15 @@ import { getSinglePost, updatePost } from "../../../../services/index/posts";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArticleDetailSkeleton from "../../../articleDetail/components/ArticleDetailSkeleton";
 import ErrorMessage from "../../../../components/ErrorMessage";
-import parseJsonToHtml from "../../../../utils/parseJsonToHtml";
 import { stables } from "../../../../constants";
 import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import Editor from "../../../../components/editor/Editor";
 
 const EditPosts = () => {
   const { slug } = useParams();
-  const userState = useSelector(state => state.user);
+  const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -49,7 +49,6 @@ const EditPosts = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       setInitialPhoto(data?.photo);
-      setBody(parseJsonToHtml(data?.body));
     }
   }, [data, isError, isLoading]);
 
@@ -76,7 +75,7 @@ const EditPosts = () => {
 
       updatedData.append("postPicture", picture);
     }
-    updatedData.append("document", JSON.stringify({}));
+    updatedData.append("document", JSON.stringify({body}));
 
     mutateUpdatePostDetail({
       updatedData,
@@ -89,7 +88,7 @@ const EditPosts = () => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       setInitialPhoto(null);
       setPhoto(null);
-      toast.success('Image deleted successfully')
+      toast.success("Image deleted successfully");
     }
   };
   return (
@@ -101,8 +100,8 @@ const EditPosts = () => {
       ) : (
         <section className="container mx-auto max-w-6xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
           <article className="flex-1">
-          <button
-              onClick={() => navigate('/admin/posts/manage')}
+            <button
+              onClick={() => navigate("/admin/posts/manage")}
               className="w-fit bg-primary text-sm text-white rounded-lg px-3 py-1 mb-3 font-semibold"
             >
               Back
@@ -153,7 +152,13 @@ const EditPosts = () => {
               {data?.title}
             </h1>
             <div className="mt-4 text-light-soft prose prose-sm sm:prose-base ">
-              {body}
+              {!isLoading && !isError && (
+                <Editor
+                  content={data?.body}
+                  editable={true}
+                  onDataChange={(data) => setBody(data)}
+                />
+              )}
             </div>
             <button
               disabled={isLoadingUpdatePostDetail}

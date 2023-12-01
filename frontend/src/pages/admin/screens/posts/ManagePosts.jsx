@@ -105,7 +105,7 @@ const ManagePosts = () => {
           </div>
           <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
             <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
-              <table className="min-w-full leading-normal">
+              <table className="min-w-full leading-normal ">
                 <thead>
                   <tr>
                     <th

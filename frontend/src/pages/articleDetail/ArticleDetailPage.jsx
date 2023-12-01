@@ -13,6 +13,7 @@ import parseJsonToHtml from '../../utils/parseJsonToHtml';
 import ArticleDetailSkeleton from "../articleDetail/components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
+import Editor from "../../components/editor/Editor";
 
 // const tags = [
 //   "Medical",
@@ -52,6 +53,7 @@ const ArticleDetailPage = () => {
   });
 
 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -88,8 +90,12 @@ const ArticleDetailPage = () => {
             <h1 className="text-xl font-semibold font-roboto mt-4 text-light-hard md:text-[26px]">
               {data?.title}
             </h1>
-            <div className="mt-4 text-light-soft prose prose-sm sm:prose-base ">
-              {body}
+            <div className="mt-4 text-light-soft prose prose-base sm:prose-xl ">
+              <div className="w-full">
+                {!isLoading && !isError && (
+                  <Editor content={data?.body} editable={false}/>
+                )}
+              </div>
             </div>
             <CommentContainer
               comments={data?.comments}

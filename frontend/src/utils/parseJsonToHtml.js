@@ -1,13 +1,9 @@
 import parse from "html-react-parser";
-import Bold from "@tiptap/extension-bold";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Italic from "@tiptap/extension-italic";
-import Text from "@tiptap/extension-text";
 import { generateHTML } from "@tiptap/html";
+import { extensions } from "../constants/tiptapExtensions";
 
 const parseJsonToHtml = (json) => {
-  return parse(generateHTML(json, [Bold, Italic, Text, Paragraph, Document]));
+  return parse(generateHTML(json, extensions));
 };
 
 export default parseJsonToHtml;
