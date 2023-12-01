@@ -64,7 +64,7 @@ const Header = () => {
   }, [windowSize.width]);
 
   return (
-    <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0">
+    <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0 z-50">
       {/* Logo */}
       <Link to="/">
         <img src={images.LogoAPTX} alt="logo" className="w-16 lg:hidden" />

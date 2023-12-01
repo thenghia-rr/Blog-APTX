@@ -96,7 +96,7 @@ const Header = () => {
   };
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white">
-      <header className="container mx-auto px-5 flex justify-between items-center py-4 ">
+      <header className="container mx-auto px-5 flex justify-between items-center py-4 2xl:max-w-[1400px]">
         <Link to="/">
           <img
             src={images.LogoAPTX}

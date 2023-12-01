@@ -22,7 +22,7 @@ const CTA = () => {
       </svg>
 
       <section className="relative bg-light-hard px-5">
-        <div className="container grid grid-cols-12 mx-auto py-10 md:pb-20 lg:place-items-center">
+        <div className="container grid grid-cols-12 mx-auto py-10 md:pb-20 lg:place-items-center 2xl:max-w-[1400px]">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="text-white font-roboto font-bold text-2xl md:text-4xl md:text-center md:leading-normal lg:text-left">
               Get our stories delivered From us to your inbox weekly.

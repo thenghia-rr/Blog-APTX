@@ -1,13 +1,18 @@
 import { images, stables } from "../../../../constants";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { getAllPosts } from "../../../../services/index/posts";
 import { useState, useEffect } from "react";
 import Pagination from "../../../../components/Pagination";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { deletePost } from "../../../../services/index/posts";
+import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 let isFirstRun = true;
 
 const ManagePosts = () => {
+  const queryClient = useQueryClient();
+  const userState = useSelector((state) => state.user);
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -20,6 +25,23 @@ const ManagePosts = () => {
     queryFn: () => getAllPosts(searchKeyWord, currentPage),
     queryKey: ["posts"],
   });
+
+  const { mutate: mutateDeletePost, isLoading: isLoadingDeletePost } =
+    useMutation({
+      mutationFn: ({ slug, token }) =>
+        deletePost({
+          slug,
+          token,
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+        toast.success("Post deleted successfully");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+      },
+    });
 
   useEffect(() => {
     if (isFirstRun) {
@@ -39,7 +61,13 @@ const ManagePosts = () => {
     setCurrentPage(1);
     refetch();
   };
-console.log(postsData.data)
+
+  const deletePostHandler = ({ slug, token }) => {
+    if(window.confirm('Are you sure you want to delete this post?')) {
+      mutateDeletePost({ slug, token });
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-semibold uppercase text-light-soft text-center">
@@ -48,7 +76,9 @@ console.log(postsData.data)
       <div className="w-full px-4 mx-auto ">
         <div className="py-8">
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
-            <h2 className="text-xl leading-tight">All Posts</h2>
+            <h2 className="text-xl leading-tight">
+              All Posts ({postsData?.totalPostsCount})
+            </h2>
             <div className="text-end">
               <form
                 onClick={submitSearchHandler}
@@ -115,13 +145,22 @@ console.log(postsData.data)
                         Loading...
                       </td>
                     </tr>
+                  ) : postsData?.data.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="text-center py-10 w-full">
+                        No Posts Found
+                      </td>
+                    </tr>
                   ) : (
                     postsData?.data.map((post) => (
                       <tr key={post._id}>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <div className="flex items-center">
                             <div className="flex-shrink-0">
-                              <Link to={`/blog/${post.slug}`} className="relative block">
+                              <Link
+                                to={`/blog/${post.slug}`}
+                                className="relative block"
+                              >
                                 <img
                                   alt={post?.title}
                                   src={
@@ -172,13 +211,26 @@ console.log(postsData.data)
                               : "No tags"}
                           </div>
                         </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                          <a
-                            href="#"
+                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
+                          <button
+                            disabled={isLoadingDeletePost}
+                            type="button"
+                            className="text-red-500 hover:text-rose-900 disabled:opacity-70 disabled:cursor-not-allowed"
+                            onClick={() => {
+                              deletePostHandler({
+                                slug: post?.slug,
+                                token: userState.userInfo.token,
+                              });
+                            }}
+                          >
+                            Detete
+                          </button>
+                          <Link
+                            to={`/admin/posts/manage/edit/${post?.slug}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))
@@ -189,9 +241,7 @@ console.log(postsData.data)
                 <Pagination
                   onPageChange={(page) => setCurrentPage(page)}
                   currentPage={currentPage}
-                  totalPageCount={JSON.parse(
-                    postsData?.headers?.["x-totalpagecount"]
-                  )}
+                  totalPageCount={postsData?.totalPageCount}
                 />
               )}
             </div>

@@ -9,13 +9,7 @@ import CommentContainer from "../../components/comments/CommentContainer";
 import BtnSocialShare from "../../components/BtnSocialShare";
 import { getAllPosts, getSinglePost } from "../../services/index/posts";
 // Body content
-import parse from "html-react-parser";
-import Bold from "@tiptap/extension-bold";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Italic from "@tiptap/extension-italic";
-import Text from "@tiptap/extension-text";
-import { generateHTML } from "@tiptap/html";
+import parseJsonToHtml from '../../utils/parseJsonToHtml';
 import ArticleDetailSkeleton from "../articleDetail/components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
@@ -45,25 +39,18 @@ const ArticleDetailPage = () => {
   const { data, isError, isLoading } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ["blog", slug],
+    onSuccess: (data) => {
+      setBreadCrumbsData([
+        { name: "Home", link: "/" },
+        { name: "Blog", link: "/blog" },
+        { name: "Article title", link: `/blog/${data?.slug}` },
+      ]);
+      setBody(
+        parseJsonToHtml(data?.body)
+      );
+    }
   });
 
-  // onSuccess in useQuery not working, instead of using useEffect
-  useEffect(() => {
-    setBreadCrumbsData([
-      { name: "Home", link: "/" },
-      { name: "Blog", link: "/blog" },
-      { name: "Article title", link: `/blog/1` },
-    ]);
-    try {
-      setBody(
-        parse(
-          generateHTML(data?.body, [Bold, Italic, Text, Paragraph, Document])
-        )
-      );
-    } catch (error) {
-      // console.log("Error converting JSON to Node");
-    }
-  }, [data?.body]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -86,7 +73,7 @@ const ArticleDetailPage = () => {
                   : images.sampleImage
               }
               alt={data?.title}
-              className="rounded-xl w-full"
+              className="rounded-xl w-full max-h-[520px]"
             />
             {data?.categories.map((category) => (
               <Link
@@ -99,7 +86,7 @@ const ArticleDetailPage = () => {
             ))}
 
             <h1 className="text-xl font-semibold font-roboto mt-4 text-light-hard md:text-[26px]">
-              {data?.caption}
+              {data?.title}
             </h1>
             <div className="mt-4 text-light-soft prose prose-sm sm:prose-base ">
               {body}

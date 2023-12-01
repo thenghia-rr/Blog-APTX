@@ -11,7 +11,7 @@ import { BsTelegram } from "react-icons/bs";
 const Footer = () => {
   return (
     <section className="bg-light-hard">
-      <footer className="container mx-auto grid grid-cols-10 px-5 py-10 gap-y-10 gap-x-5 md:pt-20 md:grid-cols-12 lg:grid-cols-10 lg:gap-x-10">
+      <footer className="container mx-auto grid grid-cols-10 px-5 py-10 gap-y-10 gap-x-5 md:pt-20 md:grid-cols-12 lg:grid-cols-10 lg:gap-x-10 2xl:max-w-[1400px]">
         <div className="col-span-5 md:col-span-4 lg:col-span-2">
           <h3 className="text-light-light font-bold md:text-lg">Product</h3>
           <ul className="text-[#959EAD] text-sm mt-5 space-y-4 md:text-base">

@@ -16,7 +16,7 @@ const Articles = () => {
     },
   });
   return (
-    <section className="flex flex-col container mx-auto px-5 py-10" id="articles">
+    <section className="flex flex-col container mx-auto px-5 py-10 2xl:max-w-[1400px]">
       <div className="flex flex-wrap md:gap-x-5 gap-y-5 pb-10">
         {isLoading ? (
           [...Array(3)].map((item, index) => (
@@ -33,7 +33,7 @@ const Articles = () => {
             <ArticleCard
               key={post._id}
               post={post}
-              className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)] 2xl:w-[calc(25%-22px)]"
+              className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)] "
             />
           ))
         )}
