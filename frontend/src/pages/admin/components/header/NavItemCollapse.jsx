@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 const NavItemCollapse = ({
   title,
-  content,
+  children,
   icon,
   name,
   activeNavName,
@@ -43,16 +42,7 @@ const NavItemCollapse = ({
       {/* Child collapse (Posts) */}
       <div className="d-collapse-content">
         <div className="mt-2 flex flex-col gap-y-2">
-          {content.map((item) => (
-            <Link
-              key={item.title}
-              to={item.link}
-              className='flex gap-x-2 font-semibold text-[#A5A5A5]'
-            >
-              {item.icon}
-              {item.title}
-            </Link>
-          ))}
+          {children}
         </div>
       </div>
     </div>

@@ -8,7 +8,6 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Admin from "./pages/admin/screens/Admin";
 import Comment from "./pages/admin/screens/comments/Comment";
-import NewPost from "./pages/admin/screens/posts/NewPost";
 import ManagePosts from "./pages/admin/screens/posts/ManagePosts";
 import EditPosts from "./pages/admin/screens/posts/EditPosts";
 
@@ -24,7 +23,6 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comment />} />
-          <Route path="posts/new" element={<NewPost />} />
           <Route path="posts/manage" element={<ManagePosts />} />
           <Route path="posts/manage/edit/:slug" element={<EditPosts />} />
         </Route>
