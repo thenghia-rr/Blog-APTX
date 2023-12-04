@@ -23,6 +23,7 @@
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "@uidotdev/usehooks": "^2.4.1",
+    "aos": "^2.3.4",
     "axios": "^1.6.2",
     "html-react-parser": "^5.0.6",
     "lowlight": "^2.9.0",

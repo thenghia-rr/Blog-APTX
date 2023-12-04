@@ -106,7 +106,7 @@ const ArticleDetailPage = () => {
             />
           </article>
 
-          <div>
+          <div className="sticky top-20 right-0">
             <SuggestedPosts
               className="mt-8 lg:mt-0 lg:max-w-xs"
               header="Latest Article"

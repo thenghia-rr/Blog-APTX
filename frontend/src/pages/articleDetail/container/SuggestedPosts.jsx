@@ -31,7 +31,7 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
             />
             <div className="text-sm font-roboto text-light-hard font-medium">
               <h3
-                className="md:text-base lg:text-lg cursor-pointer"
+                className="md:text-base lg:text-lg cursor-pointer line-clamp-2"
                 onClick={() => navigate(`/blog/${post.slug}`)}
               >
                 {post.title}
