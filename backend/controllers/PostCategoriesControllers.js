@@ -27,10 +27,7 @@ const getAllPostCategories = async (req, res, next) => {
   try {
     const postCategories = await PostCategoriesModel.find({});
 
-    return res.json({
-      count: postCategories.length,
-      data: postCategories
-    });
+    return res.json(postCategories);
   } catch (error) {
     next(error);
   }

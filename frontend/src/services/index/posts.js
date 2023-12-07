@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 10) => {
+export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 5) => {
   try {
     const { data, headers } = await axios.get(
       `/api/posts?search=${searchKeyWord}&page=${page}&limit=${limit}`
