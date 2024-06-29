@@ -164,7 +164,7 @@ const getDetailPost = async (req, res, next) => {
   }
 };
 
-// GET /api/post/
+// GET /api/posts/
 const getAllPosts = async (req, res, next) => {
   try {
     const filter = req.query.search;
@@ -200,6 +200,10 @@ const getAllPosts = async (req, res, next) => {
           path: "user",
           select: ["avatar", "name", "verified"],
         },
+        {
+          path: "categories",
+          select: ["title"]
+        }
       ])
       .sort({ updatedAt: "descending" });
 

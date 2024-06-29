@@ -1,7 +1,7 @@
 import PostCategoriesModel from "../models/PostCategories.js";
 import PostModel from "../models/Post.js";
 
-// POST /api/posts-categories
+// POST /api/post-categories
 const createPostCategories = async (req, res, next) => {
   try {
     const { title } = req.body;
@@ -22,7 +22,7 @@ const createPostCategories = async (req, res, next) => {
   }
 };
 
-// GET /api/posts-categories
+// GET /api/post-categories
 const getAllPostCategories = async (req, res, next) => {
   try {
     const postCategories = await PostCategoriesModel.find({});

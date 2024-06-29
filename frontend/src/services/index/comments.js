@@ -8,8 +8,6 @@ export const createNewComment = async ({
   replyOnUser,
 }) => {
   try {
-   
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +34,7 @@ export const createNewComment = async ({
   }
 };
 
-export const updateComment = async ({ token, desc, commentId }) => {
+export const updateComment = async ({ token, desc, check, commentId }) => {
   try {
     const config = {
       headers: {
@@ -48,6 +46,7 @@ export const updateComment = async ({ token, desc, commentId }) => {
       `/api/comments/${commentId}`,
       {
         desc,
+        check
       },
       config
     );
@@ -71,7 +70,34 @@ export const deleteComment = async ({ token, commentId }) => {
 
     const { data } = await axios.delete(`/api/comments/${commentId}`, config);
     return data;
-    
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+export const getAllComments = async (
+  token,
+  searchKeyWord = "",
+  page = 1,
+  limit = 5
+) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data, headers } = await axios.get(
+      `/api/comments?search=${searchKeyWord}&page=${page}&limit=${limit}`,
+      config
+    );
+    const totalCommentsCount = headers["x-totalcount"];
+    return { data, headers, totalCommentsCount };
   } catch (error) {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);

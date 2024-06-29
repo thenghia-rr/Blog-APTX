@@ -79,7 +79,7 @@ const ArticleDetailPage = () => {
             />
             {data?.categories.map((category) => (
               <Link
-                key={category.name}
+                key={category._id}
                 to={`/blog?category=${category.name}`}
                 className="text-primary text-sm font-roboto inline-block mt-4 md:text-base uppercase"
               >

@@ -1,13 +1,17 @@
 import express from "express";
 const router = express.Router();
-import { authGuard } from "../middleware/authMiddleware.js";
+import { authAdmin, authGuard } from "../middleware/authMiddleware.js";
 import {
   createComment,
   updateComment,
   deleteComment,
+  getAllComments,
 } from "../controllers/CommentControllers.js";
 
-router.post("/", authGuard, createComment);
+router
+  .route("/")
+  .post(authGuard, createComment)
+  .get(authGuard, authAdmin, getAllComments);
 router
   .route("/:commentId")
   .put(authGuard, updateComment)

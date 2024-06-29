@@ -62,7 +62,7 @@ const LoginPage = () => {
           <div className="bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900 flex-shrink-0 hidden lg:block overflow-hidden ">
             <img
               src={images.roseLogin}
-              alt="bailu"
+              alt="rose"
               className="w-full h-auto"
             />
           </div>

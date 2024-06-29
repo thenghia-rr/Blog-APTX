@@ -31,7 +31,7 @@ const createComment = async (req, res, next) => {
 // PUT /api/comments/:commentId
 const updateComment = async (req, res, next) => {
   try {
-    const { desc } = req.body;
+    const { desc, check } = req.body;
 
     const comment = await CommentModel.findById(req.params.commentId);
 
@@ -40,6 +40,7 @@ const updateComment = async (req, res, next) => {
       return next(error);
     }
     comment.desc = desc || comment.desc;
+    comment.check = typeof check !== "undefined" ? check : comment.check;
 
     const updatedComment = await comment.save();
     return res.json(updatedComment);
@@ -66,4 +67,66 @@ const deleteComment = async (req, res, next) => {
   }
 };
 
-export { createComment, updateComment, deleteComment };
+// [GET] /api/comments
+const getAllComments = async (req, res, next) => {
+  try {
+    const filter = req.query.search;
+    let where = {};
+    if (filter) {
+      where.desc = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
+    }
+
+    let query = CommentModel.find(where); // KHông cần dùng await
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * pageSize;
+    const total = await CommentModel.find(where).countDocuments();
+    const pages = Math.ceil(total / pageSize);
+
+    res.header({
+      "x-filter": filter,
+      "x-totalcount": JSON.stringify(total),
+      "x-currentpage": JSON.stringify(page),
+      "x-pagesize": JSON.stringify(pageSize),
+      "x-totalpagecount": JSON.stringify(pages),
+    });
+
+    if (page > pages) {
+      return res.json([]);
+    }
+
+    const result = await query
+      .skip(skip)
+      .limit(pageSize)
+      .populate([
+        {
+          path: "user",
+          select: ["avatar", "name", "verified"],
+        },
+        {
+          path: "parent",
+          populate: [
+            {
+              path: "user",
+              select: ["avatar", "name"],
+            },
+          ],
+        },
+        {
+          path: "replyOnUser",
+          select: ["avatar", "name"],
+        },
+        {
+          path: "post",
+          select: ["slug", "title"]
+        }
+      ])
+      .sort({ updatedAt: "descending" });
+
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { createComment, updateComment, deleteComment, getAllComments };

@@ -7,7 +7,7 @@ export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 5) => {
     );
     const totalPageCount = headers["x-totalpagecount"];
     const totalPostsCount = headers["x-totalcount"];
-    return { data, totalPageCount, totalPostsCount };
+    return { data, headers, totalPageCount, totalPostsCount };
   } catch (error) {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
