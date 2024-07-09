@@ -1,3 +1,4 @@
+import BtnScrollToTop from "../../components/BtnScrollToTop";
 import MainLayout from "../../components/MainLayout";
 import Articles from "./container/Articles";
 import CTA from "./container/CTA";
@@ -10,6 +11,7 @@ const HomePage = () => {
         <Hero />
         <Articles />
         <CTA />
+        <BtnScrollToTop />
       </MainLayout>
     </>
   );

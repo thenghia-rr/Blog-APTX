@@ -34,15 +34,17 @@ const Admin = () => {
           </p>
         </div>
         </Link>
+        <Link to="/admin/categories/manage">
         <div className="bg-yellow-100 p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-yellow-800 mb-2">
-            Analytics
+            Manage Categories
           </h2>
           <p className="text-gray-700">
             Monitor website traffic, user engagement, and other analytics
             metrics.
           </p>
         </div>
+        </Link>
         <div className="bg-purple-100 p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-purple-800 mb-2">
             Settings

@@ -24,7 +24,10 @@ const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 // Middleware parse json and apply (req.body)
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:4000"],
+  optionsSuccessStatus: 200,
+}));
 
 // Static assets
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

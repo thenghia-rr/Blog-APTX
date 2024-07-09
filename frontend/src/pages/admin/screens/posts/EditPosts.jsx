@@ -20,7 +20,7 @@ import unidecode from 'unidecode';
 
 
 const promiseOptions = async (inputValue) => {
-  const categoriesData = await getAllCategories();
+  const {data: categoriesData} = await getAllCategories();
   return filterCategories(inputValue, categoriesData);
 };
 
@@ -38,7 +38,8 @@ const EditPosts = () => {
   const [tags, setTags] = useState(null);
   const [postSlug, setPostSlug] = useState(slug);
   const [caption, setCaption] = useState("");
-
+  const [page, setPage] = useState(1); // Thêm state để quản lý phân trang
+  
   // Get single post
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
@@ -120,6 +121,18 @@ const EditPosts = () => {
   };
 
   let isPostDataUpdated = !isLoading && !isError;
+
+
+  // Function to handle loading more categories on scroll
+const handleScrollToBottom = async () => {
+  // Increase page number and fetch more categories
+  const newPage = page + 1;
+  const response = await getAllCategories(searchKeyWord, newPage, limit);
+  const newCategories = response.data;
+
+  setCategories((prevCategories) => [...prevCategories, ...newCategories]);
+  setPage(newPage); // Update page number
+};
 
   return (
     <div>
@@ -240,6 +253,7 @@ const EditPosts = () => {
                 <MultiSelectTagDropdown
                   defaultValue={data?.categories?.map(categoryToOption)}
                   loadOptions={promiseOptions}
+                  onMenuScrollToBottom={handleScrollToBottom} // Load more when scroll to bottom
                   onChange={(newValue) =>
                     setCategories(newValue.map((item) => item.value))
                   }

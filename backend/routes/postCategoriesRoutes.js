@@ -3,8 +3,9 @@ const router = express.Router();
 import {
   createPostCategories,
   getAllPostCategories,
+  getSingleCategory,
   updatePostCategories,
-  deletePostCategories
+  deletePostCategories,
 } from "../controllers/PostCategoriesControllers.js";
 import { authGuard, authAdmin } from "../middleware/authMiddleware.js";
 
@@ -16,7 +17,7 @@ router
 router
   .route("/:postCategoryId")
   .put(authGuard, authAdmin, updatePostCategories)
-  .delete(authGuard, authAdmin, deletePostCategories);
-
+  .delete(authGuard, authAdmin, deletePostCategories)
+  .get(getSingleCategory);
 
 export default router;

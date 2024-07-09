@@ -128,6 +128,12 @@ const Header = () => {
                 >
                   Manage All Posts
                 </Link>
+                <Link
+                  to="/admin/categories/manage"
+                  className="text-[#A5A5A5] font-semibold"
+                >
+                  Manage Categories
+                </Link>
                 <button
                   disabled={isLoadingCreatePost}
                   onClick={() =>

@@ -9,11 +9,12 @@ import CommentContainer from "../../components/comments/CommentContainer";
 import BtnSocialShare from "../../components/BtnSocialShare";
 import { getAllPosts, getSinglePost } from "../../services/index/posts";
 // Body content
-import parseJsonToHtml from '../../utils/parseJsonToHtml';
+import parseJsonToHtml from "../../utils/parseJsonToHtml";
 import ArticleDetailSkeleton from "../articleDetail/components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
 import Editor from "../../components/editor/Editor";
+import BtnScrollToTop from "../../components/BtnScrollToTop";
 
 // const tags = [
 //   "Medical",
@@ -46,13 +47,9 @@ const ArticleDetailPage = () => {
         { name: "Blog", link: "/blog" },
         { name: "Article title", link: `/blog/${data?.slug}` },
       ]);
-      setBody(
-        parseJsonToHtml(data?.body)
-      );
-    }
+      setBody(parseJsonToHtml(data?.body));
+    },
   });
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -93,7 +90,7 @@ const ArticleDetailPage = () => {
             <div className="mt-4 text-light-soft prose prose-base sm:prose-xl ">
               <div className="w-full">
                 {!isLoading && !isError && (
-                  <Editor content={data?.body} editable={false}/>
+                  <Editor content={data?.body} editable={false} />
                 )}
               </div>
             </div>
@@ -118,15 +115,14 @@ const ArticleDetailPage = () => {
                 Share on:
               </h2>
               <BtnSocialShare
-                url={encodeURI(
-                 window.location.href
-                )}
+                url={encodeURI(window.location.href)}
                 title={encodeURIComponent(data?.title)}
               />
             </div>
           </div>
         </section>
       )}
+      <BtnScrollToTop/>
     </MainLayout>
   );
 };

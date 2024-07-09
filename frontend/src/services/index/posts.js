@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// [GET] /api/posts?search=${searchKeyWord}&page=${page}&limit=${limit}
+
 export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 5) => {
   try {
     const { data, headers } = await axios.get(
@@ -17,6 +19,8 @@ export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 5) => {
   }
 };
 
+
+// [GET] /api/posts/${slug}
 export const getSinglePost = async ({ slug }) => {
   try {
     const { data } = await axios.get(`/api/posts/${slug}`);
@@ -31,6 +35,7 @@ export const getSinglePost = async ({ slug }) => {
   }
 };
 
+// [DELETE] /api/posts/${slug}
 export const deletePost = async ({ slug, token }) => {
   try {
     const config = {
@@ -50,6 +55,7 @@ export const deletePost = async ({ slug, token }) => {
   }
 };
 
+// [PUT] /api/posts/${slug}
 export const updatePost = async ({updatedData, slug, token }) => {
   try {
     const config = {
@@ -69,6 +75,7 @@ export const updatePost = async ({updatedData, slug, token }) => {
   }
 };
 
+// [POST] /api/posts/
 export const createPost = async ({ token }) => {
   try {
     const config = {

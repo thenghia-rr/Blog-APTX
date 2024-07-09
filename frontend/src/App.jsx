@@ -10,6 +10,8 @@ import Admin from "./pages/admin/screens/Admin";
 import Comment from "./pages/admin/screens/comments/Comment";
 import ManagePosts from "./pages/admin/screens/posts/ManagePosts";
 import EditPosts from "./pages/admin/screens/posts/EditPosts";
+import Categories from "./pages/admin/screens/categories/Categories";
+import EditCategories from "./pages/admin/screens/categories/EditCategories";
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route path="comments" element={<Comment />} />
           <Route path="posts/manage" element={<ManagePosts />} />
           <Route path="posts/manage/edit/:slug" element={<EditPosts />} />
+          <Route path="categories/manage" element={<Categories />} />
+          <Route path="categories/manage/edit/:slug" element={<EditCategories />} />
         </Route>
       </Routes>
       <Toaster />

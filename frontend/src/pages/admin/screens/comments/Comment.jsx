@@ -177,67 +177,7 @@ const Comment = () => {
             >
               Delete
             </button>
-          </td> 
-
-
-          {/* <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
-              {post?.categories.length > 0
-                ? post.categories
-                    .slice(0, 3)
-                    .map(
-                      (category, index) =>
-                        `${category.title}${
-                          post.categories.slice(0, 3).length === index + 1
-                            ? ""
-                            : ", "
-                        }`
-                    )
-                : "Uncategorized"}
-            </p>
-          </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
-              {new Date(post?.updatedAt).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-            </p>
-          </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <div className="flex gap-x-1">
-              {post?.tags.length > 0
-                ? post?.tags.map((tag, index) => (
-                    <p key={tag}>
-                      {tag}
-                      {post.tags.length - 1 !== index && ","}
-                    </p>
-                  ))
-                : "No tags"}
-            </div>
-          </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
-            <button
-              disabled={isLoadingDeleteData}
-              type="button"
-              className="text-red-500 hover:text-rose-900 disabled:opacity-70 disabled:cursor-not-allowed"
-              onClick={() => {
-                deleteDataHandler({
-                  slug: post?.slug,
-                  token: userState.userInfo.token,
-                });
-              }}
-            >
-              Detete
-            </button>
-            <Link
-              to={`/admin/posts/manage/edit/${post?.slug}`}
-              className="text-indigo-600 hover:text-indigo-900"
-            >
-              Edit
-            </Link>
-          </td> */}
+          </td>  
         </tr>
       ))}
     </DataTable>
