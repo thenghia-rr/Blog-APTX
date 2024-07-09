@@ -5,6 +5,7 @@ import LoginPage from "./pages/login/LoginPage";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import ProfilePage from "./pages/profile/ProfilePage";
+import BlogPage from "./pages/blog/BlogPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Admin from "./pages/admin/screens/Admin";
 import Comment from "./pages/admin/screens/comments/Comment";
@@ -20,6 +21,7 @@ function App() {
     <div className="App font-roboto">
       <Routes>
         <Route index path="/" element={<HomePage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<ArticleDetailPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />

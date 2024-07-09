@@ -17,6 +17,7 @@ import {
 import { getAllCategories } from "../../../../services/index/postCategories";
 import CreatableSelect from "react-select/creatable";
 import unidecode from "unidecode";
+import BtnScrollToTop from "../../../../components/BtnScrollToTop";
 
 const promiseOptions = async (inputValue) => {
   const { data: categoriesData } = await getAllCategories();
@@ -291,6 +292,7 @@ const EditPosts = () => {
           </article>
         </section>
       )}
+      <BtnScrollToTop/>
     </div>
   );
 };

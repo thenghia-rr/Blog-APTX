@@ -72,7 +72,7 @@ const ArticleDetailPage = () => {
                   : images.sampleImage
               }
               alt={data?.title}
-              className="rounded-xl w-full max-h-[520px]"
+              className="rounded-xl w-full max-h-[520px] object-cover"
             />
             {data?.categories.map((category) => (
               <Link

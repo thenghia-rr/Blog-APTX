@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 const SuggestedPosts = ({ className, header, posts = [], tags }) => {
   const navigate = useNavigate();
 
+  const handleClickToPost = (post) =>{
+    navigate(`/blog/${post.slug}`)
+    window.scrollTo(0, 0);
+  }
+
   return (
     <div
       className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 ${className}`}
@@ -27,12 +32,12 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
               }
               alt={post?.title}
               className="aspect-square object-cover rounded-lg w-1/5 cursor-pointer"
-              onClick={() => navigate(`/blog/${post.slug}`)}
+              onClick={() => handleClickToPost(post)}
             />
             <div className="text-sm font-roboto text-light-hard font-medium">
               <h3
                 className="md:text-base lg:text-lg cursor-pointer line-clamp-2"
-                onClick={() => navigate(`/blog/${post.slug}`)}
+                onClick={() => handleClickToPost(post)}
               >
                 {post.title}
               </h3>

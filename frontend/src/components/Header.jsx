@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
-  { name: "Articles", type: "link", href: "/articles" },
+  { name: "Blog", type: "link", href: "/blog" },
   {
     name: "Pages",
     type: "dropdown",
