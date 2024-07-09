@@ -31,6 +31,7 @@ const ManagePosts = () => {
       });
     },
   });
+  
   return (
     <DataTable
       pageTitle="Manage Posts"

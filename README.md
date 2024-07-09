@@ -7,9 +7,9 @@
 # Tech stack and modules
 ## Front-end
 1. React
-2. Redux-toolkit
-3. React-query
-4. Tip tap
+2. Redux-toolkit: quản lí state global
+3. React-query: quản lí truy vấn dữ liệu
+4. Tip tap: editor của bài viết
 
 ## Back-end
 1. Node-Express

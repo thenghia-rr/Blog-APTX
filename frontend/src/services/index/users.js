@@ -52,7 +52,7 @@ export const getUserProfile = async ({ token }) => {
   }
 };
 
-export const updateProfile = async ({ token, userData }) => {
+export const updateProfile = async ({ token, userData, userId }) => {
   try {
     const config = {
       headers: {
@@ -61,7 +61,7 @@ export const updateProfile = async ({ token, userData }) => {
     };
 
     const { data } = await axios.put(
-      "/api/users/update-profile",
+      `/api/users/update-profile/${userId}`,
       userData,
       config
     );
@@ -89,6 +89,56 @@ export const updateProfilePicture = async ({ token, formData }) => {
       formData,
       config
     );
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [GET] /api/users?search=${searchKeyWord}&page=${page}&limit=${limit}
+export const getAllUsers = async (
+  token,
+  searchKeyWord = "",
+  page = 1,
+  limit = 10
+) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data, headers } = await axios.get(
+      `/api/users?search=${searchKeyWord}&page=${page}&limit=${limit}`,
+      config
+    );
+    const totalPageCount = headers["x-totalpagecount"];
+    const totalUsersCount = headers["x-totalcount"];
+    return { data, headers, totalPageCount, totalUsersCount };
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [DELETE] /api/users/${slug}
+export const deleteUser = async ({ slug, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.delete(`/api/users/${slug}`, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {

@@ -45,15 +45,17 @@ const Admin = () => {
           </p>
         </div>
         </Link>
+        <Link to="/admin/users/manage">
         <div className="bg-purple-100 p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-purple-800 mb-2">
-            Settings
+            Manage Users
           </h2>
           <p className="text-gray-700">
             Configure website settings, SEO, and other administrative
             configurations.
           </p>
         </div>
+        </Link>
       </div>
     </div>
   );

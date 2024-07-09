@@ -16,11 +16,10 @@ import {
 } from "../../../../utils/multiSelectTagUtils";
 import { getAllCategories } from "../../../../services/index/postCategories";
 import CreatableSelect from "react-select/creatable";
-import unidecode from 'unidecode';
-
+import unidecode from "unidecode";
 
 const promiseOptions = async (inputValue) => {
-  const {data: categoriesData} = await getAllCategories();
+  const { data: categoriesData } = await getAllCategories();
   return filterCategories(inputValue, categoriesData);
 };
 
@@ -38,8 +37,7 @@ const EditPosts = () => {
   const [tags, setTags] = useState(null);
   const [postSlug, setPostSlug] = useState(slug);
   const [caption, setCaption] = useState("");
-  const [page, setPage] = useState(1); // Thêm state để quản lý phân trang
-  
+
   // Get single post
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
@@ -82,7 +80,7 @@ const EditPosts = () => {
     setPhoto(file);
   };
 
-  const hanleUpdatePost = async () => {
+  const handleUpdatePost = async () => {
     let updatedData = new FormData();
 
     if (!initialPhoto && photo) {
@@ -121,18 +119,6 @@ const EditPosts = () => {
   };
 
   let isPostDataUpdated = !isLoading && !isError;
-
-
-  // Function to handle loading more categories on scroll
-const handleScrollToBottom = async () => {
-  // Increase page number and fetch more categories
-  const newPage = page + 1;
-  const response = await getAllCategories(searchKeyWord, newPage, limit);
-  const newCategories = response.data;
-
-  setCategories((prevCategories) => [...prevCategories, ...newCategories]);
-  setPage(newPage); // Update page number
-};
 
   return (
     <div>
@@ -237,7 +223,9 @@ const handleScrollToBottom = async () => {
                 type="text"
                 className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
                 onChange={(e) =>
-                  setPostSlug(unidecode(e.target.value.replace(/\s+/g, "-").toLowerCase()))
+                  setPostSlug(
+                    unidecode(e.target.value.replace(/\s+/g, "-").toLowerCase())
+                  )
                 }
               />
             </div>
@@ -253,7 +241,6 @@ const handleScrollToBottom = async () => {
                 <MultiSelectTagDropdown
                   defaultValue={data?.categories?.map(categoryToOption)}
                   loadOptions={promiseOptions}
-                  onMenuScrollToBottom={handleScrollToBottom} // Load more when scroll to bottom
                   onChange={(newValue) =>
                     setCategories(newValue.map((item) => item.value))
                   }
@@ -282,7 +269,9 @@ const handleScrollToBottom = async () => {
               )}
             </div>
 
-            <div className="mt-4 text-light-soft prose prose-sm sm:prose-base">
+            <div
+              className="editor-container mt-4 text-light-soft prose prose-sm sm:prose-base"
+            >
               {isPostDataUpdated && (
                 <Editor
                   content={data?.body}
@@ -293,7 +282,7 @@ const handleScrollToBottom = async () => {
             </div>
             <button
               disabled={isLoadingUpdatePostDetail}
-              onClick={hanleUpdatePost}
+              onClick={handleUpdatePost}
               type="button"
               className="w-full bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
             >

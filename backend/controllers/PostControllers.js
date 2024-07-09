@@ -97,6 +97,7 @@ const deletePost = async (req, res, next) => {
       return next(error);
     }
 
+    fileRemover(post.photo);
     await CommentModel.deleteMany({ post: post._id });
 
     // Remove photo if exist

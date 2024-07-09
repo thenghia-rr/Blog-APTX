@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { images } from "../../../../constants";
 import NavItem from "./NavItem";
@@ -113,6 +113,14 @@ const Header = () => {
                 activeNavName={activeNavName}
                 setActiveNavName={setActiveNavName}
               />
+              <NavItem
+                title="Users"
+                link="/admin/users/manage"
+                icon={<FaUser className="text-xl" />}
+                name="users"
+                activeNavName={activeNavName}
+                setActiveNavName={setActiveNavName}
+              />
 
               <NavItemCollapse
                 title="Posts"
@@ -144,6 +152,7 @@ const Header = () => {
                   Create New Post
                 </button>
               </NavItemCollapse>
+
             </div>
           </div>
         </div>

@@ -35,7 +35,7 @@ const EditCategories = () => {
           slug,
         });
       },
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(["categories", slug]);
         toast.success("Category updated successfully");
         navigate(`/admin/categories/manage`, {

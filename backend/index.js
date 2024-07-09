@@ -29,7 +29,7 @@ app.use(cors({
   optionsSuccessStatus: 200,
 }));
 
-// Static assets
+// Static assets (Middleware static of Express.js)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Connect to MongoDB
