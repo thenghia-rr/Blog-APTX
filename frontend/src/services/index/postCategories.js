@@ -13,7 +13,7 @@ export const getAllCategories = async (
 
     const totalPageCount = headers["x-totalpagecount"];
     const totalCategoriesCount = headers["x-totalcount"];
-
+    
     return { data, headers, totalCategoriesCount, totalPageCount };
   } catch (error) {
     if (error.response && error.response.data.message) {

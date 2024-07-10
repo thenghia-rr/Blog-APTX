@@ -45,7 +45,7 @@ const ArticleDetailPage = () => {
       setBreadCrumbsData([
         { name: "Home", link: "/" },
         { name: "Blog", link: "/blog" },
-        { name: "Article title", link: `/blog/${data?.slug}` },
+        { name: `${data?.title}`, link: `/blog/${data?.slug}` },
       ]);
       setBody(parseJsonToHtml(data?.body));
     },

@@ -28,7 +28,7 @@ const getAllPostCategories = async (req, res, next) => {
     const filter = req.query.search;
     let where = {};
     if (filter) {
-      where.desc = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
+      where.title = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
     }
 
     let query = PostCategoriesModel.find(where); // KHông cần dùng await

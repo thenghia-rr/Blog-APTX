@@ -70,7 +70,7 @@ const BlogPage = () => {
             <ErrorMessage message="Couldn't fetch the posts data from database" />
           ) : data?.data.length === 0 ? (
             <>
-              <div className="text-center p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg space-y-4">
+              <div className="text-center p-6 max-w-sm mx-auto mt-10 bg-white rounded-xl shadow-lg space-y-4">
                 <svg
                   className="mx-auto h-12 w-12 text-gray-400"
                   fill="none"

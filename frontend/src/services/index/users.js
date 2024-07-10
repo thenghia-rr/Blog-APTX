@@ -102,7 +102,7 @@ export const updateProfilePicture = async ({ token, formData }) => {
 // [GET] /api/users?search=${searchKeyWord}&page=${page}&limit=${limit}
 export const getAllUsers = async (
   token,
-  searchKeyWord = "",
+  searchKeyword = "",
   page = 1,
   limit = 10
 ) => {
@@ -113,8 +113,9 @@ export const getAllUsers = async (
       },
     };
 
+    // Note: searchKeyword phải trùng bên UserController 
     const { data, headers } = await axios.get(
-      `/api/users?search=${searchKeyWord}&page=${page}&limit=${limit}`,
+      `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
       config
     );
     const totalPageCount = headers["x-totalpagecount"];

@@ -7,10 +7,10 @@ import { fileRemover } from "../utils/fileRemover.js";
 // [GET] /api/users
 const getAllUsers = async (req, res, next) => {
   try {
-    const filter = req.query.search;
+    const filter = req.query.searchKeyword;
     let where = {};
     if (filter) {
-      where.title = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
+      where.email = { $regex: filter, $options: "i" }; // i => Không phân biệt hoa thường
     }
 
     let query = UserModel.find(where); // KHông cần dùng await

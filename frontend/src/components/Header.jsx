@@ -11,14 +11,15 @@ import toast from "react-hot-toast";
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
   { name: "Blog", type: "link", href: "/blog" },
-  {
-    name: "Pages",
-    type: "dropdown",
-    items: [
-      { title: "About Us", href: "/about" },
-      { title: "Contact Us", href: "/contact" },
-    ],
-  },
+  { name: "About", type: "link", href: "/about" },
+  // {
+  //   name: "Pages",
+  //   type: "dropdown",
+  //   items: [
+  //     { title: "About Us", href: "/about" },
+  //     { title: "Contact Us", href: "/contact" },
+  //   ],
+  // },
   { name: "Pricing", type: "link", href: "/pricing" },
   { name: "FAQ", type: "link", href: "/faq" },
 ];

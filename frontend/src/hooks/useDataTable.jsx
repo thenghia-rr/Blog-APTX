@@ -15,7 +15,7 @@ export const useDataTable = ({
   const userState = useSelector((state) => state.user);
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
+ 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryFn: dataQueryFn,
     queryKey: [dataQueryKey],

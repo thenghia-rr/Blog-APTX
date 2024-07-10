@@ -17,7 +17,7 @@ const DataTable = ({
   headers,
   totalDataCount
 }) => {
-    // console.log(data.totalDataCount)
+    // console.log(searchKeyword)
   return (
     <div>
       <h1 className="text-2xl font-semibold uppercase text-light-soft text-center">
