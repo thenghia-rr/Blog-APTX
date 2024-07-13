@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllCategories = async (
   searchKeyWord = "",
   page = 1,
-  limit = 10
+  limit = 7
 ) => {
   try {
     const { data, headers } = await axios.get(

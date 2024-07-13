@@ -31,7 +31,7 @@ const ManagePosts = () => {
       });
     },
   });
-  
+
   return (
     <DataTable
       pageTitle="Manage Posts"
@@ -40,7 +40,13 @@ const ManagePosts = () => {
       searchKeyWordOnSubmitHandler={submitSearchHandler}
       searchKeywordOnChangeHandler={searchKeyWordHandler}
       searchKeyword={searchKeyWord}
-      tableHeaderTitleList={["Title", "Category", "Created At", "Tags", ""]}
+      tableHeaderTitleList={[
+        "Title",
+        "Category",
+        "Created At",
+        "Tags",
+        "Actions",
+      ]}
       isLoading={isLoading}
       isFetching={isFetching}
       data={postsData?.data}
@@ -52,7 +58,8 @@ const ManagePosts = () => {
     >
       {postsData?.data?.map((post) => (
         <tr key={post._id}>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          {/* TITLE COLUMN */}
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Link to={`/blog/${post.slug}`} className="relative block">
@@ -68,14 +75,14 @@ const ManagePosts = () => {
                 </Link>
               </div>
               <div className="ml-3">
-                <p className="text-gray-900 whitespace-no-wrap">
+                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
                   {post?.title}
                 </p>
               </div>
             </div>
           </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {post?.categories.length > 0
                 ? post.categories
                     .slice(0, 3)
@@ -90,8 +97,8 @@ const ManagePosts = () => {
                 : "Uncategorized"}
             </p>
           </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {new Date(post?.createdAt).toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "short",
@@ -99,8 +106,8 @@ const ManagePosts = () => {
               })}
             </p>
           </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <div className="flex gap-x-1">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <div className="flex gap-x-1 dark:text-dark-text">
               {post?.tags.length > 0
                 ? post?.tags.map((tag, index) => (
                     <p key={tag}>
@@ -111,7 +118,7 @@ const ManagePosts = () => {
                 : "No tags"}
             </div>
           </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4 dark:bg-dark-backgr">
             <button
               disabled={isLoadingDeleteData}
               type="button"

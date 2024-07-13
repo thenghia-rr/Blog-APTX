@@ -84,10 +84,10 @@ const Comment = () => {
       totalDataCount={commentsData?.totalCommentsCount}
     >
       {commentsData?.data?.map((comment) => (
-        <tr key={comment._id}>
+        <tr key={comment._id} >
           {/* AUTHOR COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <div className="flex items-center">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr ">
+            <div className="flex items-center ">
               <div className="flex-shrink-0">
                 <Link to={`/`} className="relative block">
                   <img
@@ -102,16 +102,16 @@ const Comment = () => {
                 </Link>
               </div>
               <div className="ml-3">
-                <p className="text-gray-900 whitespace-no-wrap">
+                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
                   {comment?.user?.name}
                 </p>
               </div>
             </div>
           </td>
           {/* COMMENT COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             {comment?.replyOnUser !== null && (
-              <p className="text-gray-900 whitespace-no-wrap">
+              <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">
                 In reply to {""}
                 <Link
                   to={`/blog/${comment?.post?.slug}/#comment-${comment?._id}`}
@@ -121,19 +121,19 @@ const Comment = () => {
                 </Link>
               </p>
             )}
-            <p className="text-gray-900 whitespace-no-wrap">{comment?.desc}</p>
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">{comment?.desc}</p>
           </td>
           {/* IN RESPOND TO COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">
               <Link to={`/blog/${comment?.post?.slug}`}>
                 {comment?.post?.title}
               </Link>
             </p>
           </td>
           {/* CREATEDAT COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">
               {new Date(comment?.createdAt).toLocaleDateString("en-US", {
                 day: "2-digit",
                 month: "2-digit",
@@ -144,7 +144,7 @@ const Comment = () => {
             </p>
           </td>
           {/* ACTIONS COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4 dark:bg-dark-backgr">
             <button
               disabled={isLoadingDeleteData || isLoadingUpdateCommentCheck}
               type="button"

@@ -20,13 +20,13 @@ const DataTable = ({
     // console.log(searchKeyword)
   return (
     <div>
-      <h1 className="text-2xl font-semibold uppercase text-light-soft text-center">
+      <h1 className="text-2xl font-semibold uppercase text-light-soft text-center dark:text-primary">
         {pageTitle}
       </h1>
       <div className="w-full px-4 mx-auto ">
-        <div className="py-8">
+        <div className="pt-8">
           <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
-            <h2 className="text-xl leading-tight">
+            <h2 className="text-xl leading-tight dark:text-dark-text">
               {dataListName} ({totalDataCount})
             </h2>
             <div className="text-end">
@@ -38,7 +38,7 @@ const DataTable = ({
                   <input
                     type="text"
                     id="form-subscribe-Filter"
-                    className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    className="dark:placeholder:text-[#333] dark:bg-slate-200 rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                     placeholder={searchInputPlaceholder}
                     onClick={(e) => e.stopPropagation()}
                     onChange={searchKeywordOnChangeHandler}
@@ -54,16 +54,16 @@ const DataTable = ({
               </form>
             </div>
           </div>
-          <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
+          <div className="px-4 pt-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
             <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
-              <table className="min-w-full leading-normal ">
+              <table className="min-w-full leading-normal  ">
                 <thead>
                   <tr>
                     {tableHeaderTitleList.map((title, index) => (
                       <th
                         key={index}
                         scope="col"
-                        className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                        className="dark:bg-dark-backgr dark:text-dark-text px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                       >
                         {title}
                       </th>
@@ -73,13 +73,13 @@ const DataTable = ({
                 <tbody>
                   {isLoading || isFetching ? (
                     <tr>
-                      <td colSpan={5} className="text-center py-10 w-full">
+                      <td colSpan={5} className="dark:text-dark-text text-center py-10 w-full">
                         Loading...
                       </td>
                     </tr>
                   ) : data?.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="text-center py-10 w-full">
+                      <td colSpan={5} className="dark:text-dark-text text-center py-10 w-full">
                         No records found
                       </td>
                     </tr>

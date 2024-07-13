@@ -26,12 +26,12 @@ const Pagination = ({
 
   let lastPage = paginationRange[paginationRange.length - 1];
   return (
-    <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between">
-      <div className="flex items-center">
+    <div className="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between dark:bg-dark-backgr">
+      <div className="flex items-center ">
         <button
           disabled={currentPage === 1}
           type="button"
-          className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100"
+          className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100 dark:bg-dark-header dark:text-dark-text"
           onClick={onPrev}
         >
           <svg
@@ -50,7 +50,7 @@ const Pagination = ({
             return (
               <button
                 key={index}
-                className="cursor-default w-full px-4 py-2 text-base bg-white border"
+                className="cursor-default w-full px-4 py-2 text-base bg-white border "
               >
                 &#8230
               </button>
@@ -61,7 +61,7 @@ const Pagination = ({
             <button
               key={index}
               type="button"
-              className={`${pageNumber === currentPage ? "text-white bg-blue-500" : "text-gray-600 bg-white hover:bg-gray-100"} w-full px-4 py-2 text-base `}
+              className={`${pageNumber === currentPage ? "text-white bg-blue-500" : "text-gray-600 bg-white hover:bg-gray-100 dark:bg-dark-header dark:text-dark-text"} w-full px-4 py-2 text-base border-none`}
               onClick={() => onPageChange(pageNumber)}
             >
               {pageNumber}
@@ -72,7 +72,7 @@ const Pagination = ({
         <button
             disabled={currentPage === lastPage}
           type="button"
-          className="disabled:cursor-not-allowed disabled:opacity-60 w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100"
+          className="disabled:cursor-not-allowed disabled:opacity-60 w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100 dark:bg-dark-header dark:text-dark-text"
           onClick={onNext}
         >
           <svg

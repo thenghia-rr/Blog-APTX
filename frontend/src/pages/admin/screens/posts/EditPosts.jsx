@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSinglePost, updatePost } from "../../../../services/index/posts";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArticleDetailSkeleton from "../../../articleDetail/components/ArticleDetailSkeleton";
@@ -119,17 +119,19 @@ const EditPosts = () => {
     }
   };
 
+ 
+
   let isPostDataUpdated = !isLoading && !isError;
 
   return (
-    <div>
+    <div className="">
       {isLoading ? (
         <ArticleDetailSkeleton />
       ) : isError ? (
         <ErrorMessage message="Couldn't fetch this post data from database" />
       ) : (
-        <section className="container mx-auto max-w-6xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
-          <article className="flex-1">
+        <section className="dark:bg-dark-header dark:text-dark-text container mx-auto max-w-6xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+          <article className="flex-1 ">
             <button
               onClick={() => navigate("/admin/posts/manage")}
               className="w-fit bg-primary text-sm text-white rounded-lg px-3 py-1 mb-3 font-semibold"
@@ -171,17 +173,17 @@ const EditPosts = () => {
               {data?.categories?.map((category) => (
                 <Link
                   key={category.name}
-                  to={`/blog?category=${category.name}`}
-                  className="text-primary text-sm font-roboto inline-block md:text-base"
+                  to={`/blog?category=${category.title}`}
+                  className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold italic text-primary text-sm font-roboto inline-block mt-4 mr-2 md:text-base"
                 >
-                  {category.name}
+                  {category.title}
                 </Link>
               ))}
             </div>
             {/* Post title */}
             <div className="d-form-control w-full">
               <label htmlFor="title" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft">
+                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
                   Post title
                 </span>
               </label>
@@ -190,14 +192,14 @@ const EditPosts = () => {
                 value={title}
                 placeholder="title..."
                 type="text"
-                className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             {/* Post Caption  */}
             <div className="d-form-control w-full">
               <label htmlFor="caption" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft">
+                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
                   Post Caption
                 </span>
               </label>
@@ -206,14 +208,14 @@ const EditPosts = () => {
                 value={caption}
                 placeholder="caption..."
                 type="text"
-                className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
                 onChange={(e) => setCaption(e.target.value)}
               />
             </div>
             {/* Post Slug */}
             <div className="d-form-control w-full">
               <label htmlFor="slug" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft">
+                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
                   Post Slug
                 </span>
               </label>
@@ -222,7 +224,7 @@ const EditPosts = () => {
                 value={postSlug}
                 placeholder="post slug..."
                 type="text"
-                className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
                 onChange={(e) =>
                   setPostSlug(
                     unidecode(e.target.value.replace(/\s+/g, "-").toLowerCase())
@@ -234,7 +236,7 @@ const EditPosts = () => {
             {/* Post Categories */}
             <div className="mb-5 mt-2">
               <label className="d-label ">
-                <span className="d-label-text text-base text-light-soft">
+                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
                   Categories
                 </span>
               </label>
@@ -270,9 +272,7 @@ const EditPosts = () => {
               )}
             </div>
 
-            <div
-              className="editor-container mt-4 text-light-soft prose prose-sm sm:prose-base"
-            >
+            <div className="editor-container mt-4 text-light-soft prose prose-sm sm:prose-base">
               {isPostDataUpdated && (
                 <Editor
                   content={data?.body}
@@ -292,7 +292,7 @@ const EditPosts = () => {
           </article>
         </section>
       )}
-      <BtnScrollToTop/>
+      <BtnScrollToTop />
     </div>
   );
 };

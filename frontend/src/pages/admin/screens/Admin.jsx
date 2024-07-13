@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 const Admin = () => {
   return (
-    <div className="bg-white shadow-md rounded-lg p-8 mx-4 lg:mx-auto mt-8 max-w-5xl">
-      <h1 className="text-5xl font-semibold text-[#18a] mb-6">
+    <div className="bg-white shadow-md rounded-lg p-8 mx-4 lg:mx-auto mt-8 max-w-5xl dark:bg-dark-backgr border-glow">
+      <h1 className="text-5xl font-semibold text-[#18a] mb-6 dark:text-primary">
         Admin Dashboard
       </h1>
-      <p className="text-gray-700 text-lg mb-4">
+      <p className="text-gray-700 text-lg mb-4 dark:text-dark-soft">
         Welcome to the admin dashboard for your blog website. Here you can
         manage posts, users, and other administrative tasks.
       </p>

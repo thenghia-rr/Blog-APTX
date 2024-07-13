@@ -5,10 +5,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { useEffect } from "react";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
+
+   // Set theme when component mounts
+   useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme) {
+      document.documentElement.classList.add(currentTheme);
+    }
+  }, []);
 
   const {
     // data: profileData,
@@ -41,9 +50,9 @@ const AdminLayout = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen lg:flex-row">
+    <div className="flex flex-col h-screen lg:flex-row ">
       <Header />
-      <main className="bg-[#F9F9F9] flex-1 p-4 lg:p-6">
+      <main className="bg-[#F9F9F9] flex-1 p-4 lg:p-6 dark:bg-dark-header">
         <Outlet />
       </main>
     </div>

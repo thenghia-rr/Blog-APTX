@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../../../services/index/posts";
 import { useSelector } from "react-redux";
+import ToggleTheme from '../../../../components/ToggleTheme';
 
 const Header = () => {
   const queryClient = useQueryClient();
@@ -63,13 +64,13 @@ const Header = () => {
   }, [windowSize.width]);
 
   return (
-    <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0 z-50">
+    <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0 z-50 dark:bg-dark-backgr">
       {/* Logo */}
       <Link to="/">
-        <img src={images.LogoAPTX} alt="logo" className="w-16 lg:hidden" />
+        <img src={images.LogoAPTX} alt="logo" className="w-16 lg:hidden dark:brightness-200 dark:contrast-200" />
       </Link>
       {/* Menu burger icon */}
-      <div className="cursor-pointer lg:hidden">
+      <div className="cursor-pointer lg:hidden dark:text-dark-text">
         {isMenuActive ? (
           <AiOutlineClose className="w-6 h-6" onClick={toggleMenuHandler} />
         ) : (
@@ -87,12 +88,12 @@ const Header = () => {
           />
           {/* Sidebar */}
           <div
-            className={`fixed top-0 bottom-0 left-0 z-50 w-3/4 overflow-y-auto bg-white p-4 lg:static lg:h-full lg:w-full lg:p-6 transform  ${
+            className={`fixed top-0 bottom-0 left-0 z-50 w-3/4 overflow-y-auto bg-white p-4 lg:static lg:h-full lg:w-full lg:p-6 transform dark:bg-dark-backgr ${
               isMenuActive ? "translate-x-0" : "translate-x-full"
             }`}
           >
             <Link to="/">
-              <img src={images.LogoAPTX} alt="logo" className="w-16" />
+              <img src={images.LogoAPTX} alt="logo" className="w-16 dark:brightness-200 dark:contrast-200" />
             </Link>
             <h4 className="mt-10 font-bold text-[#C7C7C7]">MAIN MENU</h4>
             {/* Menu items */}
@@ -154,6 +155,8 @@ const Header = () => {
               </NavItemCollapse>
 
             </div>
+          
+          <ToggleTheme />
           </div>
         </div>
       )}

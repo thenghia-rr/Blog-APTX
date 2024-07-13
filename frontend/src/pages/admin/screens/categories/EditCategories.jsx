@@ -61,11 +61,11 @@ const EditCategories = () => {
 
   return (
     <div className="col-span-4 py-12">
-      <h4 className="text-lg leading-tight">Edit Category</h4>
+      <h4 className="text-lg leading-tight dark:text-dark-text">Edit Category</h4>
       <div className="d-form-control w-full mt-6">
         <input
           value={categoryTitle}
-          className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
+          className="dark:text-dark-text d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
           onChange={(e) => setCategoryTitle(e.target.value)}
           placeholder="Categories Title"
         />

@@ -18,16 +18,31 @@ lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 
 export const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
+  Color.configure({ types: [TextStyle.name] }),
+  TextStyle,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
     },
     orderedList: {
       keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      keepAttributes: false,
+    },
+    listItem: {
+      HTMLAttributes: {
+        style: 'color: inherit;',
+      },
+    },
+    paragraph: {
+      HTMLAttributes: {
+        style: 'color: inherit;',
+      },
+    },
+    textStyle: {
+      HTMLAttributes: {
+        style: 'color: inherit;',
+      },
     },
   }),
   CodeBlockLowlight.configure({
@@ -36,7 +51,7 @@ export const extensions = [
   Dropcursor,
   Image.configure({
     HTMLAttributes: {
-      class: 'w-full  object-cover object-center',
+      class: 'w-full object-cover object-center',
     },
-  })
+  }),
 ];

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainLayout from "../../components/MainLayout";
 import { images } from "../../constants";
@@ -8,13 +8,14 @@ import { login } from "../../services/index/users";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/reducers/userReducers";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
+  const [showPassword, setShowPassword] = useState(false);
 
-  // React Query
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => {
       return login({ email, password });
@@ -30,7 +31,6 @@ const LoginPage = () => {
     },
   });
 
-  // React hook form (validate form)
   const {
     register,
     handleSubmit,
@@ -48,34 +48,34 @@ const LoginPage = () => {
     mutate({ email, password });
   };
 
-  // If user login or register, navigate to home page
   useEffect(() => {
     if (userState.userInfo) {
       navigate("/");
     }
   }, [navigate, userState.userInfo]);
 
+  // Handle toggle show password
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <MainLayout>
       <section className="container mx-auto px-5 py-10 ">
-        <div className="flex max-w-4xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
+        <div className="flex max-w-4xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
           <div className="bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900 flex-shrink-0 hidden lg:block overflow-hidden ">
-            <img
-              src={images.roseLogin}
-              alt="rose"
-              className="w-full h-auto"
-            />
+            <img src={images.roseLogin} alt="rose" className="w-full h-auto" />
           </div>
 
           <div className="w-full p-5 rounded-xl">
-            <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-8">
+            <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-8 uppercase dark:text-dark-text">
               Sign In
             </h1>
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="flex flex-col mb-6 w-full">
                 <label
                   htmlFor="email"
-                  className="text-[#5a7184] font-semibold block"
+                  className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
                   Email
                 </label>
@@ -94,7 +94,7 @@ const LoginPage = () => {
                     },
                   })}
                   placeholder="Enter email"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border ${
+                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.email ? "border-red-500" : "border-[#c3cad9]"
                   }`}
                 />
@@ -104,31 +104,43 @@ const LoginPage = () => {
                   </p>
                 )}
               </div>
-              <div className="flex flex-col mb-6 w-full">
+              <div className="flex flex-col mb-6 w-full relative">
                 <label
                   htmlFor="password"
-                  className="text-[#5a7184] font-semibold block"
+                  className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Password is required",
-                    },
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                  })}
-                  placeholder="Enter password"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] ${
-                    errors.password ? "border-red-500" : "border-[#c3cad9]"
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "Password is required",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    })}
+                    placeholder="Enter password"
+                    className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] dark:bg-slate-200 w-full ${
+                      errors.password ? "border-red-500" : "border-[#c3cad9]"
+                    }`}
+                  />
+                  <span
+                    className=" absolute right-3 top-[57%] transform -translate-y-1/2 cursor-pointer"
+                    onClick={toggleShowPassword}
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash className="text-[#959ead] " />
+                    ) : (
+                      <FaEye className="text-[#959ead]" />
+                    )}
+                  </span>
+                </div>
                 {errors.password?.message && (
                   <p className="text-red-500 text-xs mt-1 ml-1">
                     {errors.password?.message}
@@ -148,7 +160,7 @@ const LoginPage = () => {
               >
                 Log In
               </button>
-              <p className="text-sm font-semibold text-[#5a7184]">
+              <p className="text-sm font-semibold text-[#5a7184] dark:text-dark-soft">
                 Do not have an account?{" "}
                 <Link to="/register" className="text-primary">
                   Register now

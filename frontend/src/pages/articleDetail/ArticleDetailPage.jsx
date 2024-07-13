@@ -51,6 +51,7 @@ const ArticleDetailPage = () => {
     },
   });
 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -72,22 +73,23 @@ const ArticleDetailPage = () => {
                   : images.sampleImage
               }
               alt={data?.title}
-              className="rounded-xl w-full max-h-[520px] object-cover"
+              className="rounded-xl w-full max-h-[520px] object-cover dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)]"
             />
+            <span className="text-light-light font-semibold italic mt-2 lg:mt-4 lg:text-sm xl:text-base dark:text-dark-soft">Categories: </span>
             {data?.categories.map((category) => (
               <Link
                 key={category._id}
-                to={`/blog?category=${category.name}`}
-                className="text-primary text-sm font-roboto inline-block mt-4 md:text-base uppercase"
+                to={`/blog?category=${category.title}`}
+                className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold italic text-primary text-sm font-roboto inline-block mt-4 mr-2 md:text-base"
               >
-                {category.name}
+                {category.title}
               </Link>
             ))}
 
-            <h1 className="text-xl font-semibold font-roboto mt-4 text-light-hard md:text-[26px]">
+            <h1 className="text-xl font-semibold font-roboto mt-4 text-light-hard md:text-[26px] lg:text-3xl dark:text-dark-text">
               {data?.title}
             </h1>
-            <div className="mt-4 text-light-soft prose prose-base sm:prose-xl ">
+            <div className="mt-4 text-light-soft prose prose-base sm:prose-xl">
               <div className="w-full">
                 {!isLoading && !isError && (
                   <Editor content={data?.body} editable={false} />
@@ -111,7 +113,7 @@ const ArticleDetailPage = () => {
               tags={data?.tags}
             />
             <div className="mt-7">
-              <h2 className="w-fit font-roboto font-medium text-light-hard mb-4 md:text-xl ">
+              <h2 className="w-fit font-roboto font-medium text-light-hard mb-4 md:text-xl dark:text-dark-text">
                 Share on:
               </h2>
               <BtnSocialShare

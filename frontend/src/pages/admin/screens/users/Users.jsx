@@ -98,7 +98,7 @@ const Users = () => {
       {usersData?.data?.map((user) => (
         <tr key={user._id}>
           {/* NAME COLUMN  */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Link to="/" className="relative block">
@@ -114,17 +114,17 @@ const Users = () => {
                 </Link>
               </div>
               <div className="ml-3">
-                <p className="text-gray-900 whitespace-no-wrap">{user?.name}</p>
+                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">{user?.name}</p>
               </div>
             </div>
           </td>
 
           {/* EMAIL COLUMN  */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">{user?.email}</p>
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">{user?.email}</p>
           </td>
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {new Date(user?.createdAt).toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "short",
@@ -134,23 +134,23 @@ const Users = () => {
           </td>
 
           {/* VERIFIED COLUMN  */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-            <p className="text-gray-900 whitespace-no-wrap">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {user?.verified ? "✅" : "❌"}
             </p>
           </td>
           {/* ADMIN COLUMN  */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             <input
               type="checkbox"
               defaultChecked={user?.admin}
-              className="d-checkbox disabled:bg-orange-400 disabled:opacity-100 checked:bg-[url('/images/check.png')] bg-cover checked:disabled:bg-none"
+              className="dark:border-dark-text d-checkbox disabled:bg-orange-400 disabled:opacity-100 checked:bg-[url('/images/check.png')] bg-cover checked:disabled:bg-none"
               onChange={(e) => handleAdminCheck(e, user._id)}
               disabled={isLoadingUpdateUser}
             />
           </td>
           {/* ACTIONS COLUMN */}
-          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
+          <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4 dark:bg-dark-backgr">
             <button
               disabled={isLoadingDeleteData}
               type="button"

@@ -13,9 +13,9 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
 
   return (
     <div
-      className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 ${className}`}
+      className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)] ${className}`}
     >
-      <h2 className="font-roboto font-semibold text-light-hard md:text-xl">
+      <h2 className="font-roboto font-semibold text-light-hard md:text-xl dark:text-dark-text">
         {header}
       </h2>
       <div className="grid gap-y-5 mt-5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-1">
@@ -36,12 +36,12 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
             />
             <div className="text-sm font-roboto text-light-hard font-medium">
               <h3
-                className="md:text-base lg:text-lg cursor-pointer line-clamp-2"
+                className="md:text-base lg:text-lg cursor-pointer line-clamp-2 dark:text-dark-text"
                 onClick={() => handleClickToPost(post)}
               >
                 {post.title}
               </h3>
-              <span className="text-xs opacity-60">
+              <span className="text-xs opacity-60 dark:text-dark-soft">
                 {new Date(post.createdAt).toLocaleDateString("en-US", {
                   day: "numeric",
                   month: "short",
@@ -52,12 +52,12 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
           </div>
         ))}
       </div>
-      <h2 className="font-roboto font-semibold text-light-hard mt-8 md:text-xl">
+      <h2 className="font-roboto font-semibold text-light-hard mt-8 md:text-xl dark:text-dark-text">
         Tags
       </h2>
       <div className="flex flex-wrap gap-2 mt-4">
         {tags.length === 0 ? (
-          <h3 className="text-light-soft text-xs md:text-sm">
+          <h3 className="text-light-soft text-xs md:text-sm dark:text-dark-text">
             There are no tags to display
           </h3>
         ) : (

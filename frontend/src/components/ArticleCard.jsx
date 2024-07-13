@@ -7,9 +7,11 @@ import { Link } from "react-router-dom";
 const ArticleCard = ({ post, className }) => {
   return (
     <div
-      className={`${className} rounded-xl overflow-hidden shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]`}
+      className={`${className}dark:border-glow rounded-xl overflow-hidden dark:bg-dark-header shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.1)]`}
     >
-      <Link to={`/blog/${post.slug}`}>  {/* ArticleDetailPage  */}
+      <Link to={`/blog/${post.slug}`}>
+        {" "}
+        {/* ArticleDetailPage  */}
         <div className="overflow-hidden">
           <img
             src={
@@ -24,10 +26,10 @@ const ArticleCard = ({ post, className }) => {
       </Link>
       <div className="p-5">
         <Link to={`/blog/${post.slug}`}>
-          <h2 className="font-roboto font-bold text-xl text-light-soft md:text-2xl lg:text-[28px] line-clamp-1">
+          <h2 className="font-roboto font-bold text-xl text-light-soft md:text-2xl lg:text-[28px] line-clamp-1 dark:text-dark-text">
             {post.title}
           </h2>
-          <p className="text-light-light mt-3 text-sm md:text-lg line-clamp-1 ">
+          <p className="text-light-light mt-3 text-sm md:text-lg line-clamp-1 dark:text-dark-soft">
             {post.caption}
           </p>
         </Link>
@@ -41,10 +43,10 @@ const ArticleCard = ({ post, className }) => {
                   : images.userAnonymous
               }
               alt="avt user"
-              className="w-9 h-9 md:w-10 md:h-10 rounded-[50%] object-cover object-center"
+              className="w-9 h-9 md:w-10 md:h-10 rounded-[50%] object-cover object-center "
             />
             <div className="flex flex-col">
-              <h4 className="font-bold italic text-light-soft text-sm md:text-base">
+              <h4 className="font-bold italic text-light-soft text-sm md:text-base dark:text-dark-text">
                 {post.user.name}
               </h4>
               <div className="flex items-center gap-x-2">
@@ -59,13 +61,13 @@ const ArticleCard = ({ post, className }) => {
                     <AiOutlineClose className="w-2 h-2 text-red-500" />
                   )}
                 </span>
-                <span className="italic text-light-light text-xs md:text-sm">
+                <span className="italic text-light-light text-xs md:text-sm dark:text-dark-soft">
                   {post.user.verified ? "Verified writer" : "Unverified writer"}
                 </span>
               </div>
             </div>
           </div>
-          <span className="italic text-light-soft text-sm md:text-base font-bold">
+          <span className="italic text-light-soft text-sm md:text-base font-bold dark:text-dark-soft">
             {new Date(post.createdAt).getDate()}{" "}
             {new Date(post.createdAt).toLocaleString("default", {
               month: "long",

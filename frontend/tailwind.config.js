@@ -2,6 +2,7 @@ var require;
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -11,6 +12,12 @@ export default {
           soft: "#183B56",
           hard: "#0D2436",
         },
+        dark: {
+          header: "#1f2937",
+          backgr: "#111827",
+          text: "#cbd5e1",
+          soft: "#c2bbbb"
+        }
       },
       fontFamily: {
         opensans: ["Open Sans", "sans-serif"],

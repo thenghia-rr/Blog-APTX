@@ -21,7 +21,7 @@ const Categories = () => {
           title,
         });
       },
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(["categories"]);
         toast.success("Category is created");
       },
@@ -68,11 +68,11 @@ const Categories = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4">
       <div className="col-span-4 py-12">
-        <h4 className="text-lg leading-tight">Add Category</h4>
+        <h4 className="text-lg leading-tight dark:text-dark-text">Add Category</h4>
         <div className="d-form-control w-full mt-6">
           <input
             value={categoryTitle}
-            className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
+            className="dark:text-dark-text d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
             onChange={(e) => setCategoryTitle(e.target.value)}
             placeholder="Categories Title"
           />
@@ -107,10 +107,10 @@ const Categories = () => {
           {categoriesData?.data?.map((category) => (
             <tr key={category._id}>
               {/* TITLE COLUMN */}
-              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <div className="flex items-center">
+              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr ">
+                <div className="flex items-center ">
                   <div className="ml-3">
-                    <p className="text-gray-900 whitespace-no-wrap">
+                    <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
                       {category?.title}
                     </p>
                   </div>
@@ -118,8 +118,8 @@ const Categories = () => {
               </td>
 
               {/* CREATED AT COLUMN */}
-              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                <p className="text-gray-900 whitespace-no-wrap">
+              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
+                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
                   {new Date(category?.updatedAt).toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "short",
@@ -127,7 +127,7 @@ const Categories = () => {
                   })}
                 </p>
               </td>
-              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4">
+              <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4 dark:bg-dark-backgr">
                 <button
                   disabled={isLoadingDeleteData}
                   type="button"

@@ -17,6 +17,8 @@ const Articles = () => {
     },
   });
 
+  console.log(data)
+
   return (
     <section className="flex flex-col container mx-auto px-5 py-10 2xl:max-w-[1400px]">
       <div className="flex flex-wrap md:gap-x-5 gap-y-5 pb-10">

@@ -29,7 +29,7 @@ const Comment = ({
   const replyOnUserId = comment.user._id;
 
   return (
-    <div className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg" id={`comment-${comment?._id}`}>
+    <div className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] dark:bg-dark-header p-3 rounded-lg" id={`comment-${comment?._id}`}>
       <img
         src={
           comment?.user?.avatar
@@ -41,10 +41,10 @@ const Comment = ({
       />
 
       <div className="flex flex-1 flex-col">
-        <h5 className="font-bold text-light-hard text-xs md:text-sm lg:text-base">
+        <h5 className="font-bold text-light-hard text-xs md:text-sm lg:text-base dark:text-dark-text">
           {comment.user.name}
         </h5>
-        <span className="text-xs text-light-light">
+        <span className="text-xs text-light-light dark:text-dark-soft">
           {new Date(comment.createdAt).toLocaleDateString("en-US", {
             day: "numeric",
             month: "short",
@@ -54,7 +54,7 @@ const Comment = ({
         </span>
         {/* When the comment is not edited, it will be displayed */}
         {!isEditing && (
-          <p className="font-opensans mt-[10px] text-light-light">
+          <p className="font-opensans mt-[10px] text-light-light dark:text-dark-soft">
             {comment.desc}
           </p>
         )}
@@ -72,7 +72,7 @@ const Comment = ({
           {/* Users must be logged in to reply */}
           {isUserLoggined && (
             <button
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 dark:text-dark-soft"
               onClick={() =>
                 setAffectedComment({ type: "replying", _id: comment._id })
               }
@@ -85,7 +85,7 @@ const Comment = ({
           {commentBelongToUser && (
             <>
               <button
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 dark:text-dark-soft"
                 onClick={() =>
                   setAffectedComment({ type: "editing", _id: comment._id })
                 }
@@ -94,7 +94,7 @@ const Comment = ({
                 <span>Edit</span>
               </button>
               <button
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 dark:text-dark-soft"
                 onClick={() => deleteComment(comment._id)}
               >
                 <FiTrash className="w-4 h-auto" />
