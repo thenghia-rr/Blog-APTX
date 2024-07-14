@@ -14,14 +14,14 @@ import {
   categoryToOption,
   filterCategories,
 } from "../../../../utils/multiSelectTagUtils";
-import { getAllCategories } from "../../../../services/index/postCategories";
+import { getAllCategoriesNoFilter } from "../../../../services/index/postCategories";
 import CreatableSelect from "react-select/creatable";
 import unidecode from "unidecode";
 import BtnScrollToTop from "../../../../components/BtnScrollToTop";
 import { useTranslation } from "react-i18next";
 
 const promiseOptions = async (inputValue) => {
-  const { data: categoriesData } = await getAllCategories();
+  const { data: categoriesData } = await getAllCategoriesNoFilter();
   return filterCategories(inputValue, categoriesData);
 };
 

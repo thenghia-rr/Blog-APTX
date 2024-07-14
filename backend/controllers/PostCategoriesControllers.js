@@ -62,6 +62,23 @@ const getAllPostCategories = async (req, res, next) => {
 };
 
 // GET /api/post-categories/:postCategoryId
+const getAllPostCategoriesNoFilter = async (req, res, next) => {
+  try {
+    const postCategories = await PostCategoriesModel.find({});
+
+    if (!postCategories) {
+      res.status(404).json({
+        message: "Post category not found",
+      });
+    }
+
+    return res.json(postCategories);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET /api/post-categories/:postCategoryId
 const getSingleCategory = async (req, res, next) => {
   try {
     const postCategory = await PostCategoriesModel.findById(
@@ -132,4 +149,5 @@ export {
   getSingleCategory,
   updatePostCategories,
   deletePostCategories,
+  getAllPostCategoriesNoFilter,
 };
