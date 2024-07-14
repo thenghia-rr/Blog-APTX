@@ -2,18 +2,20 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { images, stables } from "../../../constants";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SuggestedPosts = ({ className, header, posts = [], tags }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleClickToPost = (post) =>{
-    navigate(`/blog/${post.slug}`)
+  const handleClickToPost = (post) => {
+    navigate(`/blog/${post.slug}`);
     window.scrollTo(0, 0);
-  }
+  };
 
   return (
     <div
-      className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)] ${className}`}
+      className={`w-full shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] rounded-lg p-4 dark:shadow-[-1px_-1px_20px_2px_rgba(255,255,255,0.1)] ${className}`}
     >
       <h2 className="font-roboto font-semibold text-light-hard md:text-xl dark:text-dark-text">
         {header}
@@ -53,12 +55,12 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
         ))}
       </div>
       <h2 className="font-roboto font-semibold text-light-hard mt-8 md:text-xl dark:text-dark-text">
-        Tags
+        {t("tags")}
       </h2>
       <div className="flex flex-wrap gap-2 mt-4">
         {tags.length === 0 ? (
           <h3 className="text-light-soft text-xs md:text-sm dark:text-dark-text">
-            There are no tags to display
+            {t("noTags")}
           </h3>
         ) : (
           tags.map((tag) => (

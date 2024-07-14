@@ -2,6 +2,7 @@ import propTypes from "prop-types";
 import CommentForm from "./CommentForm";
 import { FiMessageSquare, FiEdit2, FiTrash } from "react-icons/fi";
 import { images, stables } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 const Comment = ({
   comment,
@@ -14,6 +15,7 @@ const Comment = ({
   replies,
   parentId = null,
 }) => {
+  const { t } = useTranslation();
   const isUserLoggined = Boolean(logginedUserId);
   const commentBelongToUser = logginedUserId === comment.user._id;
   const isEditing =
@@ -29,7 +31,10 @@ const Comment = ({
   const replyOnUserId = comment.user._id;
 
   return (
-    <div className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] dark:bg-dark-header p-3 rounded-lg" id={`comment-${comment?._id}`}>
+    <div
+      className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] dark:bg-dark-header p-3 rounded-lg"
+      id={`comment-${comment?._id}`}
+    >
       <img
         src={
           comment?.user?.avatar
@@ -61,7 +66,7 @@ const Comment = ({
         {/* When the comment is being edited, the desc will be hidden and the <CommentForm/> will be displayed */}
         {isEditing && (
           <CommentForm
-            btnLabel="Update"
+            btnLabel={t('update')}
             formSubmitHandler={(value) => updateComment(value, comment._id)}
             formCancelHandler={() => setAffectedComment(null)}
             initialText={comment.desc}
@@ -78,7 +83,7 @@ const Comment = ({
               }
             >
               <FiMessageSquare className="w-4 h-auto" />
-              <span>Reply</span>
+              <span>{t("reply")}</span>
             </button>
           )}
           {/* Comments can only be ACTIONS by the owner */}
@@ -91,14 +96,14 @@ const Comment = ({
                 }
               >
                 <FiEdit2 className="w-4 h-auto" />
-                <span>Edit</span>
+                <span>{t("edit")}</span>
               </button>
               <button
                 className="flex items-center space-x-2 dark:text-dark-soft"
                 onClick={() => deleteComment(comment._id)}
               >
                 <FiTrash className="w-4 h-auto" />
-                <span>Delete</span>
+                <span>{t("delete")}</span>
               </button>
             </>
           )}
@@ -107,7 +112,7 @@ const Comment = ({
         {/* If isReplying is true, <CommentForm/> will be displayed */}
         {isReplying && (
           <CommentForm
-            btnLabel="Reply"
+            btnLabel={t('reply')}
             formSubmitHandler={(value) =>
               addComment(value, repliedCommentId, replyOnUserId)
             }

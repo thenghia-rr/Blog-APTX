@@ -9,8 +9,10 @@ import DataTable from "../../components/DataTable";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
+  const { t } = useTranslation();
   const [categoryTitle, setCategoryTitle] = useState("");
   // Mutate: Create a new category
   const { mutate: mutateCreateCategory, isLoading: isLoadingCreateCategory } =
@@ -68,13 +70,15 @@ const Categories = () => {
   return (
     <div className="grid grid-cols-12 gap-x-4">
       <div className="col-span-4 py-12">
-        <h4 className="text-lg leading-tight dark:text-dark-text">Add Category</h4>
+        <h4 className="text-lg leading-tight dark:text-dark-text">
+          {t("addCategory")}
+        </h4>
         <div className="d-form-control w-full mt-6">
           <input
             value={categoryTitle}
             className="dark:text-dark-text d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
             onChange={(e) => setCategoryTitle(e.target.value)}
-            placeholder="Categories Title"
+            placeholder={t("categoryName")}
           />
           <button
             disabled={isLoadingCreateCategory}
@@ -82,19 +86,23 @@ const Categories = () => {
             onClick={handleCreateCategory}
             className="w-fit mt-3 bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Add Category
+            {t("add")}
           </button>
         </div>
       </div>
       <div className="col-span-8">
         <DataTable
-          pageTitle="Manage Categories"
-          dataListName="Categories"
-          searchInputPlaceholder="Categories title..."
+          pageTitle={t("manageCategories")}
+          dataListName={t("categories")}
+          searchInputPlaceholder={t("categoryName")}
           searchKeyWordOnSubmitHandler={submitSearchHandler}
           searchKeywordOnChangeHandler={searchKeyWordHandler}
           searchKeyword={searchKeyWord}
-          tableHeaderTitleList={["Title", "Created At", "Actions"]}
+          tableHeaderTitleList={[
+            `${t("title")}`,
+            `${t("createdAt")}`,
+            `${t("actions")}`,
+          ]}
           isLoading={isLoading}
           isFetching={isFetching}
           data={categoriesData?.data}
@@ -121,9 +129,11 @@ const Categories = () => {
               <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
                 <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
                   {new Date(category?.updatedAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
+                    day: "2-digit",
+                    month: "2-digit",
                     year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
                   })}
                 </p>
               </td>
@@ -139,13 +149,13 @@ const Categories = () => {
                     });
                   }}
                 >
-                  Detete
+                  {t("delete")}
                 </button>
                 <Link
                   to={`/admin/categories/manage/edit/${category?._id}`}
                   className="text-indigo-600 hover:text-indigo-900"
                 >
-                  Edit
+                  {t("edit")}
                 </Link>
               </td>
             </tr>

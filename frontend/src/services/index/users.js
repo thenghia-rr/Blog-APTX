@@ -104,7 +104,7 @@ export const getAllUsers = async (
   token,
   searchKeyword = "",
   page = 1,
-  limit = 10
+  limit = 5
 ) => {
   try {
     const config = {

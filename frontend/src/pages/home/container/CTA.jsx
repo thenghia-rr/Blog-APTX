@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { images } from "../../../constants";
 
 const CTA = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <svg
@@ -25,24 +28,20 @@ const CTA = () => {
         <div className="container grid grid-cols-12 mx-auto py-10 md:pb-20 lg:place-items-center 2xl:max-w-[1400px]">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="text-white font-roboto font-bold text-2xl md:text-4xl md:text-center md:leading-normal lg:text-left">
-              Get our stories delivered From us to your inbox weekly.
+              {t("CTATitle")}
             </h2>
             <div className="w-full max-w-[494px] mt-12 space-y-3 md:space-y-0 md:flex md:items-center mx-auto md:space-x-2 lg:mx-0 ">
               <input
                 type="email"
                 className="px-4 py-3 rounded-lg w-full placeholder:text-light-light outline-none"
-                placeholder="Your Email"
+                placeholder={t("yourEmail")}
               />
               <button className="px-4 py-3 rounded-lg w-full bg-primary text-white font-bold md:w-fit md:whitespace-nowrap">
-                Get Started
+                {t("getStarted")}
               </button>
             </div>
             <p className="text-light-light text-sm leading-7 mt-6 md:text-center md:text-base lg:text-left">
-              <span className="font-bold italic text-[#B3BAC5] md:not-italic md:font-normal md:text-light-light">
-                Get a respone tomorrow
-              </span>{" "}
-              if you submit by 9pm today. If we received after 9pm will get a
-              reponse the following day.
+              {t("CTADesc")}
             </p>
           </div>
 
@@ -58,11 +57,10 @@ const CTA = () => {
                 />
                 <div className="p-5">
                   <h2 className="font-roboto font-bold text-xl text-light-soft md:text-2xl lg:text-[28px]">
-                    The best aticles every week
+                    {t("CTABoxTitle")}
                   </h2>
                   <p className="text-light-light mt-3 text-sm md:text-lg">
-                    Our insurance plans offers are priced the same everywhere
-                    else.
+                    {t("CTABoxDesc")}
                   </p>
                 </div>
               </div>

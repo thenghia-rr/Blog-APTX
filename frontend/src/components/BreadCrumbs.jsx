@@ -3,9 +3,9 @@ import PropsTypes from "prop-types";
 
 const BreadCrumbs = ({ data }) => {
   return (
-    <div className="flex items-center py-4 overflow-x-auto whitespace-nowrap">
+    <div className="flex items-center py-4 overflow-x-auto whitespace-nowrap ">
       {data.map((item, index) => (
-        <div key={item.link} className="text-black opacity-50 text-xs font-roboto md:text-sm hover:text-primary transition-all duration-300">
+        <div key={item.link} className="dark:text-[#fff] text-black opacity-50 text-xs font-roboto md:text-sm hover:text-primary transition-all duration-300">
             <Link to={item.link}>{item.name}</Link>
             {index !== data.length - 1 && <span className="px-3">/</span>}
         </div>

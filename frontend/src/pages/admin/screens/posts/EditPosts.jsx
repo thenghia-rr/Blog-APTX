@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getSinglePost, updatePost } from "../../../../services/index/posts";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArticleDetailSkeleton from "../../../articleDetail/components/ArticleDetailSkeleton";
@@ -18,6 +18,7 @@ import { getAllCategories } from "../../../../services/index/postCategories";
 import CreatableSelect from "react-select/creatable";
 import unidecode from "unidecode";
 import BtnScrollToTop from "../../../../components/BtnScrollToTop";
+import { useTranslation } from "react-i18next";
 
 const promiseOptions = async (inputValue) => {
   const { data: categoriesData } = await getAllCategories();
@@ -25,6 +26,7 @@ const promiseOptions = async (inputValue) => {
 };
 
 const EditPosts = () => {
+  const {t} = useTranslation()
   const { slug } = useParams();
   const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
@@ -136,7 +138,7 @@ const EditPosts = () => {
               onClick={() => navigate("/admin/posts/manage")}
               className="w-fit bg-primary text-sm text-white rounded-lg px-3 py-1 mb-3 font-semibold"
             >
-              Back
+              {t('back')}
             </button>
             <label htmlFor="postPicture" className="w-full cursor-pointer">
               {photo ? (
@@ -167,7 +169,7 @@ const EditPosts = () => {
               onClick={handleDeleteImage}
               className="w-fit bg-red-500 text-sm text-white rounded-lg px-2 py-1 mt-5 font-semibold"
             >
-              Detete image
+              {t('deleteImg')}
             </button>
             <div className="mt-4 flex gap-2">
               {data?.categories?.map((category) => (
@@ -184,7 +186,7 @@ const EditPosts = () => {
             <div className="d-form-control w-full">
               <label htmlFor="title" className="d-label mt-4">
                 <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  Post title
+                {t('postTitle')}
                 </span>
               </label>
               <input
@@ -200,7 +202,7 @@ const EditPosts = () => {
             <div className="d-form-control w-full">
               <label htmlFor="caption" className="d-label mt-4">
                 <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  Post Caption
+                {t('postCaption')}
                 </span>
               </label>
               <input
@@ -216,7 +218,7 @@ const EditPosts = () => {
             <div className="d-form-control w-full">
               <label htmlFor="slug" className="d-label mt-4">
                 <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  Post Slug
+                {t('postSlug')}
                 </span>
               </label>
               <input
@@ -237,7 +239,7 @@ const EditPosts = () => {
             <div className="mb-5 mt-2">
               <label className="d-label ">
                 <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  Categories
+                {t('categories')}
                 </span>
               </label>
               {isPostDataUpdated && (
@@ -253,8 +255,8 @@ const EditPosts = () => {
             {/* Post Tags */}
             <div className="mb-5 mt-2">
               <label className="d-label ">
-                <span className="d-label-text text-base text-light-soft">
-                  Tags
+                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                {t('tags')}
                 </span>
               </label>
               {isPostDataUpdated && (
@@ -287,7 +289,7 @@ const EditPosts = () => {
               type="button"
               className="w-full bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Update Post
+              {t('update')}
             </button>
           </article>
         </section>

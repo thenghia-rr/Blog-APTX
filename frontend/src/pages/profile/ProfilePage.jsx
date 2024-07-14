@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ProfilePicture from "../../components/ProfilePicture";
 import toast from "react-hot-toast";
 import { userActions } from "../../store/reducers/userReducers";
+import { useTranslation } from "react-i18next";
 
 const ProfilePage = () => {
+  const {t} = useTranslation()
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
@@ -81,19 +83,19 @@ const ProfilePage = () => {
   return (
     <MainLayout>
       <section className="container mx-auto px-5 py-8 ">
-        <div className=" max-w-2xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
+        <div className="dark:bg-dark-header max-w-2xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)] dark:border-glow">
           <div className="w-full mx-auto p-5 rounded-xl ">
-            <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-3">
-              My Profile
+            <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-3 dark:text-dark-text">
+              {t('myProfile')}
             </h1>
             <ProfilePicture avatar={profileData?.avatar} />
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="flex flex-col mb-4 w-full">
                 <label
                   htmlFor="name"
-                  className="text-[#5a7184] font-semibold block"
+                  className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  Name
+                  {t('name')}
                 </label>
                 <input
                   type="text"
@@ -109,7 +111,7 @@ const ProfilePage = () => {
                     },
                   })}
                   placeholder="Enter name"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border ${
+                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.name ? "border-red-500" : "border-[#c3cad9]"
                   }`}
                 />
@@ -123,7 +125,7 @@ const ProfilePage = () => {
               <div className="flex flex-col mb-4 w-full">
                 <label
                   htmlFor="email"
-                  className="text-[#5a7184] font-semibold block"
+                  className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
                   Email
                 </label>
@@ -142,7 +144,7 @@ const ProfilePage = () => {
                     },
                   })}
                   placeholder="Enter email"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border ${
+                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.email ? "border-red-500" : "border-[#c3cad9]"
                   }`}
                 />
@@ -155,16 +157,16 @@ const ProfilePage = () => {
               <div className="flex flex-col mb-4 w-full">
                 <label
                   htmlFor="password"
-                  className="text-[#5a7184] font-semibold block"
+                  className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  Password
+                  {t('password')}
                 </label>
                 <input
                   type="password"
                   id="password"
                   {...register("password")}
                   placeholder="Enter new password (Optional)"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] ${
+                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] dark:bg-slate-200 ${
                     errors.password ? "border-red-500" : "border-[#c3cad9]"
                   }`}
                 />
@@ -179,7 +181,7 @@ const ProfilePage = () => {
                 disabled={!isValid || profileIsLoading || isLoading}
                 className="disabled:opacity-70 disabled:cursor-not-allowed w-full p-3 px-8 rounded-lg bg-primary text-white font-bold mb-6 text-lg "
               >
-                Update
+                {t('update')}
               </button>
             </form>
           </div>

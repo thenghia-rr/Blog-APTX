@@ -9,8 +9,10 @@ import { images, stables } from "../../../../constants";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Users = () => {
+  const { t } = useTranslation();
   // Use custom hook (useDataTable)
   const {
     userState,
@@ -37,7 +39,6 @@ const Users = () => {
       });
     },
   });
-
 
   // useMutation for update admin state
   const { mutate: mutateUpdateUser, isLoading: isLoadingUpdateUser } =
@@ -72,19 +73,19 @@ const Users = () => {
 
   return (
     <DataTable
-      pageTitle="Manage Users"
-      dataListName="Users"
-      searchInputPlaceholder="User's email..."
+      pageTitle={t("manageUsers")}
+      dataListName={t("users")}
+      searchInputPlaceholder={t("userEmail")}
       searchKeyWordOnSubmitHandler={submitSearchHandler}
       searchKeywordOnChangeHandler={searchKeyWordHandler}
       searchKeyword={searchKeyWord}
       tableHeaderTitleList={[
-        "Name",
+        `${t("name")}`,
         "Email",
-        "Created At",
-        "Is Verified",
-        "Is Admin",
-        "Actions",
+        `${t("createdAt")}`,
+        `${t("isVerified")}`,
+        `${t("isAdmin")}`,
+        `${t("actions")}`,
       ]}
       isLoading={isLoading}
       isFetching={isFetching}
@@ -114,21 +115,27 @@ const Users = () => {
                 </Link>
               </div>
               <div className="ml-3">
-                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">{user?.name}</p>
+                <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
+                  {user?.name}
+                </p>
               </div>
             </div>
           </td>
 
           {/* EMAIL COLUMN  */}
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
-            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">{user?.email}</p>
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
+              {user?.email}
+            </p>
           </td>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {new Date(user?.createdAt).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "short",
+                day: "2-digit",
+                month: "2-digit",
                 year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
               })}
             </p>
           </td>
@@ -162,7 +169,7 @@ const Users = () => {
                 });
               }}
             >
-              Detete
+              {t("delete")}
             </button>
           </td>
         </tr>

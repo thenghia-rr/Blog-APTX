@@ -6,8 +6,11 @@ import { FaArrowRight } from "react-icons/fa";
 import ArticleCardSkeleton from "../../../components/ArticleCardSkeleton";
 import ErrorMessage from "../../../components/ErrorMessage";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Articles = () => {
+  const { t } = useTranslation();
+
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getAllPosts("", 1, 6),
     queryKey: ["posts"],
@@ -16,8 +19,6 @@ const Articles = () => {
       console.log(error);
     },
   });
-
-  console.log(data)
 
   return (
     <section className="flex flex-col container mx-auto px-5 py-10 2xl:max-w-[1400px]">
@@ -46,7 +47,7 @@ const Articles = () => {
         onClick={() => window.scrollTo(0, 0)}
         className="flex items-center mx-auto gap-x-2 border-2 border-primary py-2 px-4 rounded-lg text-primary font-bold text-base transition-all duration-300 hover:bg-primary hover:text-white"
       >
-        <span>More Articles</span>
+        <span>{t("moreArticles")}</span>
         <FaArrowRight />
       </Link>
     </section>

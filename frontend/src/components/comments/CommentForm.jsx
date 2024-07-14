@@ -1,6 +1,7 @@
 import { useState } from "react";
 import propTypes from "prop-types";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const CommentForm = ({
   initialText = "",
@@ -9,18 +10,17 @@ const CommentForm = ({
   btnLabel,
   loading = false,
 }) => {
+  const { t } = useTranslation();
   const [valueText, setValueText] = useState(initialText);
 
-  
   const submitHandler = (e) => {
     e.preventDefault();
-    if(valueText.trim() == "") {
+    if (valueText.trim() == "") {
       toast.error("Vui lòng nhập nội dung bình luận...");
-    }else {
+    } else {
       formSubmitHandler(valueText);
     }
     setValueText("");
-    
   };
 
   return (
@@ -30,7 +30,7 @@ const CommentForm = ({
           className="w-full focus:outline-none bg-transparent"
           rows="5"
           value={valueText}
-          placeholder="Leave your comment here..."
+          placeholder={t("placeholderCommentForm")}
           onChange={(e) => setValueText(e.target.value)}
           onClick={(e) => e.stopPropagation()}
         />
@@ -41,14 +41,14 @@ const CommentForm = ({
               className="px-6 py-2.5 rounded-lg border border-red-500 text-red-500"
               onClick={formCancelHandler}
             >
-              Cancel
+              {t("cancel")}
             </button>
           )}
 
           <button
             disabled={loading}
             type="submit"
-            className="px-6 py-2.5 rounded-lg  bg-primary text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed" 
+            className="px-6 py-2.5 rounded-lg  bg-primary text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {btnLabel}
           </button>
@@ -63,7 +63,7 @@ CommentForm.propTypes = {
   formSubmitHandler: propTypes.any,
   formCancelHandler: propTypes.any,
   btnLabel: propTypes.any,
-  loading: propTypes.any
+  loading: propTypes.any,
 };
 
 export default CommentForm;

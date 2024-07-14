@@ -15,6 +15,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import { useSelector } from "react-redux";
 import Editor from "../../components/editor/Editor";
 import BtnScrollToTop from "../../components/BtnScrollToTop";
+import { useTranslation } from "react-i18next";
 
 // const tags = [
 //   "Medical",
@@ -26,6 +27,7 @@ import BtnScrollToTop from "../../components/BtnScrollToTop";
 //   "Education",
 // ];
 const ArticleDetailPage = () => {
+  const { t } = useTranslation();
   const [breadCrumbsData, setBreadCrumbsData] = useState([]);
   const [body, setBody] = useState(null);
   const { slug } = useParams();
@@ -51,7 +53,6 @@ const ArticleDetailPage = () => {
     },
   });
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -75,7 +76,9 @@ const ArticleDetailPage = () => {
               alt={data?.title}
               className="rounded-xl w-full max-h-[520px] object-cover dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)]"
             />
-            <span className="text-light-light font-semibold italic mt-2 lg:mt-4 lg:text-sm xl:text-base dark:text-dark-soft">Categories: </span>
+            <span className="text-light-light font-semibold italic mt-2 lg:mt-4 lg:text-sm xl:text-base dark:text-dark-soft">
+              {`${t("categories")}:${" "}`}
+            </span>
             {data?.categories.map((category) => (
               <Link
                 key={category._id}
@@ -108,13 +111,13 @@ const ArticleDetailPage = () => {
           <div className="sticky top-20 right-0">
             <SuggestedPosts
               className="mt-8 lg:mt-0 lg:max-w-xs"
-              header="Latest Article"
+              header={t("latestArticle")}
               posts={postsData?.data}
               tags={data?.tags}
             />
             <div className="mt-7">
               <h2 className="w-fit font-roboto font-medium text-light-hard mb-4 md:text-xl dark:text-dark-text">
-                Share on:
+                {`${t("shareOn")}: `}
               </h2>
               <BtnSocialShare
                 url={encodeURI(window.location.href)}
@@ -124,7 +127,7 @@ const ArticleDetailPage = () => {
           </div>
         </section>
       )}
-      <BtnScrollToTop/>
+      <BtnScrollToTop />
     </MainLayout>
   );
 };

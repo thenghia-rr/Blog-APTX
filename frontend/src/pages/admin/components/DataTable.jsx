@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/Pagination";
 
 const DataTable = ({
@@ -15,9 +16,10 @@ const DataTable = ({
   setCurrentPage,
   currentPage,
   headers,
-  totalDataCount
+  totalDataCount,
 }) => {
-    // console.log(searchKeyword)
+  const { t } = useTranslation();
+  // console.log(searchKeyword)
   return (
     <div>
       <h1 className="text-2xl font-semibold uppercase text-light-soft text-center dark:text-primary">
@@ -49,7 +51,7 @@ const DataTable = ({
                   className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
                   type="submit"
                 >
-                  Filter
+                  {t("filter")}
                 </button>
               </form>
             </div>
@@ -73,13 +75,19 @@ const DataTable = ({
                 <tbody>
                   {isLoading || isFetching ? (
                     <tr>
-                      <td colSpan={5} className="dark:text-dark-text text-center py-10 w-full">
-                        Loading...
+                      <td
+                        colSpan={5}
+                        className="dark:text-dark-text text-center py-10 w-full"
+                      >
+                        {t('loading')}
                       </td>
                     </tr>
                   ) : data?.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="dark:text-dark-text text-center py-10 w-full">
+                      <td
+                        colSpan={5}
+                        className="dark:text-dark-text text-center py-10 w-full"
+                      >
                         No records found
                       </td>
                     </tr>

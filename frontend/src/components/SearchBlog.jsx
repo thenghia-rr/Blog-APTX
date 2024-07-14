@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const SearchBlog = ({ className, onSearchKeyword }) => {
+  const { t } = useTranslation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ const SearchBlog = ({ className, onSearchKeyword }) => {
           type="text"
           spellCheck
           className="placeholder:font-bold font-semibold text-light-soft placeholder:text-[#959EAD] dark:bg-slate-300 rounded-lg pl-12 pr-3 w-full py-3 md:py-4 focus:outline-none shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]"
-          placeholder="Search acticle..."
+          placeholder={t("searchArticles")}
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
@@ -34,7 +36,7 @@ const SearchBlog = ({ className, onSearchKeyword }) => {
         type="submit"
         className="md:absolute w-full md:right-2 md:top-1/2 md:-translate-y-1/2 md:w-fit md:py-2 text-white bg-primary rounded-lg py-3 px-5 font-bold hover:bg-light-hard transition-all duration-300"
       >
-        Search
+        {t("search")}
       </button>
     </form>
   );

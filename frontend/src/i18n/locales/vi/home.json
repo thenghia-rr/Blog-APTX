@@ -1,0 +1,15 @@
+{
+    "header": {
+        "home": "Trang chủ",
+        "blog": "Blog",
+        "about": "Về tôi",
+        "english": "Tiếng Anh",
+        "vietnamese": "Tiếng Việt",
+        "dashboardAdmin": "Trang quản trị",
+        "myProfile": "Hồ sơ của tôi"
+    },
+    "hero": {
+        "homeSlogan": "Đọc những bài viết thú vị nhất",
+        "homeDesc": "Chào mừng đến với blog của tôi! Đây là không gian nơi tôi chia sẻ suy nghĩ, kinh nghiệm và kiến ​​thức đa dạng. Hãy cùng nhau khám phá thế giới qua góc nhìn của tôi nhé!"
+    }
+}

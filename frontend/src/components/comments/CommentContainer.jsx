@@ -10,6 +10,7 @@ import {
   updateComment,
 } from "../../services/index/comments";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const CommentContainer = ({
   className,
@@ -17,6 +18,7 @@ const CommentContainer = ({
   comments,
   postSlug,
 }) => {
+  const { t } = useTranslation();
   const [affectedComment, setAffectedComment] = useState(null);
   const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
@@ -31,7 +33,7 @@ const CommentContainer = ({
       onSuccess: () => {
         toast.success(
           // "Your comment is send successfully, It will be display after the confirmation of the Admin !"
-         " Your comment is sent successfully"
+          " Your comment is sent successfully"
         );
         queryClient.invalidateQueries(["blog", postSlug]); // reload data and show new comment
       },
@@ -47,9 +49,7 @@ const CommentContainer = ({
       return updateComment({ token, desc, commentId });
     },
     onSuccess: () => {
-      toast.success(
-        "Your comment is updated successfully"
-      );
+      toast.success("Your comment is updated successfully");
       queryClient.invalidateQueries(["blog", postSlug]);
     },
     onError: (error) => {
@@ -97,16 +97,18 @@ const CommentContainer = ({
 
   // Delete Comment
   const deleteCommentHandler = (commentId) => {
-    mutateDeleteComment({
-      token: userState.userInfo.token,
-      commentId,
-    });
+    if (confirm("Are you sure you want to delete this comment")) {
+      mutateDeleteComment({
+        token: userState.userInfo.token,
+        commentId,
+      });
+    }
   };
 
   return (
     <div className={`${className}`}>
       <CommentForm
-        btnLabel="Send"
+        btnLabel={t("send")}
         formSubmitHandler={(value) => addCommentHandler(value)}
         loading={isLoadingNewComment}
       />

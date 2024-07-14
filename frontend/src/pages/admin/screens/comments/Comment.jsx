@@ -9,8 +9,11 @@ import DataTable from "../../components/DataTable";
 import { images, stables } from "../../../../constants";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const Comment = () => {
+  const { t } = useTranslation();
+
   const {
     userState,
     currentPage,
@@ -62,18 +65,18 @@ const Comment = () => {
 
   return (
     <DataTable
-      pageTitle="Manage Comments"
-      dataListName="Comments"
-      searchInputPlaceholder="Search comment..."
+      pageTitle={t("manageComments")}
+      dataListName={t("comments")}
+      searchInputPlaceholder={t("searchComment")}
       searchKeyWordOnSubmitHandler={submitSearchHandler}
       searchKeywordOnChangeHandler={searchKeyWordHandler}
       searchKeyword={searchKeyWord}
       tableHeaderTitleList={[
-        "Author",
-        "Comment",
-        "In Respond to",
-        "Created At",
-        "Actions",
+        `${t("author")}`,
+        `${t("comments")}`,
+        `${t("inRespondTo")}`,
+        `${t("createdAt")}`,
+        `${t("actions")}`,
       ]}
       isLoading={isLoading}
       isFetching={isFetching}
@@ -84,7 +87,7 @@ const Comment = () => {
       totalDataCount={commentsData?.totalCommentsCount}
     >
       {commentsData?.data?.map((comment) => (
-        <tr key={comment._id} >
+        <tr key={comment._id}>
           {/* AUTHOR COLUMN */}
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr ">
             <div className="flex items-center ">
@@ -112,7 +115,7 @@ const Comment = () => {
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             {comment?.replyOnUser !== null && (
               <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">
-                In reply to {""}
+                {t("inReplyTo")} {""}
                 <Link
                   to={`/blog/${comment?.post?.slug}/#comment-${comment?._id}`}
                   className="font-bold"
@@ -121,7 +124,9 @@ const Comment = () => {
                 </Link>
               </p>
             )}
-            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">{comment?.desc}</p>
+            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-soft">
+              {comment?.desc}
+            </p>
           </td>
           {/* IN RESPOND TO COLUMN */}
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
@@ -157,11 +162,11 @@ const Comment = () => {
                 mutateUpdateCommentCheck({
                   token: userState.userInfo.token,
                   check: comment?.check ? false : true,
-                  commentId: comment?._id
+                  commentId: comment?._id,
                 });
               }}
             >
-              {comment?.check ? "Unapprove" : "Approve"}
+              {comment?.check ? `${t("unapprove")}` : `${t("approve")}`}
             </button>
 
             <button
@@ -175,9 +180,9 @@ const Comment = () => {
                 });
               }}
             >
-              Delete
+              {t("delete")}
             </button>
-          </td>  
+          </td>
         </tr>
       ))}
     </DataTable>

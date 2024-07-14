@@ -8,80 +8,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/actions/user";
 import toast from "react-hot-toast";
 import ToggleTheme from "./ToggleTheme";
+import { useTranslation } from "react-i18next";
+import NavItem from "./NavItem";
 
 const navItemsInfo = [
-  { name: "Home", type: "link", href: "/" },
-  { name: "Blog", type: "link", href: "/blog" },
-  { name: "About", type: "link", href: "/about" },
-  // {
-  //   name: "Pages",
-  //   type: "dropdown",
-  //   items: [
-  //     { title: "About Us", href: "/about" },
-  //     { title: "Contact Us", href: "/contact" },
-  //   ],
-  // },
-  { name: "FAQ", type: "link", href: "/faq" },
-  // { name: "Pricing", type: "link", href: "/pricing" },
+  { name: "Home", type: "link", key: "home", href: "/" },
+  { name: "Blog", type: "link", key: "blog", href: "/blog" },
+  { name: "About", type: "link", key: "about", href: "/about" },
+  {
+    name: "Language",
+    type: "dropdown",
+    toggleIcons: true,
+    items: [
+      { title: "Tiếng Việt", key: "vietnamese", lang: "vi" },
+      { title: "English", key: "english", lang: "en" },
+    ],
+  },
 ];
 
-const NavItem = ({ item }) => {
-  const [dropdown, setDropdown] = useState(false);
-
-  const toggleDropdownHandler = () => {
-    setDropdown((curState) => !curState);
-  };
-
-  return (
-    <li className="relative group">
-      {item.type === "link" ? (
-        <>
-          <Link
-            to={item.href}
-            className="px-4 py-2  hover:text-blue-500 transition-all duration-500"
-          >
-            {item.name}
-          </Link>
-          <span className="absolute text-blue-500 transition-all duration-500 right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
-            /
-          </span>
-        </>
-      ) : (
-        <div className="flex flex-col items-center ">
-          <button
-            className="px-4 py-2 flex items-center gap-x-1 hover:text-blue-500 transition-all duration-300"
-            onClick={toggleDropdownHandler}
-          >
-            <span>{item.name}</span>
-            <MdKeyboardArrowDown />
-          </button>
-          <div
-            className={`${
-              dropdown ? "block" : "hidden"
-            } lg:hidden transition-all duration-500 pt-1 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max lg:bg-white lg:rounded-lg`}
-          >
-            <ul className="flex flex-col shadow-lg rounded-lg overflow-hidden">
-              {item.items.map((page) => (
-                <Link
-                  key={page.title}
-                  to={page.href}
-                  className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2  transition-all duration-300"
-                >
-                  {page.title}
-                </Link>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-    </li>
-  );
-};
 
 const Header = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -139,7 +89,7 @@ const Header = () => {
                       className="flex gap-x-1 items-center mt-5 lg:mt-0 border-2 border-blue-500 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300 "
                       onClick={() => setProfileDropdown(!profileDropdown)}
                     >
-                      <span>Account</span>
+                      <span>{t("account")}</span>
                       <MdKeyboardArrowDown />
                     </button>
                     <div
@@ -154,7 +104,7 @@ const Header = () => {
                             type="button"
                             className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
                           >
-                            Dashboard Admin
+                            {t("dashboardAdmin")}
                           </button>
                         )}
                         <button
@@ -162,14 +112,14 @@ const Header = () => {
                           type="button"
                           className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
                         >
-                          My Profile
+                          {t("myProfile")}
                         </button>
                         <button
                           onClick={logoutHandler}
                           type="button"
                           className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
                         >
-                          Log out
+                          {t("logout")}
                         </button>
                       </ul>
                     </div>
@@ -182,7 +132,7 @@ const Header = () => {
               to="/login"
               className="mt-5 lg:mt-0 border-2 border-blue-500 rounded-full px-6 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
-              Sign in
+              {t("login")}
             </Link>
           )}
         </div>

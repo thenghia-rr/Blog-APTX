@@ -10,10 +10,12 @@ import { useEffect } from "react";
 import Pagination from "../../components/Pagination";
 import BtnScrollToTop from "../../components/BtnScrollToTop";
 import SearchBlog from "../../components/SearchBlog";
+import { useTranslation } from "react-i18next";
 
 let isFirstRun = true;
 
 const BlogPage = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchParamsValue = Object.fromEntries([...searchParams]);
 
@@ -86,10 +88,10 @@ const BlogPage = () => {
                     />
                   </svg>
                   <h2 className="text-3xl font-bold text-gray-800 dark:text-dark-text">
-                    No Post Found
+                    {t("noPostFound")}
                   </h2>
                   <p className="text-gray-600 dark:text-dark-soft">
-                    We couldn`t find any posts. Try searching again.
+                    {t("noPostFoundDesc")}
                   </p>
                 </div>
               </>

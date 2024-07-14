@@ -12,9 +12,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../../../../services/index/posts";
 import { useSelector } from "react-redux";
-import ToggleTheme from '../../../../components/ToggleTheme';
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const userState = useSelector((state) => state.user);
@@ -49,7 +50,7 @@ const Header = () => {
 
   // Handle when click button create new post
   const handleCreateNewPost = ({ token }) => {
-    if(window.confirm("Are you sure you want to create new post?")) {
+    if (window.confirm("Are you sure you want to create new post?")) {
       mutateCreatePost({ token });
     }
   };
@@ -67,7 +68,11 @@ const Header = () => {
     <header className="flex h-fit w-full items-center justify-between p-4 lg:h-full lg:max-w-[300px] lg:flex-col lg:items-start lg:justify-start lg:p-0 z-50 dark:bg-dark-backgr">
       {/* Logo */}
       <Link to="/">
-        <img src={images.LogoAPTX} alt="logo" className="w-16 lg:hidden dark:brightness-200 dark:contrast-200" />
+        <img
+          src={images.LogoAPTX}
+          alt="logo"
+          className="w-16 lg:hidden dark:brightness-200 dark:contrast-200"
+        />
       </Link>
       {/* Menu burger icon */}
       <div className="cursor-pointer lg:hidden dark:text-dark-text">
@@ -93,13 +98,17 @@ const Header = () => {
             }`}
           >
             <Link to="/">
-              <img src={images.LogoAPTX} alt="logo" className="w-16 dark:brightness-200 dark:contrast-200" />
+              <img
+                src={images.LogoAPTX}
+                alt="logo"
+                className="w-16 dark:brightness-200 dark:contrast-200"
+              />
             </Link>
             <h4 className="mt-10 font-bold text-[#C7C7C7]">MAIN MENU</h4>
             {/* Menu items */}
             <div className="mt-6 flex flex-col gap-y-[0.563rem]">
               <NavItem
-                title="Dashboard"
+                title={t("dashboard")}
                 link="/admin"
                 icon={<AiFillDashboard className="text-xl" />}
                 name="dashboard"
@@ -107,7 +116,7 @@ const Header = () => {
                 setActiveNavName={setActiveNavName}
               />
               <NavItem
-                title="Comments"
+                title={t("comments")}
                 link="/admin/comments"
                 icon={<FaComment className="text-xl" />}
                 name="comments"
@@ -115,7 +124,7 @@ const Header = () => {
                 setActiveNavName={setActiveNavName}
               />
               <NavItem
-                title="Users"
+                title={t("users")}
                 link="/admin/users/manage"
                 icon={<FaUser className="text-xl" />}
                 name="users"
@@ -124,10 +133,9 @@ const Header = () => {
               />
 
               <NavItemCollapse
-                title="Posts"
+                title={t("posts")}
                 icon={<MdDashboard className="text-xl" />}
                 name="posts"
-
                 activeNavName={activeNavName}
                 setActiveNavName={setActiveNavName}
               >
@@ -135,28 +143,26 @@ const Header = () => {
                   to="/admin/posts/manage"
                   className="text-[#A5A5A5] font-semibold"
                 >
-                  Manage All Posts
+                  {t("managePosts")}
                 </Link>
                 <Link
                   to="/admin/categories/manage"
                   className="text-[#A5A5A5] font-semibold"
                 >
-                  Manage Categories
+                  {t("manageCategories")}
+                  
                 </Link>
                 <button
                   disabled={isLoadingCreatePost}
                   onClick={() =>
-                    handleCreateNewPost({token: userState?.userInfo?.token})
+                    handleCreateNewPost({ token: userState?.userInfo?.token })
                   }
                   className="text-start text-[#A5A5A5] font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Create New Post
+                  {t("createPost")}
                 </button>
               </NavItemCollapse>
-
             </div>
-          
-          <ToggleTheme />
           </div>
         </div>
       )}

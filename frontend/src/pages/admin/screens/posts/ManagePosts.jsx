@@ -1,12 +1,13 @@
 import { images, stables } from "../../../../constants";
 import { getAllPosts } from "../../../../services/index/posts";
-import Pagination from "../../../../components/Pagination";
 import { Link } from "react-router-dom";
 import { deletePost } from "../../../../services/index/posts";
 import { useDataTable } from "../../../../hooks/useDataTable";
 import DataTable from "../../components/DataTable";
+import { useTranslation } from "react-i18next";
 
 const ManagePosts = () => {
+  const { t } = useTranslation();
   const {
     userState,
     currentPage,
@@ -34,18 +35,18 @@ const ManagePosts = () => {
 
   return (
     <DataTable
-      pageTitle="Manage Posts"
-      dataListName="Posts"
-      searchInputPlaceholder="Post title..."
+      pageTitle={t("managePosts")}
+      dataListName={t("posts")}
+      searchInputPlaceholder={t("postTitle")}
       searchKeyWordOnSubmitHandler={submitSearchHandler}
       searchKeywordOnChangeHandler={searchKeyWordHandler}
       searchKeyword={searchKeyWord}
       tableHeaderTitleList={[
-        "Title",
-        "Category",
-        "Created At",
-        "Tags",
-        "Actions",
+        `${t("title")}`,
+        `${t("categories")}`,
+        `${t("createdAt")}`,
+        `${t("tags")}`,
+        `${t("actions")}`,
       ]}
       isLoading={isLoading}
       isFetching={isFetching}
@@ -94,15 +95,17 @@ const ManagePosts = () => {
                             : ", "
                         }`
                     )
-                : "Uncategorized"}
+                : `${t("uncategorized")}`}
             </p>
           </td>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
             <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
               {new Date(post?.createdAt).toLocaleDateString("en-US", {
-                day: "numeric",
-                month: "short",
+                day: "2-digit",
+                month: "2-digit",
                 year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
               })}
             </p>
           </td>
@@ -115,7 +118,7 @@ const ManagePosts = () => {
                       {post.tags.length - 1 !== index && ","}
                     </p>
                   ))
-                : "No tags"}
+                : `${t("noTags")}`}
             </div>
           </td>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-4 dark:bg-dark-backgr">
@@ -130,13 +133,13 @@ const ManagePosts = () => {
                 });
               }}
             >
-              Detete
+              {t("delete")}
             </button>
             <Link
               to={`/admin/posts/manage/edit/${post?.slug}`}
               className="text-indigo-600 hover:text-indigo-900"
             >
-              Edit
+              {t("edit")}
             </Link>
           </td>
         </tr>

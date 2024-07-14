@@ -1,29 +1,34 @@
+import { useTranslation } from "react-i18next";
 import { FaFacebookF, FaInstagram, FaTiktok, FaGithub } from "react-icons/fa";
 
 const ContactPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div
       id="contact-section"
       className="rounded-xl relative min-h-screen flex flex-col items-center justify-center bg-cover bg-center p-8 dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]"
       style={{ backgroundImage: `url('/images/openai_png.png')` }}
     >
-      <div className="rounded-xl absolute inset-0 bg-black opacity-70"></div>
+      <div className="rounded-xl absolute inset-0 bg-black opacity-40"></div>
       <div className="relative z-10 flex flex-col items-center md:w-[650px] lg:w-[700px]">
-        <h1 className="text-4xl font-bold mb-8 pt-2 text-primary">Contact with me</h1>
+        <h1 className="text-4xl font-bold mb-8 pt-2 text-primary">
+          {t("contactWithMe")}
+        </h1>
         <div className="bg-white p-10 rounded-lg shadow-lg w-full dark:bg-dark-backgr">
           <form className="flex flex-col gap-6">
             <input
               type="text"
-              placeholder="Your name"
+              placeholder={t('yourName')}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
             />
             <input
               type="email"
-              placeholder="Your email"
+              placeholder={t('yourEmail')}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
             />
             <textarea
-              placeholder="Your message"
+              placeholder={t('yourMessage')}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
               rows="6"
             ></textarea>
@@ -31,7 +36,7 @@ const ContactPage = () => {
               type="submit"
               className="font-bold p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Send
+              {t('send')}
             </button>
           </form>
         </div>

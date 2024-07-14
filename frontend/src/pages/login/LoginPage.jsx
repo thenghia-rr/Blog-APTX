@@ -9,10 +9,12 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/reducers/userReducers";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const userState = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -69,7 +71,7 @@ const LoginPage = () => {
 
           <div className="w-full p-5 rounded-xl">
             <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-8 uppercase dark:text-dark-text">
-              Sign In
+              {t("login")}
             </h1>
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="flex flex-col mb-6 w-full">
@@ -93,7 +95,7 @@ const LoginPage = () => {
                       message: "Email is required",
                     },
                   })}
-                  placeholder="Enter email"
+                  placeholder={t('yourEmail')}
                   className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.email ? "border-red-500" : "border-[#c3cad9]"
                   }`}
@@ -109,7 +111,7 @@ const LoginPage = () => {
                   htmlFor="password"
                   className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  Password
+                  {t("password")}
                 </label>
                 <div className="relative">
                   <input
@@ -125,7 +127,7 @@ const LoginPage = () => {
                         message: "Password must be at least 6 characters",
                       },
                     })}
-                    placeholder="Enter password"
+                    placeholder={t('yourPassword')}
                     className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] dark:bg-slate-200 w-full ${
                       errors.password ? "border-red-500" : "border-[#c3cad9]"
                     }`}
@@ -151,19 +153,19 @@ const LoginPage = () => {
                 to="/forgot-password"
                 className="text-sm font-semibold text-primary"
               >
-                Forgot password ?
+                {t("forgotPassword")}
               </Link>
               <button
                 type="submit"
                 disabled={!isValid || isLoading}
                 className="disabled:opacity-70 disabled:cursor-not-allowed w-full p-3 px-8 rounded-lg bg-primary text-white font-bold my-6 text-lg "
               >
-                Log In
+                {t("login")}
               </button>
               <p className="text-sm font-semibold text-[#5a7184] dark:text-dark-soft">
-                Do not have an account?{" "}
+                {t("noHaveAccount")}{" "}
                 <Link to="/register" className="text-primary">
-                  Register now
+                  {t("register")}
                 </Link>
               </p>
             </form>

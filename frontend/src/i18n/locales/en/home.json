@@ -1,0 +1,15 @@
+{
+    "header": {
+        "home": "Home",
+        "blog": "Blog",
+        "about": "About",
+        "english": "English",
+        "vietnamese": "Vietnamese",
+        "dashboardAdmin": "Dashboard Admin",
+        "myProfile": "My Profile"
+    },
+    "hero": {
+        "homeSlogan": "Read the most interesting articles",
+        "homeDesc": "Welcome to my blog! This is a space where I share thoughts, experiences, and diverse knowledge. Let`s explore the world through my perspective together!"
+    }
+}

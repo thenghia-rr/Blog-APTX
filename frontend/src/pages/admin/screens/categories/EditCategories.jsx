@@ -7,8 +7,10 @@ import {
   getSingleCategory,
   updateCategory,
 } from "../../../../services/index/postCategories";
+import { useTranslation } from "react-i18next";
 
 const EditCategories = () => {
+  const { t } = useTranslation();
   const [categoryTitle, setCategoryTitle] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -58,16 +60,17 @@ const EditCategories = () => {
     });
   };
 
-
   return (
     <div className="col-span-4 py-12">
-      <h4 className="text-lg leading-tight dark:text-dark-text">Edit Category</h4>
+      <h4 className="text-lg leading-tight dark:text-dark-text">
+        {t("editCategory")}
+      </h4>
       <div className="d-form-control w-full mt-6">
         <input
           value={categoryTitle}
           className="dark:text-dark-text d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
           onChange={(e) => setCategoryTitle(e.target.value)}
-          placeholder="Categories Title"
+          placeholder={t("categoryName")}
         />
         <button
           disabled={isLoadingUpdateCategory || isError || isLoading}
@@ -75,7 +78,7 @@ const EditCategories = () => {
           onClick={handleUpdateCategory}
           className="w-fit mt-3 bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Update Category
+          {t("update")}
         </button>
       </div>
     </div>
