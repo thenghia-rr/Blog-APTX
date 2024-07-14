@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllCategories = async (
   searchKeyWord = "",
   page = 1,
-  limit = 7
+  limit = 5
 ) => {
   try {
     const { data, headers } = await axios.get(
@@ -13,8 +13,22 @@ export const getAllCategories = async (
 
     const totalPageCount = headers["x-totalpagecount"];
     const totalCategoriesCount = headers["x-totalcount"];
-    
+
     return { data, headers, totalCategoriesCount, totalPageCount };
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [GET] /api/post-categories/no-filter
+export const getAllCategoriesNoFilter = async () => {
+  try {
+    const { data } = await axios.get(`/api/post-categories/no-filter`);
+    return { data };
   } catch (error) {
     if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);

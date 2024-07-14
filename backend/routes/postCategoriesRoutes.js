@@ -6,6 +6,7 @@ import {
   getSingleCategory,
   updatePostCategories,
   deletePostCategories,
+  getAllPostCategoriesNoFilter,
 } from "../controllers/PostCategoriesControllers.js";
 import { authGuard, authAdmin } from "../middleware/authMiddleware.js";
 
@@ -13,6 +14,8 @@ router
   .route("/")
   .post(authGuard, authAdmin, createPostCategories)
   .get(getAllPostCategories);
+
+router.route("/no-filter").get(getAllPostCategoriesNoFilter);
 
 router
   .route("/:postCategoryId")
