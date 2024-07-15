@@ -121,8 +121,6 @@ const EditPosts = () => {
     }
   };
 
- 
-
   let isPostDataUpdated = !isLoading && !isError;
 
   return (

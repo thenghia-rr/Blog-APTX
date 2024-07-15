@@ -133,65 +133,7 @@ const userProfile = async (req, res, next) => {
   }
 };
 
-// // [PUT] api/users/update-profile
-// const updateProfile = async (req, res, next) => {
-//   try {
-//     // Lấy userId cần cập nhật từ tham số URL
-//     const userIdToUpdate = req.params.userId;
-
-//     // Lấy userId của người dùng hiện tại từ đối tượng req.user
-//     let userId = req.user._id;
-
-//     // Kiểm tra nếu người dùng hiện tại không phải là admin và userId hiện tại không trùng với userId cần cập nhật
-//     if (!req.user.admin && userId !== userIdToUpdate) {
-//       let error = new Error("Forbidden resource"); // Tạo lỗi với thông báo "Forbidden resource"
-//       error.statusCode = 403; // Đặt mã trạng thái lỗi là 403 (Forbidden)
-//       throw error; // Ném lỗi để chặn tiếp tục xử lý
-//     }
-
-//     // Tìm người dùng cần cập nhật trong cơ sở dữ liệu
-//     let user = await UserModel.findById(userIdToUpdate);
-
-//     // Nếu không tìm thấy người dùng, ném lỗi "User Not Found"
-//     if (!user) {
-//       throw new Error("User Not Found");
-//     }
-
-//     // Kiểm tra nếu thuộc tính 'admin' có tồn tại trong body của yêu cầu và người dùng hiện tại là admin
-//     if (typeof req.body.admin !== "undefined" && req.user.admin) {
-//       // Nếu điều kiện thỏa mãn, cập nhật thuộc tính 'admin' của người dùng cần cập nhật
-//       user.admin = req.body.admin;
-//     }
-
-//     // Lấy thông tin cần cập nhật từ body của yêu cầu
-//     const { name, email, password } = req.body;
-//     user.name = name || user.name; // Cập nhật tên người dùng nếu có, ngược lại giữ nguyên
-//     user.email = email || user.email; // Cập nhật email người dùng nếu có, ngược lại giữ nguyên
-
-//     // Kiểm tra nếu thuộc tính 'admin' có tồn tại trong body của yêu cầu và người dùng hiện tại là admin
-//     if (typeof req.body.admin !== "undefined" && req.user.admin) {
-//       // Nếu điều kiện thỏa mãn, cập nhật thuộc tính 'admin' của người dùng cần cập nhật
-//       user.admin = req.body.admin;
-//     }
-
-//     // Lưu thay đổi người dùng vào cơ sở dữ liệu
-//     const userUpdated = await user.save();
-
-//     // Trả về thông tin người dùng đã cập nhật
-//     return res.status(200).json({
-//       _id: userUpdated._id,
-//       avatar: userUpdated.avatar,
-//       name: userUpdated.name,
-//       email: userUpdated.email,
-//       verified: userUpdated.verified,
-//       admin: userUpdated.admin,
-//       token: await userUpdated.generateJWT(), // Tạo và trả về JWT mới
-//     });
-//   } catch (error) {
-//     next(error); // Chuyển lỗi đến middleware xử lý lỗi
-//   }
-// };
-
+// // [PUT] api/users/update-profile/:userId
 const updateProfile = async (req, res, next) => {
   try {
     // Lấy userId cần cập nhật từ tham số URL
@@ -218,13 +160,17 @@ const updateProfile = async (req, res, next) => {
     }
 
     // Cập nhật thuộc tính người dùng nếu có trong body của yêu cầu
-    const { name, email, password, admin } = req.body;
+    const { name, email, password, admin, verified } = req.body;
 
     if (name) user.name = name;
     if (email) user.email = email;
     if (password) user.password = password; // Assuming password is hashed in a pre-save hook
     if (typeof admin !== "undefined" && req.user.admin) {
       user.admin = admin;
+    }
+    // 
+    if (typeof verified !== "undefined") {
+      user.verified = verified;
     }
 
     // Lưu thay đổi người dùng vào cơ sở dữ liệu

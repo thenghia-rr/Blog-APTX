@@ -43,14 +43,15 @@ const Users = () => {
   // useMutation for update admin state
   const { mutate: mutateUpdateUser, isLoading: isLoadingUpdateUser } =
     useMutation({
-      mutationFn: ({ isAdmin, userId }) => {
+      mutationFn: ({ isAdmin, isVerified, userId }) => {
         return updateProfile({
           token: userState?.userInfo?.token,
-          userData: { admin: isAdmin },
+          userData: { admin: isAdmin, verified: isVerified },
           userId,
         });
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(data?.verified)
         queryClient.invalidateQueries(["users"]);
         toast.success("User is updated successfully");
       },
@@ -59,7 +60,7 @@ const Users = () => {
         console.log(error);
       },
     });
-
+    
   // Main func to update Admin check
   const handleAdminCheck = (e, userId) => {
     const initCheckValue = !e.target.checked;
@@ -71,6 +72,17 @@ const Users = () => {
     }
   };
 
+  // Main func to update Verify Author
+  const handleVerifyAuthor = (e, userId) => {
+    const initCheckValue = !e.target.checked;
+
+    if (window.confirm("Are you want to verify author this user ?")) {
+      mutateUpdateUser({ isVerified: e.target.checked, userId });
+    } else {
+      e.target.checked = initCheckValue;
+    }
+  };
+  console.log(usersData?.data)
   return (
     <DataTable
       pageTitle={t("manageUsers")}
@@ -142,9 +154,13 @@ const Users = () => {
 
           {/* VERIFIED COLUMN  */}
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
-            <p className="text-gray-900 whitespace-no-wrap dark:text-dark-text">
-              {user?.verified ? "✅" : "❌"}
-            </p>
+            <input
+              type="checkbox"
+              defaultChecked={user?.verified}
+              className="dark:border-dark-text d-checkbox disabled:bg-orange-400 disabled:opacity-100 checked:bg-[url('/images/check.png')] bg-cover checked:disabled:bg-none"
+              onChange={(e) => handleVerifyAuthor(e, user._id)}
+              disabled={isLoadingUpdateUser}
+            />
           </td>
           {/* ADMIN COLUMN  */}
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 dark:bg-dark-backgr">
