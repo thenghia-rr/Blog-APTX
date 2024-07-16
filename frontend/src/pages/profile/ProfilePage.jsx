@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/MainLayout";
-// import { images } from "../../constants";
 import { useForm } from "react-hook-form";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getUserProfile, updateProfile } from "../../services/index/users";
@@ -10,9 +9,10 @@ import ProfilePicture from "../../components/ProfilePicture";
 import toast from "react-hot-toast";
 import { userActions } from "../../store/reducers/userReducers";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
 const ProfilePage = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
@@ -32,12 +32,12 @@ const ProfilePage = () => {
       return updateProfile({
         token: userState.userInfo.token,
         userData: { name, email, password },
-        userId: userState?.userInfo?._id
+        userId: userState?.userInfo?._id,
       });
     },
     onSuccess: (data) => {
       toast.success("Profile is Updated");
-      navigate('/')
+      navigate("/");
       dispatch(userActions.setUserInfo(data));
       localStorage.setItem("account", JSON.stringify(data));
       queryClient.invalidateQueries(["profile"]);
@@ -62,8 +62,8 @@ const ProfilePage = () => {
       return {
         name: profileIsLoading ? "" : profileData.name,
         email: profileIsLoading ? "" : profileData.email,
-      }
-    }, [profileData?.email, profileData?.name, profileIsLoading]) ,
+      };
+    }, [profileData?.email, profileData?.name, profileIsLoading]),
     mode: "onChange",
   });
 
@@ -82,20 +82,35 @@ const ProfilePage = () => {
 
   return (
     <MainLayout>
-      <section className="container mx-auto px-5 py-8 ">
-        <div className="dark:bg-dark-header max-w-2xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)] dark:border-glow">
-          <div className="w-full mx-auto p-5 rounded-xl ">
+      <motion.section
+        className="container mx-auto px-5 py-8"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.div
+          className="dark:bg-dark-header max-w-2xl mx-auto rounded-xl overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1)] dark:border-glow"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-full mx-auto p-5 rounded-xl">
             <h1 className="font-roboto text-2xl font-bold text-center text-light-hard mb-3 dark:text-dark-text">
-              {t('myProfile')}
+              {t("myProfile")}
             </h1>
             <ProfilePicture avatar={profileData?.avatar} />
-            <form onSubmit={handleSubmit(submitHandler)}>
+            <motion.form
+              onSubmit={handleSubmit(submitHandler)}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               <div className="flex flex-col mb-4 w-full">
                 <label
                   htmlFor="name"
                   className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  {t('name')}
+                  {t("name")}
                 </label>
                 <input
                   type="text"
@@ -144,9 +159,10 @@ const ProfilePage = () => {
                     },
                   })}
                   placeholder="Enter email"
-                  className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
+                  className={`disabled:opacity-60 placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.email ? "border-red-500" : "border-[#c3cad9]"
                   }`}
+                  
                 />
                 {errors.email?.message && (
                   <p className="text-red-500 text-xs mt-1 ml-1">
@@ -159,7 +175,7 @@ const ProfilePage = () => {
                   htmlFor="password"
                   className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  {t('password')}
+                  {t("password")}
                 </label>
                 <input
                   type="password"
@@ -179,14 +195,14 @@ const ProfilePage = () => {
               <button
                 type="submit"
                 disabled={!isValid || profileIsLoading || isLoading}
-                className="disabled:opacity-70 disabled:cursor-not-allowed w-full p-3 px-8 rounded-lg bg-primary text-white font-bold mb-6 text-lg "
+                className="disabled:opacity-70 disabled:cursor-not-allowed w-full p-3 px-8 rounded-lg bg-primary text-white font-bold mb-6 text-lg hover:bg-primary-dark transition duration-300 ease-in-out"
               >
-                {t('update')}
+                {t("update")}
               </button>
-            </form>
+            </motion.form>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
     </MainLayout>
   );
 };
