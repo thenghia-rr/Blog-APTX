@@ -1,18 +1,29 @@
 import { Link } from "react-router-dom";
 import { FaEdit, FaComments, FaTags, FaUsers } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
 const Admin = () => {
   const { t } = useTranslation();
   return (
-    <div className="bg-white shadow-md rounded-lg p-8 mx-4 lg:mx-auto max-w-5xl dark:bg-dark-backgr border-glow transition duration-500">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="bg-white shadow-md rounded-lg p-8 mx-4 lg:mx-auto max-w-5xl dark:bg-dark-backgr border-glow transition duration-500"
+    >
       <h1 className="text-5xl font-semibold text-[#18a] mb-6 dark:text-primary">
         {t("adminDashboard")}
       </h1>
       <p className="text-gray-700 text-lg mb-4 dark:text-dark-soft">
         {t("adminIntro")}
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <motion.div
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+      >
         <Link
           to="/admin/posts/manage"
           className="transform hover:scale-105 transition duration-300"
@@ -85,8 +96,8 @@ const Admin = () => {
             </div>
           </div>
         </Link>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

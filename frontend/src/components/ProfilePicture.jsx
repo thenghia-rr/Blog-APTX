@@ -72,7 +72,7 @@ const ProfilePicture = ({ avatar }) => {
         )}
 
       <div className="w-full flex justify-center flex-col items-center gap-x-4">
-        <div className="mt-4 relative w-32 h-32 rounded-full outline outline-offset-1 outline-1 outline-primary overflow-hidden">
+        <div className="dark:border-glow mt-4 relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-[40px] outline outline-offset-1 outline-1 outline-primary overflow-hidden">
           <label
             htmlFor="ProfilePicture"
             className="cursor-pointer absolute inset-0 rounded-full bg-transparent"

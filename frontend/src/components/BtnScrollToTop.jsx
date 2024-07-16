@@ -27,7 +27,7 @@ const BtnScrollToTop = () => {
 
 
   return (
-    <div className="fixed bottom-5 right-5">
+    <div className="fixed bottom-5 right-5 z-[9999]">
       <button
         type="button"
         onClick={handleScrollToTop}
