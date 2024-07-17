@@ -8,7 +8,7 @@ import { updateProfilePicture } from "../../services/index/users";
 import toast from "react-hot-toast";
 import getCroppedImg from "./cropImage";
 
-const CropEasy = ({ photo, setOpenCrop }) => {
+const CropEasy = ({ photo, setOpenCrop, setLoadingUpdate }) => {
   const userState = useSelector((state) => state.user);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -17,25 +17,28 @@ const CropEasy = ({ photo, setOpenCrop }) => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: ({ token, formData }) => {
-      return updateProfilePicture({
-        token: token,
-        formData: formData,
-      });
-    },
-    onSuccess: (data) => {
-      toast.success("Profile Photo is Updated");
-      setCrop(false);
-      dispatch(userActions.setUserInfo(data));
-      localStorage.setItem("account", JSON.stringify(data));
-      queryClient.invalidateQueries(["profile"]);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-      console.log(error);
-    },
-  });
+  const { mutate: mutateUpdatePicture, isLoading: isLoadingUpdatePicture } =
+    useMutation({
+      mutationFn: ({ token, formData }) => {
+        return updateProfilePicture({
+          token: token,
+          formData: formData,
+        });
+      },
+      onSuccess: (data) => {
+        toast.success("Profile Photo is Updated");
+        setLoadingUpdate(false); // Set loading to false on success
+        dispatch(userActions.setUserInfo(data));
+        localStorage.setItem("account", JSON.stringify(data));
+        queryClient.invalidateQueries(["profile"]);
+        setOpenCrop(false);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        setLoadingUpdate(false); // Set loading to false on error
+        console.log(error);
+      },
+    });
 
   const handleCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -44,17 +47,21 @@ const CropEasy = ({ photo, setOpenCrop }) => {
   const handleCropImage = async () => {
     try {
       const croppedImg = await getCroppedImg(photo?.url, croppedAreaPixels);
-
+      
       const file = new File([croppedImg.file], `${photo?.file?.name}`, {
         type: photo?.file?.type,
       });
-
+      
       const formData = new FormData();
       formData.append("profilePicture", file);
-
-      mutate({ token: userState.userInfo.token, formData: formData });
-      setOpenCrop(false)
+      
+      setLoadingUpdate(true); // Start loading
+      mutateUpdatePicture({
+        token: userState.userInfo.token,
+        formData: formData,
+      });
     } catch (error) {
+      setLoadingUpdate(false); // Set loading to false on error
       toast.error(error.message);
       console.log(error);
     }
@@ -62,7 +69,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
 
   return (
     <div className="fixed z-[1000] inset-0 bg-black/50 flex justify-center p-5 overflow-auto">
-      <div className="bg-white h-fit w-full sm:max-w-[350px] p-5 rounded-lg">
+      <div className="bg-white h-fit w-full sm:max-w-[350px]  p-5 rounded-lg">
         <h2 className="font-semibold text-light-hard mb-2">Crop Image</h2>
         <div className="relative w-full aspect-square rounded-lg overflow-hidden">
           <Cropper
@@ -96,18 +103,18 @@ const CropEasy = ({ photo, setOpenCrop }) => {
 
         <div className="flex justify-between gap-2 flex-wrap">
           <button
-            disabled={isLoading}
+            disabled={isLoadingUpdatePicture}
             onClick={() => setOpenCrop(false)}
             className="px-5 py-2.5 text-red-500 border border-red-500 text-sm disabled:opacity-70 rounded-lg"
           >
             Cancel
           </button>
           <button
-            disabled={isLoading}
+            disabled={isLoadingUpdatePicture}
             onClick={handleCropImage}
             className="px-5 py-2.5 text-white border bg-blue-500 text-sm disabled:opacity-70 rounded-lg"
           >
-            Upload
+            {isLoadingUpdatePicture ? "Uploading..." : "Upload"}
           </button>
         </div>
       </div>
@@ -117,6 +124,8 @@ const CropEasy = ({ photo, setOpenCrop }) => {
 
 CropEasy.propTypes = {
   photo: PropTypes.any,
-  setOpenCrop: PropTypes.any,
+  setOpenCrop: PropTypes.func,
+  setLoadingUpdate: PropTypes.func,
 };
+
 export default CropEasy;

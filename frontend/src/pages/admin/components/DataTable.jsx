@@ -92,7 +92,7 @@ const DataTable = ({
                       </td>
                     </tr>
                   ) : (
-                    children
+                    children // MAIN CONTENT
                   )}
                 </tbody>
               </table>

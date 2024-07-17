@@ -1,8 +1,12 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
+// import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
 import CommentModel from "../models/Comment.js";
 import PostModel from "../models/Post.js";
 import UserModel from "../models/User.js";
-import { fileRemover } from "../utils/fileRemover.js";
+import uploadCloud from "../config/multer.config.js";
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 
 // [GET] /api/users
 const getAllUsers = async (req, res, next) => {
@@ -117,6 +121,7 @@ const userProfile = async (req, res, next) => {
       return res.status(200).json({
         _id: user._id,
         avatar: user.avatar,
+        avatarId: user.avatarId,
         name: user.name,
         email: user.email,
         password: user.password,
@@ -168,7 +173,7 @@ const updateProfile = async (req, res, next) => {
     if (typeof admin !== "undefined" && req.user.admin) {
       user.admin = admin;
     }
-    // 
+    //
     if (typeof verified !== "undefined") {
       user.verified = verified;
     }
@@ -194,28 +199,33 @@ const updateProfile = async (req, res, next) => {
 // [PUT] api/users/update-profile-picture
 const updateProfilePicture = async (req, res, next) => {
   try {
-    const upload = uploadPicture.single("profilePicture");
+    const upload = uploadCloud.single("profilePicture");
 
     upload(req, res, async function (err) {
       if (err) {
         const error = new Error(
-          "An unknown error occurred while uploading picture" + err.message
+          "An unknown error occurred while uploading picture: " + err.message
         );
         next(error);
       } else {
         if (req.file) {
-          let filename;
+          const result = await uploadToCloudinary(req.file);
+
           let updatedUser = await UserModel.findById(req.user._id);
-          filename = updatedUser.avatar;
-          if (filename) {
-            fileRemover(filename);
-          }
-          updatedUser.avatar = req.file.filename;
+          const oldAvatarId = updatedUser.avatarId;
+
+          updatedUser.avatar = result.secure_url;
+          updatedUser.avatarId = result.public_id;
           await updatedUser.save();
+
+          if (oldAvatarId) {
+            await deleteFromCloudinary(oldAvatarId);
+          }
 
           res.status(200).json({
             _id: updatedUser._id,
             avatar: updatedUser.avatar,
+            avatarId: updatedUser.avatarId,
             name: updatedUser.name,
             email: updatedUser.email,
             verified: updatedUser.verified,
@@ -223,16 +233,21 @@ const updateProfilePicture = async (req, res, next) => {
             token: await updatedUser.generateJWT(),
           });
         } else {
-          let filename;
           let updatedUser = await UserModel.findById(req.user._id);
-          filename = updatedUser.avatar;
+          const oldAvatarId = updatedUser.avatarId;
+
           updatedUser.avatar = "";
+          updatedUser.avatarId = "";
           await updatedUser.save();
-          fileRemover(filename);
+
+          if (oldAvatarId) {
+            await deleteFromCloudinary(oldAvatarId);
+          }
 
           res.status(200).json({
             _id: updatedUser._id,
             avatar: updatedUser.avatar,
+            avatarId: updatedUser.avatarId,
             name: updatedUser.name,
             email: updatedUser.email,
             verified: updatedUser.verified,
@@ -271,13 +286,13 @@ const deleteUser = async (req, res, next) => {
     });
 
     // Remove post's photo
-    postsToDelete.forEach((post) => {
-      fileRemover(post.photo);
+    postsToDelete.forEach(async(post) => {
+      await deleteFromCloudinary(post?.photo);
     });
 
     // Delete the user
     await UserModel.findByIdAndDelete(req.params.userId);
-    fileRemover(user.avatar);
+    await deleteFromCloudinary(user?.avatar);
 
     res.json({
       message: "User is deleted successfully",

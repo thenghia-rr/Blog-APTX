@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { images, stables } from "../../../constants";
+import { images } from "../../../constants";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -29,7 +29,7 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
             <img
               src={
                 post?.photo
-                  ? stables.UPLOAD_FOLDER_BASE_URL + post.photo
+                  ? post.photo
                   : images.sampleImage
               }
               alt={post?.title}

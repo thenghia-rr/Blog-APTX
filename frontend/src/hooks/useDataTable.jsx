@@ -21,6 +21,7 @@ export const useDataTable = ({
     queryKey: [dataQueryKey],
   });
 
+  // Mutate delete post
   const { mutate: mutateDeletePost, isLoading: isLoadingDeleteData } =
     useMutation({
       mutationFn: mutateDeleteFn,

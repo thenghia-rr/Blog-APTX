@@ -6,7 +6,7 @@ import {
   updateComment,
 } from "../../../../services/index/comments";
 import DataTable from "../../components/DataTable";
-import { images, stables } from "../../../../constants";
+import { images } from "../../../../constants";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -97,8 +97,8 @@ const Comment = () => {
                     alt={comment?.user?.name}
                     src={
                       comment?.user?.avatar
-                        ? stables.UPLOAD_FOLDER_BASE_URL + comment?.user?.avatar
-                        : images.sampleImage
+                        ? comment?.user?.avatar
+                        : images.userAnonymous
                     }
                     className="mx-auto object-cover rounded-lg h-10 aspect-square "
                   />

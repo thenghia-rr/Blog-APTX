@@ -68,7 +68,7 @@ const ManagePosts = () => {
                     alt={post?.title}
                     src={
                       post?.photo
-                        ? stables.UPLOAD_FOLDER_BASE_URL + post.photo
+                        ? post?.photo
                         : images.sampleImage
                     }
                     className="mx-auto object-cover rounded-lg h-10 aspect-square "

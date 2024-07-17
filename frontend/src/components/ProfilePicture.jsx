@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfilePicture } from "../services/index/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userActions } from "../store/reducers/userReducers";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ProfilePicture = ({ avatar }) => {
   const queryClient = useQueryClient();
@@ -19,29 +20,34 @@ const ProfilePicture = ({ avatar }) => {
 
   const [openCrop, setOpenCrop] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: ({ token, formData }) => {
-      return updateProfilePicture({
-        token: token,
-        formData: formData,
-      });
-    },
-    onSuccess: (data) => {
-      toast.success("Profile Picture is removed");
-      dispatch(userActions.setUserInfo(data));
-      localStorage.setItem("account", JSON.stringify(data));
-      queryClient.invalidateQueries(["profile"]);
-      setOpenCrop(false);
-    },
-    onError: (error) => {
-      toast.error(error.message);
+  // Remove avatar in db and cloudinary
+  const { mutate: mutateDeletePicture, isLoading: isLoadingDeletePicture } =
+    useMutation({
+      mutationFn: ({ token, formData }) => {
+        return updateProfilePicture({
+          token: token,
+          formData: formData,
+        });
+      },
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success("Profile Picture is removed");
+        dispatch(userActions.setUserInfo(data));
+        localStorage.setItem("account", JSON.stringify(data));
+        queryClient.invalidateQueries(["profile"]);
+        setOpenCrop(false);
+        setLoadingUpdate(false);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+        console.log(error);
+        setLoadingUpdate(false);
+      },
+    });
 
-      console.log(error);
-    },
-  });
-
-  // Handle change imgage
+  // Handle change image
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setPhoto({ url: URL.createObjectURL(file), file });
@@ -55,10 +61,15 @@ const ProfilePicture = ({ avatar }) => {
         const formData = new FormData();
         formData.append("profilePicture", undefined);
 
-        mutate({ token: userState.userInfo.token, formData: formData });
+        mutateDeletePicture({
+          token: userState.userInfo.token,
+          formData: formData,
+        });
+        setLoadingUpdate(true);
       } catch (error) {
         toast.error(error.message);
         console.log(error);
+        setLoadingUpdate(false);
       }
     }
   };
@@ -67,11 +78,17 @@ const ProfilePicture = ({ avatar }) => {
     <>
       {openCrop &&
         createPortal(
-          <CropEasy photo={photo} setOpenCrop={setOpenCrop} />,
+          <CropEasy photo={photo} setOpenCrop={setOpenCrop} setLoadingUpdate={setLoadingUpdate} />,
           document.getElementById("portal")
         )}
 
       <div className="w-full flex justify-center flex-col items-center gap-x-4">
+        {(isLoadingDeletePicture || loadingUpdate) && (
+          <div className="absolute inset-0 bg-gray-900 bg-opacity-50 z-[9999] flex justify-start items-center flex-col mt-5">
+            <LoadingSpinner />
+          </div>
+        )}
+
         <div className="dark:border-glow mt-4 relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-[40px] outline outline-offset-1 outline-1 outline-primary overflow-hidden">
           <label
             htmlFor="ProfilePicture"
@@ -79,7 +96,7 @@ const ProfilePicture = ({ avatar }) => {
           >
             {avatar ? (
               <img
-                src={stables.UPLOAD_FOLDER_BASE_URL + avatar}
+                src={avatar}
                 alt="profile"
                 className="w-full h-full object-cover object-center"
               />
@@ -96,7 +113,11 @@ const ProfilePicture = ({ avatar }) => {
             onChange={handleFileChange}
           />
         </div>
-        <button onClick={handleDeleteImage} type="button" className=" px-3 py-1 text-red-500">
+        <button
+          onClick={handleDeleteImage}
+          type="button"
+          className="px-3 py-1 text-red-500"
+        >
           <RiDeleteBack2Fill className="w-8 h-auto" />
         </button>
       </div>

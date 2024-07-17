@@ -22,7 +22,7 @@ const LoadingSpinner = () => {
           />
         </svg>
       </div>
-      <h3 className="text-3xl text-[#A5A5A5] font-semibold italic">
+      <h3 className="text-3xl text-primary font-semibold italic">
         {t('loading')}
       </h3>
     </>

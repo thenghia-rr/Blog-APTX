@@ -1,8 +1,11 @@
-import { uploadPicture } from "../middleware/uploadPictureMiddleware.js";
 import PostModel from "../models/Post.js";
 import CommentModel from "../models/Comment.js";
 import { v4 as uuidv4 } from "uuid";
-import { fileRemover } from "../utils/fileRemover.js";
+import uploadCloud from "../config/multer.config.js";
+import {
+  uploadToCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 
 // POST /api/posts/
 const createPost = async (req, res, next) => {
@@ -29,16 +32,17 @@ const createPost = async (req, res, next) => {
 // PUT /api/posts/:slug
 const updatePost = async (req, res, next) => {
   try {
-    const post = await PostModel.findOne({ slug: req.params.slug });
+    const postUpdate = await PostModel.findOne({ slug: req.params.slug });
 
-    if (!post) {
+    if (!postUpdate) {
       const error = new Error("Post not found");
       next(error);
       return;
     }
 
-    const upload = uploadPicture.single("postPicture");
+    const upload = uploadCloud.single("postPicture");
 
+    // Method update post (no image)
     const handleUpdatePostData = async (data) => {
       // Kiểm tra nếu req.body.document là undefined hoặc null
       // Note: Test postman thì bắt buộc thêm field document (VD:{"title":"New title"})
@@ -47,15 +51,31 @@ const updatePost = async (req, res, next) => {
         next(error);
         return;
       }
-      const { title, caption, slug, body, tags, categories } = JSON.parse(data);
-      post.title = title || post.title;
-      post.caption = caption || post.caption;
-      post.slug = slug || post.slug;
-      post.body = body || post.body;
-      post.tags = tags || post.tags;
-      post.categories = categories || post.categories;
-      const updatedPost = await post.save();
-      return res.json(updatedPost);
+
+      try {
+        const { title, caption, slug, body, tags, categories } = JSON.parse(data);
+
+        postUpdate.title = title || postUpdate.title;
+        postUpdate.caption = caption || postUpdate.caption;
+        postUpdate.slug = slug || postUpdate.slug;
+        postUpdate.body = body || postUpdate.body;
+        postUpdate.tags = tags || postUpdate.tags;
+        postUpdate.categories = categories || postUpdate.categories;
+
+        const updatedPost = await postUpdate.save();
+
+        return res.status(200).json({
+          _id: updatedPost._id,
+          title: updatedPost.title,
+          caption: updatedPost.caption,
+          slug: updatedPost.slug,
+          body: updatedPost.body,
+          tags: updatedPost.tags,
+          categories: updatedPost.categories,
+        });
+      } catch (error) {
+        next(error);
+      }
     };
 
     upload(req, res, async function (err) {
@@ -66,19 +86,31 @@ const updatePost = async (req, res, next) => {
         next(error);
       } else {
         if (req.file) {
-          let filename;
-          filename = post.photo;
-          if (filename) {
-            fileRemover(filename);
+          const result = await uploadToCloudinary(req.file);
+
+          const oldPostImageId = postUpdate.photoId;
+
+          postUpdate.photo = result.secure_url;
+          postUpdate.photoId = result.public_id;
+          await postUpdate.save();
+
+          if (oldPostImageId) {
+            await deleteFromCloudinary(oldPostImageId);
           }
-          post.photo = req.file.filename;
-          handleUpdatePostData(req.body.document);
+
+          // console.log(`Req.Body.Document: ${req.body.document}`);
+          await handleUpdatePostData(req.body.document);
         } else {
-          let filename;
-          filename = post.photo;
-          post.photo = "";
-          fileRemover(filename);
-          handleUpdatePostData(req.body.document);
+          const oldPostImageId = postUpdate.photoId;
+
+          postUpdate.photo = "";
+          postUpdate.photoId = "";
+
+          if (oldPostImageId) {
+            await deleteFromCloudinary(oldPostImageId);
+          }
+
+          await handleUpdatePostData(req.body.document);
         }
       }
     });
@@ -97,14 +129,11 @@ const deletePost = async (req, res, next) => {
       return next(error);
     }
 
-    fileRemover(post.photo);
     await CommentModel.deleteMany({ post: post._id });
 
     // Remove photo if exist
-    let filename;
-    filename = post.photo;
-    if (filename) {
-      fileRemover(filename);
+    if (post.photoId) {
+      await deleteFromCloudinary(post.photoId);
     }
 
     res.json({
@@ -112,6 +141,33 @@ const deletePost = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// [DELETE /api/posts/delete-image/:slug
+const deletePostImage = async (req, res) => {
+  const { slug } = req.params;
+  
+  try {
+    const post = await PostModel.findOne({ slug });
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Xóa ảnh từ Cloudinary
+    // const publicId = post.photo.split('/').pop().split('.')[0]; // Lấy public_id của ảnh từ URL
+    if (post.photoId) {
+      await deleteFromCloudinary(post.photoId);
+    }
+
+    // Xóa đường dẫn ảnh từ cơ sở dữ liệu
+    post.photo = "";
+    post.photoId = "";
+    await post.save();
+
+    res.status(200).json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -203,8 +259,8 @@ const getAllPosts = async (req, res, next) => {
         },
         {
           path: "categories",
-          select: ["title"]
-        }
+          select: ["title"],
+        },
       ])
       .sort({ updatedAt: "descending" });
 
@@ -213,4 +269,4 @@ const getAllPosts = async (req, res, next) => {
     next(error);
   }
 };
-export { createPost, updatePost, deletePost, getDetailPost, getAllPosts };
+export { createPost, updatePost, deletePost, getDetailPost, getAllPosts, deletePostImage };

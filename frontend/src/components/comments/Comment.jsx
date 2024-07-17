@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import CommentForm from "./CommentForm";
 import { FiMessageSquare, FiEdit2, FiTrash } from "react-icons/fi";
-import { images, stables } from "../../constants";
+import { images } from "../../constants";
 import { useTranslation } from "react-i18next";
 
 const Comment = ({
@@ -38,7 +38,7 @@ const Comment = ({
       <img
         src={
           comment?.user?.avatar
-            ? stables.UPLOAD_FOLDER_BASE_URL + comment.user.avatar
+            ? comment?.user?.avatar
             : images.userAnonymous
         }
         alt="user avt"

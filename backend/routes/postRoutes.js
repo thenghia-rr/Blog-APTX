@@ -7,8 +7,8 @@ import {
   updatePost,
   deletePost,
   getDetailPost,
+  deletePostImage,
 } from "../controllers/PostControllers.js";
-
 
 router.route("/").post(authGuard, authAdmin, createPost).get(getAllPosts);
 router
@@ -16,5 +16,7 @@ router
   .put(authGuard, authAdmin, updatePost)
   .delete(authGuard, authAdmin, deletePost)
   .get(getDetailPost);
+
+router.delete("/delete-image/:slug", authGuard, authAdmin, deletePostImage);
 
 export default router;

@@ -70,7 +70,7 @@ const ArticleDetailPage = () => {
             <img
               src={
                 data?.photo
-                  ? stables.UPLOAD_FOLDER_BASE_URL + data.photo
+                  ? data?.photo
                   : images.sampleImage
               }
               alt={data?.title}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { images, stables } from "../constants";
+import { images } from "../constants";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 // import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
@@ -87,8 +87,7 @@ const Header = () => {
                     <img
                       src={
                         userState?.userInfo?.avatar
-                          ? stables.UPLOAD_FOLDER_BASE_URL +
-                            userState?.userInfo?.avatar
+                          ? userState?.userInfo.avatar
                           : images.userAnonymous
                       }
                       alt=""

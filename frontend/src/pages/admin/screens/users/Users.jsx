@@ -5,7 +5,7 @@ import {
   getAllUsers,
   updateProfile,
 } from "../../../../services/index/users";
-import { images, stables } from "../../../../constants";
+import { images } from "../../../../constants";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -82,7 +82,7 @@ const Users = () => {
       e.target.checked = initCheckValue;
     }
   };
-  console.log(usersData?.data)
+
   return (
     <DataTable
       pageTitle={t("manageUsers")}
@@ -119,7 +119,7 @@ const Users = () => {
                     alt={user?.name}
                     src={
                       user?.avatar
-                        ? stables.UPLOAD_FOLDER_BASE_URL + user?.avatar
+                        ? user?.avatar
                         : images.userAnonymous
                     }
                     className="mx-auto object-cover rounded-lg h-10 aspect-square "

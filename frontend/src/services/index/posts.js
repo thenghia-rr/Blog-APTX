@@ -54,8 +54,8 @@ export const deletePost = async ({ slug, token }) => {
   }
 };
 
-// [PUT] /api/posts/${slug}
-export const updatePost = async ({updatedData, slug, token }) => {
+// DELETE /api/posts/delete-image/${slug}
+export const deletePostImage = async ({ slug, token }) => {
   try {
     const config = {
       headers: {
@@ -63,7 +63,7 @@ export const updatePost = async ({updatedData, slug, token }) => {
       },
     };
 
-    const { data } = await axios.put(`/api/posts/${slug}`,updatedData, config);
+    const { data } = await axios.delete(`/api/posts/delete-image/${slug}`, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -73,6 +73,32 @@ export const updatePost = async ({updatedData, slug, token }) => {
     }
   }
 };
+// AI: [PUT] /api/posts/${slug}
+export const updatePost = async ({ updatedData, slug, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const formData = new FormData();
+    formData.append("document", updatedData.get("document")); // Chú ý lấy dữ liệu JSON từ FormData
+    if (updatedData.get("postPicture")) {
+      formData.append("postPicture", updatedData.get("postPicture"));
+    }
+
+    const { data } = await axios.put(`/api/posts/${slug}`, formData, config);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
 
 // [POST] /api/posts/
 export const createPost = async ({ token }) => {

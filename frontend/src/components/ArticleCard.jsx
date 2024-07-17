@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { images, stables } from "../constants";
+import { images } from "../constants";
 import { BsCheckLg } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ const ArticleCard = ({ post, className }) => {
           <img
             src={
               post.photo
-                ? stables.UPLOAD_FOLDER_BASE_URL + post.photo
+                ?post?.photo
                 : images.sampleImage
             }
             alt="Post Image"
@@ -38,8 +38,8 @@ const ArticleCard = ({ post, className }) => {
           <div className="flex items-center gap-x-2 md:gap-x-2.5">
             <img
               src={
-                post.user.avatar
-                  ? stables.UPLOAD_FOLDER_BASE_URL + post.user.avatar
+                post?.user?.avatar
+                  ? post?.user?.avatar
                   : images.userAnonymous
               }
               alt="avt user"
