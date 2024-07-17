@@ -112,7 +112,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-// [GET] api/users/profile
+// [GET] api/users/me/profile
 const userProfile = async (req, res, next) => {
   try {
     let user = await UserModel.findById(req.user._id); // req.user (authMiddleware)

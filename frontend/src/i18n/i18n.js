@@ -138,6 +138,8 @@ const resources = {
       writeBlog: "Write Blog",
       editPost: "Edit Post",
       enterCommentContent: "Please enter comment content...",
+      myPosts: "My Posts",
+      noPostCreated: "You haven't written any blog posts yet",
     },
   },
   vi: {
@@ -270,6 +272,8 @@ const resources = {
       writeBlog: "Viết blog",
       editPost: "Chỉnh sửa bài viết",
       enterCommentContent: "Vui lòng nhập nội dung bình luận...",
+      myPosts: "Bài viết của tôi",
+      noPostCreated: "Bạn chưa viết bài blog nào"
     },
   },
 };

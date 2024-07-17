@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const ArticleCard = ({ post, className }) => {
   return (
     <div
-      className={`${className}dark:border-glow rounded-xl overflow-hidden dark:bg-dark-header shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.1)]`}
+      className={`${className} dark:border-glow rounded-xl overflow-hidden dark:bg-dark-header shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px] dark:shadow-[-10px_-10px_30px_4px_rgba(255,255,255,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.1)]`}
     >
       <Link to={`/blog/${post.slug}`}>
         {" "}
@@ -26,7 +26,7 @@ const ArticleCard = ({ post, className }) => {
       </Link>
       <div className="p-5">
         <Link to={`/blog/${post.slug}`}>
-          <h2 className="font-roboto font-bold text-xl text-light-soft md:text-2xl lg:text-[28px] line-clamp-1 dark:text-dark-text">
+          <h2 className="font-roboto font-bold text-[20px] text-light-soft md:text-xl lg:text-2xl line-clamp-1 dark:text-dark-text">
             {post.title}
           </h2>
           <p className="text-light-light mt-3 text-sm md:text-lg line-clamp-1 dark:text-dark-soft">

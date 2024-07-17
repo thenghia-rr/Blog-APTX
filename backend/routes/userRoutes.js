@@ -14,7 +14,7 @@ import {
 router.get("/", authGuard, authAdmin, getAllUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.get("/profile", authGuard, userProfile);
+router.get("/me/profile", authGuard, userProfile);
 router.put("/update-profile/:userId", authGuard, updateProfile);
 router.put("/update-profile-picture", authGuard, updateProfilePicture);
 router.delete("/:userId", authGuard, authAdmin,deleteUser);

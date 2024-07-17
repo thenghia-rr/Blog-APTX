@@ -24,14 +24,14 @@ const BlogPage = () => {
 
   // use query for get all posts (and search blog)
   const { data, isLoading, isError, isFetching, refetch } = useQuery({
-    queryFn: () => getAllPosts(searchKeyword, currentPage, 9),
+    queryFn: () => getAllPosts(searchKeyword, currentPage, 8),
     queryKey: ["posts"],
     onErorr: (error) => {
       toast.error(error.message);
       console.log(error);
     },
-  });
-
+  }); 
+  
   // Auto scroll to top
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,7 +100,7 @@ const BlogPage = () => {
                 <ArticleCard
                   key={post._id}
                   post={post}
-                  className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)] "
+                  className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)] xl:w-[calc(25%-22px)]"
                 />
               ))
             )}

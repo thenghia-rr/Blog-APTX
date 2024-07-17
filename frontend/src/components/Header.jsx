@@ -71,11 +71,18 @@ const Header = () => {
     }
   };
 
+  // Handle redirect my post page
+  const handleRedirectMyPost = () => {
+    navigate('/me/posts')
+  }
   // Handle logout account
   const logoutHandler = () => {
     toast.success("Log out Successfully !");
     dispatch(logout());
+    navigate('/')
   };
+
+  
 
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white dark:bg-dark-header">
@@ -126,12 +133,13 @@ const Header = () => {
                       className="rounded-full w-11 h-11 object-cover mt-5 lg:mt-0 border-[1px] border-blue-500 dark:border-glow cursor-pointer shadow-xl hover:scale-105 transition-all duration-300 ease-linear"
                       onClick={() => setProfileDropdown(!profileDropdown)}
                     />
+                    {/* Profile Dropdown */}
                     <div
                       className={`${
                         profileDropdown ? "block" : "hidden"
                       } lg:hidden transition-all duration-500 pt-4 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-max`}
                     >
-                      <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden dark:bg-dark-header ">
+                      <ul className="text-base font-semibold bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden dark:bg-dark-header ">
                         {userState?.userInfo?.admin && (
                           <button
                             onClick={() => navigate("/admin")}
@@ -142,17 +150,30 @@ const Header = () => {
                           </button>
                         )}
                         {userState?.userInfo?.verified && (
-                          <button
-                            onClick={() => handleCreatePost({token: userState?.userInfo?.token})}
-                            type="button"
-                            className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
-                          >
-                            {t("writeBlog")}
-                          </button>
+                          <>
+                            <button
+                              onClick={() =>
+                                handleCreatePost({
+                                  token: userState?.userInfo?.token,
+                                })
+                              }
+                              type="button"
+                              className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
+                            >
+                              {t("writeBlog")}
+                            </button>
+                            <button
+                              onClick={handleRedirectMyPost}
+                              type="button"
+                              className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
+                            >
+                              {t("myPosts")}
+                            </button>
+                          </>
                         )}
 
                         <button
-                          onClick={() => navigate("/profile")}
+                          onClick={() => navigate("/me/profile")}
                           type="button"
                           className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
                         >
@@ -174,7 +195,7 @@ const Header = () => {
           ) : (
             <Link
               to="/login"
-              onClick={() => window.scrollTo(0,0)}
+              onClick={() => window.scrollTo(0, 0)}
               className="mt-5 lg:mt-0 border-2 border-blue-500 rounded-full px-6 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
               {t("login")}
