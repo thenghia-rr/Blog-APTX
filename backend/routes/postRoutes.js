@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { authGuard, authAdmin } from "../middleware/authMiddleware.js";
+import { authGuard, authAdmin, authAuthorVerified } from "../middleware/authMiddleware.js";
 import {
   getAllPosts,
   createPost,
@@ -10,10 +10,10 @@ import {
   deletePostImage,
 } from "../controllers/PostControllers.js";
 
-router.route("/").post(authGuard, authAdmin, createPost).get(getAllPosts);
+router.route("/").post(authGuard, authAuthorVerified, createPost).get(getAllPosts);
 router
   .route("/:slug")
-  .put(authGuard, authAdmin, updatePost)
+  .put(authGuard, authAuthorVerified, updatePost)
   .delete(authGuard, authAdmin, deletePost)
   .get(getDetailPost);
 

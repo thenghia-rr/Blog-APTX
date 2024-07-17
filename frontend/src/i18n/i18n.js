@@ -2,7 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 // Handle when F5 page, language is not change
-const storedLanguage = localStorage.getItem('lang') || 'en';
+const storedLanguage = localStorage.getItem("lang") || "en";
 
 export const locales = {
   en: "English",
@@ -123,7 +123,21 @@ const resources = {
       noPostFound: "No Post Found",
       noPostFoundDesc: "We couldn't find any posts. Try searching again.",
       editCategory: "Edit Category",
-      loading: "Loading..."
+      loading: "Loading...",
+      enterValidEmail: "Enter a valid email",
+      emailRequired: "Email is required",
+      passwordRequired: "Password is required",
+      passwordLeastLength: "Password must be at least 6 characters",
+      cfPasswordRequired: "Confirm password is required",
+      cfPasswordNotMatch: "Confirm password do not match",
+      nameRequired: "Name is required",
+      nameLeastLength: "Name must be at least 2 character",
+      noCategory: "No Category",
+      messageCreatePostSuccess: "Create Post Successfully, Edit now !",
+      isCreateNewPost: "Are u sure want to create new post?",
+      writeBlog: "Write Blog",
+      editPost: "Edit Post",
+      enterCommentContent: "Please enter comment content...",
     },
   },
   vi: {
@@ -238,9 +252,24 @@ const resources = {
       yourPassword: "Mật khẩu của bạn",
       yourCfPassword: "Xác nhận mật khẩu",
       noPostFound: "Không tìm thấy bài viết",
-      noPostFoundDesc: "Chúng tôi không thể tìm thấy bất kỳ bài viết liên quan. Hãy thử tìm kiếm lại.",
+      noPostFoundDesc:
+        "Chúng tôi không thể tìm thấy bất kỳ bài viết liên quan. Hãy thử tìm kiếm lại.",
       editCategory: "Cập nhật danh mục",
-      loading: "Đang tải..."
+      loading: "Đang tải...",
+      enterValidEmail: "Vui lòng nhập email hợp lệ",
+      emailRequired: "Email là bắt buộc",
+      passwordRequired: "Mật khẩu là bắt buộc",
+      passwordLeastLength: "Mật khẩu có chiều dài tối thiểu 6 kí tự",
+      cfPasswordRequired: "Xác nhận mật khẩu là bắt buộc",
+      cfPasswordNotMatch: "Xác nhận mật khẩu không khớp",
+      nameRequired: "Tên là bắt buộc",
+      nameLeastLength: "Tên có chiều dài tối thiểu 2 kí tự",
+      noCategory: "Không có danh mục",
+      messageCreatePostSuccess: "Tạo bài viết thành công, chỉnh sửa ngay",
+      isCreateNewPost: "Bạn có chắc muốn tạo bài viết mới không?",
+      writeBlog: "Viết blog",
+      editPost: "Chỉnh sửa bài viết",
+      enterCommentContent: "Vui lòng nhập nội dung bình luận...",
     },
   },
 };
@@ -259,4 +288,3 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
-

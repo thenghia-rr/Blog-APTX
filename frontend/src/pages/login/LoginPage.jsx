@@ -88,11 +88,11 @@ const LoginPage = () => {
                     pattern: {
                       value:
                         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: "Enter a valid email",
+                      message: t('enterValidEmail'),
                     },
                     required: {
                       value: true,
-                      message: "Email is required",
+                      message: t('emailRequired'),
                     },
                   })}
                   placeholder={t('yourEmail')}
@@ -120,11 +120,11 @@ const LoginPage = () => {
                     {...register("password", {
                       required: {
                         value: true,
-                        message: "Password is required",
+                        message: t('passwordRequired'),
                       },
                       minLength: {
                         value: 6,
-                        message: "Password must be at least 6 characters",
+                        message: t('passwordLeastLength'),
                       },
                     })}
                     placeholder={t('yourPassword')}

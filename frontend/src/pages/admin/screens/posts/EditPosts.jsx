@@ -23,6 +23,7 @@ import unidecode from "unidecode";
 import BtnScrollToTop from "../../../../components/BtnScrollToTop";
 import { useTranslation } from "react-i18next";
 import LoadingSpinner from "../../../../components/LoadingSpinner";
+import MainLayout from "../../../../components/MainLayout";
 
 const promiseOptions = async (inputValue) => {
   const { data: categoriesData } = await getAllCategoriesNoFilter();
@@ -74,7 +75,7 @@ const EditPosts = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["blog", slug]);
       toast.success("Post is updated successfully");
-      navigate(`/admin/posts/manage`);
+      navigate(-1)
     },
     onError: (error) => {
       toast.error(error.message);
@@ -144,6 +145,7 @@ const EditPosts = () => {
       slug,
       token: userState?.userInfo?.token,
     });
+
   };
 
   // Main func to delete post image
@@ -166,185 +168,204 @@ const EditPosts = () => {
     }
   }, [isLoadingUpdatePostDetail, isLoadingDeleteImage]);
 
+  // Set theme when component mounts
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme) {
+      document.documentElement.classList.add(currentTheme);
+    }
+  }, []);
+
   let isPostDataUpdated = !isLoading && !isError;
 
   return (
-    <div className="">
-      {isLoading ? (
-        <ArticleDetailSkeleton />
-      ) : isError ? (
-        <ErrorMessage message="Couldn't fetch this post data from database" />
-      ) : (
-        <section className="dark:bg-dark-header dark:text-dark-text container mx-auto max-w-6xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
-          {(isLoadingUpdatePostDetail || isLoadingDeleteImage) && (
-            <div className="absolute inset-0 bg-gray-900 bg-opacity-50 z-[9999] flex justify-start items-center flex-col mt-7">
-              <LoadingSpinner />
-            </div>
-          )}
-          <article className="flex-1 ">
-            <button
-              onClick={() => navigate("/admin/posts/manage")}
-              className="w-fit bg-primary text-sm text-white rounded-lg px-3 py-1 mb-3 font-semibold"
-            >
-              {t("back")}
-            </button>
-            <label htmlFor="postPicture" className="w-full cursor-pointer">
-              {photo ? (
-                <img
-                  src={URL.createObjectURL(photo)}
-                  alt={data?.title}
-                  className="w-full object-cover object-center rounded-xl max-h-[520px]"
+    <MainLayout>
+      <div className="w-full">
+        {isLoading ? (
+          <ArticleDetailSkeleton />
+        ) : isError ? (
+          <ErrorMessage message="Couldn't fetch this post data from database" />
+        ) : (
+          <section className="dark:bg-dark-header dark:text-dark-text container mx-auto max-w-6xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+            {(isLoadingUpdatePostDetail || isLoadingDeleteImage) && (
+              <div className="absolute inset-0 bg-gray-900 bg-opacity-50 z-[9999] flex justify-start items-center flex-col mt-7">
+                <LoadingSpinner />
+              </div>
+            )}
+            <article className="flex-1 ">
+              <button
+                onClick={() => navigate(-1)}
+                className="w-fit bg-primary text-sm text-white rounded-lg px-3 py-1 mb-3 font-semibold"
+              >
+                {t("back")}
+              </button>
+              <label htmlFor="postPicture" className="w-full cursor-pointer">
+                {photo ? (
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt={data?.title}
+                    className="w-full object-cover object-center rounded-xl max-h-[520px]"
+                  />
+                ) : initialPhoto ? (
+                  <img
+                    src={data?.photo}
+                    alt={data?.title}
+                    className="w-full object-cover object-center rounded-xl max-h-[550px]"
+                  />
+                ) : (
+                  <div className="w-full min-h-[200px] bg-blue-400/50 rounded-lg flex justify-center items-center">
+                    <HiOutlineCamera className="w-7 h-auto text-primary" />
+                  </div>
+                )}
+              </label>
+              <input
+                type="file"
+                className="sr-only"
+                id="postPicture"
+                onChange={handleFileChange}
+              />
+              <button
+                onClick={handleDeleteImage}
+                className="w-fit bg-red-500 text-sm text-white rounded-lg px-2 py-1 mt-5 font-semibold"
+              >
+                {t("deleteImg")}
+              </button>
+              {/* Show categories of post */}
+              <div className="mt-4 flex items-center gap-2">
+                <p className="font-bold text-primary mt-4">{`${t(
+                  "categories"
+                )}:`}</p>
+                {data?.categories && data.categories.length > 0 ? (
+                  data?.categories?.map((category) => (
+                    <Link
+                      key={category.name}
+                      to={`/blog?category=${category.title}`}
+                      className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold italic text-primary text-sm font-roboto inline-block mt-4 mr-2 md:text-base"
+                    >
+                      {category.title}
+                    </Link>
+                  ))
+                ) : (
+                  <span className="text-red-500 mt-4">{t("noCategory")}</span>
+                )}
+              </div>
+              {/* Post title */}
+              <div className="d-form-control w-full">
+                <label htmlFor="title" className="d-label mt-4">
+                  <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                    {t("postTitle")}
+                  </span>
+                </label>
+                <input
+                  id="title"
+                  value={title}
+                  placeholder="title..."
+                  type="text"
+                  className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                  onChange={(e) => setTitle(e.target.value)}
                 />
-              ) : initialPhoto ? (
-                <img
-                  src={data?.photo}
-                  alt={data?.title}
-                  className="w-full object-cover object-center rounded-xl max-h-[550px]"
+              </div>
+              {/* Post Caption  */}
+              <div className="d-form-control w-full">
+                <label htmlFor="caption" className="d-label mt-4">
+                  <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                    {t("postCaption")}
+                  </span>
+                </label>
+                <input
+                  id="caption"
+                  value={caption}
+                  placeholder="caption..."
+                  type="text"
+                  className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                  onChange={(e) => setCaption(e.target.value)}
                 />
-              ) : (
-                <div className="w-full min-h-[200px] bg-blue-400/50 rounded-lg flex justify-center items-center">
-                  <HiOutlineCamera className="w-7 h-auto text-primary" />
-                </div>
-              )}
-            </label>
-            <input
-              type="file"
-              className="sr-only"
-              id="postPicture"
-              onChange={handleFileChange}
-            />
-            <button
-              onClick={handleDeleteImage}
-              className="w-fit bg-red-500 text-sm text-white rounded-lg px-2 py-1 mt-5 font-semibold"
-            >
-              {t("deleteImg")}
-            </button>
-            {/* Show categories of post */}
-            <div className="mt-4 flex gap-2">
-              {data?.categories?.map((category) => (
-                <Link
-                  key={category.name}
-                  to={`/blog?category=${category.title}`}
-                  className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold italic text-primary text-sm font-roboto inline-block mt-4 mr-2 md:text-base"
-                >
-                  {category.title}
-                </Link>
-              ))}
-            </div>
-            {/* Post title */}
-            <div className="d-form-control w-full">
-              <label htmlFor="title" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  {t("postTitle")}
-                </span>
-              </label>
-              <input
-                id="title"
-                value={title}
-                placeholder="title..."
-                type="text"
-                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-            {/* Post Caption  */}
-            <div className="d-form-control w-full">
-              <label htmlFor="caption" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  {t("postCaption")}
-                </span>
-              </label>
-              <input
-                id="caption"
-                value={caption}
-                placeholder="caption..."
-                type="text"
-                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
-                onChange={(e) => setCaption(e.target.value)}
-              />
-            </div>
-            {/* Post Slug */}
-            <div className="d-form-control w-full">
-              <label htmlFor="slug" className="d-label mt-4">
-                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  {t("postSlug")}
-                </span>
-              </label>
-              <input
-                id="slug"
-                value={postSlug}
-                placeholder="post slug..."
-                type="text"
-                className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
-                onChange={(e) =>
-                  setPostSlug(
-                    unidecode(e.target.value.replace(/\s+/g, "-").toLowerCase())
-                  )
-                }
-              />
-            </div>
-
-            {/* Post Categories */}
-            <div className="mb-5 mt-2">
-              <label className="d-label ">
-                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  {t("categories")}
-                </span>
-              </label>
-              {isPostDataUpdated && (
-                <MultiSelectTagDropdown
-                  defaultValue={data?.categories?.map(categoryToOption)}
-                  loadOptions={promiseOptions}
-                  onChange={(newValue) =>
-                    setCategories(newValue.map((item) => item.value))
+              </div>
+              {/* Post Slug */}
+              <div className="d-form-control w-full">
+                <label htmlFor="slug" className="d-label mt-4">
+                  <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                    {t("postSlug")}
+                  </span>
+                </label>
+                <input
+                  id="slug"
+                  value={postSlug}
+                  placeholder="post slug..."
+                  type="text"
+                  className="dark:text-dark-soft d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-semibold font-roboto  text-light-hard"
+                  onChange={(e) =>
+                    setPostSlug(
+                      unidecode(
+                        e.target.value.replace(/\s+/g, "-").toLowerCase()
+                      )
+                    )
                   }
                 />
-              )}
-            </div>
-            {/* Post Tags */}
-            <div className="mb-5 mt-2">
-              <label className="d-label ">
-                <span className="d-label-text text-base text-light-soft dark:text-dark-text">
-                  {t("tags")}
-                </span>
-              </label>
-              {isPostDataUpdated && (
-                <CreatableSelect
-                  defaultValue={data?.tags?.map((tag) => ({
-                    value: tag,
-                    label: tag,
-                  }))}
-                  isMulti
-                  onChange={(newValue) =>
-                    setTags(newValue.map((item) => item.value))
-                  }
-                  className="relative z-20"
-                />
-              )}
-            </div>
+              </div>
 
-            <div className="editor-container mt-4 text-light-soft prose prose-sm sm:prose-base">
-              {isPostDataUpdated && (
-                <Editor
-                  content={data?.body}
-                  editable={true}
-                  onDataChange={(data) => setBody(data)}
-                />
-              )}
-            </div>
-            <button
-              disabled={isLoadingUpdatePostDetail}
-              onClick={handleUpdatePost}
-              type="button"
-              className="w-full bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {t("update")}
-            </button>
-          </article>
-        </section>
-      )}
-      <BtnScrollToTop />
-    </div>
+              {/* Post Categories */}
+              <div className="mb-5 mt-2">
+                <label className="d-label ">
+                  <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                    {t("categories")}
+                  </span>
+                </label>
+                {isPostDataUpdated && (
+                  <MultiSelectTagDropdown
+                    defaultValue={data?.categories?.map(categoryToOption)}
+                    loadOptions={promiseOptions}
+                    onChange={(newValue) =>
+                      setCategories(newValue.map((item) => item.value))
+                    }
+                  />
+                )}
+              </div>
+              {/* Post Tags */}
+              <div className="mb-5 mt-2">
+                <label className="d-label ">
+                  <span className="d-label-text text-base text-light-soft dark:text-dark-text">
+                    {t("tags")}
+                  </span>
+                </label>
+                {isPostDataUpdated && (
+                  <CreatableSelect
+                    defaultValue={data?.tags?.map((tag) => ({
+                      value: tag,
+                      label: tag,
+                    }))}
+                    isMulti
+                    onChange={(newValue) =>
+                      setTags(newValue.map((item) => item.value))
+                    }
+                    className="relative z-20"
+                  />
+                )}
+              </div>
+
+              <div className="editor-container mt-4 text-light-soft prose prose-sm sm:prose-base">
+                {isPostDataUpdated && (
+                  <Editor
+                    content={data?.body}
+                    editable={true}
+                    onDataChange={(data) => setBody(data)}
+                  />
+                )}
+              </div>
+              <button
+                disabled={isLoadingUpdatePostDetail}
+                onClick={handleUpdatePost}
+                type="button"
+                className="w-full bg-green-500 text-white font-semibold rounded-lg px-4 py-2 disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {t("update")}
+              </button>
+            </article>
+          </section>
+        )}
+        <BtnScrollToTop />
+      </div>
+    </MainLayout>
   );
 };
 

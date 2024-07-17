@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/User.js";
 
 // NOTE: When test API using Post Man (Authorization -> Bearer Token)
+// Check user login
 export const authGuard = async (req, res, next) => {
   if (
     req.headers.authorization &&
@@ -32,6 +33,18 @@ export const authAdmin = (req, res,next) => {
   }
   else {
     let error = new Error('Not authorized as an Admin');
+    error.statusCode = 401;
+    next(error);
+  }
+}
+
+// Check permision Author verified 
+export const authAuthorVerified = (req, res,next) => {
+  if(req.user && req.user.verified) {
+    next();
+  }
+  else {
+    let error = new Error('Author has not been verified');
     error.statusCode = 401;
     next(error);
   }

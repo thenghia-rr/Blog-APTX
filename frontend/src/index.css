@@ -37,7 +37,7 @@ body {
 
 /* Custom with of Tiptap container */
 .editor-container {
-  max-width: 650px; 
+  max-width: 800px; 
   width: 100%; 
   /* margin: 0 auto;  */
 }
