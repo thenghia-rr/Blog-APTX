@@ -33,9 +33,9 @@ const Header = () => {
         });
       },
       onSuccess: (data) => {
-        toast.success("Create Post Successfully, Edit now !");
+        toast.success(t('messageCreatePostSuccess'));
         queryClient.invalidateQueries(["posts"]);
-        navigate(`/admin/posts/manage/edit/${data?.slug}`);
+        navigate(`/posts/edit/${data?.slug}`);
       },
       onError: (error) => {
         toast.error(error.message);

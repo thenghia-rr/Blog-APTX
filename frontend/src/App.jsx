@@ -16,7 +16,6 @@ import EditCategories from "./pages/admin/screens/categories/EditCategories";
 import Users from "./pages/admin/screens/users/Users";
 import AboutPage from "./pages/about/AboutPage";
 
-
 function App() {
   return (
     <div className="App font-roboto">
@@ -28,14 +27,17 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="posts/edit/:slug" element={<EditPosts />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comment />} />
           <Route path="posts/manage" element={<ManagePosts />} />
-          <Route path="posts/manage/edit/:slug" element={<EditPosts />} />
           <Route path="users/manage" element={<Users />} />
           <Route path="categories/manage" element={<Categories />} />
-          <Route path="categories/manage/edit/:slug" element={<EditCategories />} />
+          <Route
+            path="categories/manage/edit/:slug"
+            element={<EditCategories />}
+          />
         </Route>
       </Routes>
       <Toaster />

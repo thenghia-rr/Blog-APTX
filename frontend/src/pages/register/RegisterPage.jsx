@@ -95,12 +95,12 @@ const RegisterPage = () => {
                   id="name"
                   {...register("name", {
                     minLength: {
-                      value: 1,
-                      message: "Name must be at least 1 character",
+                      value: 2,
+                      message: t('nameLeastLength'),
                     },
                     required: {
                       value: true,
-                      message: "Name is required",
+                      message: t('nameRequired'),
                     },
                   })}
                   placeholder={t("yourName")}
@@ -129,11 +129,11 @@ const RegisterPage = () => {
                     pattern: {
                       value:
                         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: "Enter a valid email",
+                      message: t('enterValidEmail'),
                     },
                     required: {
                       value: true,
-                      message: "Email is required",
+                      message: t('emailRequired'),
                     },
                   })}
                   placeholder={t("yourEmail")}
@@ -161,11 +161,11 @@ const RegisterPage = () => {
                     {...register("password", {
                       required: {
                         value: true,
-                        message: "Password is required",
+                        message: t('passwordRequired'),
                       },
                       minLength: {
                         value: 6,
-                        message: "Password must be at least 6 characters",
+                        message: t('passwordLeastLength'),
                       },
                     })}
                     placeholder={t("yourPassword")}
@@ -204,11 +204,11 @@ const RegisterPage = () => {
                     {...register("cfPassword", {
                       required: {
                         value: true,
-                        message: "Confirm password is required",
+                        message: t('cfPasswordRequired'),
                       },
                       validate: (value) => {
                         if (value !== password) {
-                          return "Confirm password do not match";
+                          return t('cfPasswordNotMatch');
                         }
                       },
                     })}

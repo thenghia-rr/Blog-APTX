@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import ToggleTheme from "./ToggleTheme";
 import { useTranslation } from "react-i18next";
 import NavItem from "./NavItem";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import { createPost } from "../services/index/posts";
 
 const navItemsInfo = [
   { name: "Home", type: "link", key: "home", href: "/" },
@@ -30,21 +32,51 @@ const Header = () => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const queryClient = new QueryClient();
   const { t } = useTranslation();
 
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
 
+  // Create new Post (useMutation)
+  const { mutate: mutateCreatePost } = useMutation({
+    mutationFn: ({ token }) => {
+      return createPost({
+        token,
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(t("messageCreatePostSuccess"));
+      queryClient.invalidateQueries(["posts"]);
+      navigate(`/posts/edit/${data?.slug}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
+  // Handle display navbar
   const navDisplayHandler = () => {
     setNavIsVisible((curState) => {
       return !curState;
     });
   };
 
+  // Handle create new Post
+  const handleCreatePost = ({ token }) => {
+    if (confirm(t("isCreateNewPost"))) {
+      window.scrollTo(0, 0);
+      mutateCreatePost({ token });
+    }
+  };
+
+  // Handle logout account
   const logoutHandler = () => {
     toast.success("Log out Successfully !");
     dispatch(logout());
   };
+
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white dark:bg-dark-header">
       <header className="container mx-auto px-5 flex justify-between items-center py-4 2xl:max-w-[1400px]">
@@ -109,6 +141,16 @@ const Header = () => {
                             {t("dashboardAdmin")}
                           </button>
                         )}
+                        {userState?.userInfo?.verified && (
+                          <button
+                            onClick={() => handleCreatePost({token: userState?.userInfo?.token})}
+                            type="button"
+                            className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
+                          >
+                            {t("writeBlog")}
+                          </button>
+                        )}
+
                         <button
                           onClick={() => navigate("/profile")}
                           type="button"
@@ -132,6 +174,7 @@ const Header = () => {
           ) : (
             <Link
               to="/login"
+              onClick={() => window.scrollTo(0,0)}
               className="mt-5 lg:mt-0 border-2 border-blue-500 rounded-full px-6 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
               {t("login")}

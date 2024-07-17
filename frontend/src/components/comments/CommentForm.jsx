@@ -16,7 +16,7 @@ const CommentForm = ({
   const submitHandler = (e) => {
     e.preventDefault();
     if (valueText.trim() == "") {
-      toast.error("Vui lòng nhập nội dung bình luận...");
+      toast.error(t('enterCommentContent'));
     } else {
       formSubmitHandler(valueText);
     }

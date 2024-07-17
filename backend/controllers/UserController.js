@@ -39,7 +39,7 @@ const getAllUsers = async (req, res, next) => {
     const result = await query
       .skip(skip)
       .limit(pageSize)
-      .sort({ updatedAt: "descending" });
+      .sort({ createdAt: "descending" });
 
     return res.json(result);
   } catch (error) {
@@ -286,13 +286,15 @@ const deleteUser = async (req, res, next) => {
     });
 
     // Remove post's photo
-    postsToDelete.forEach(async(post) => {
+    postsToDelete.forEach(async (post) => {
       await deleteFromCloudinary(post?.photo);
     });
 
     // Delete the user
     await UserModel.findByIdAndDelete(req.params.userId);
-    await deleteFromCloudinary(user?.avatar);
+    if (user?.avatarId) {
+      await deleteFromCloudinary(user?.avatarId);
+    }
 
     res.json({
       message: "User is deleted successfully",

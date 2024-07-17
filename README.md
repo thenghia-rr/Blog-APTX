@@ -1,8 +1,12 @@
 # Start: 2/11/2023
 # Functionality
 1. Auth: Login, Sign up, Log out (JWT, bcrypt)
-2. CRUD: Post,
-3. Pagination for admin
+2. CRUD: Post, User
+3. Pagination page
+4. Upload to Cloudinary
+5. Darkmode
+6. Translate EN-VI
+
 
 # Tech stack and modules
 ## Front-end
@@ -15,4 +19,4 @@
 1. Node-Express
 2. Mongodb-mongoose
 3. Jwt
-4. Multer
+4. Multer, streamifer, cloudinary
