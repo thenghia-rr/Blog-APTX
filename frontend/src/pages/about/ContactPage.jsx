@@ -1,8 +1,17 @@
 import { useTranslation } from "react-i18next";
 import { FaFacebookF, FaInstagram, FaTiktok, FaGithub } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 const ContactPage = () => {
   const { t } = useTranslation();
+
+  const handleContact = (e) => {
+    e.preventDefault();
+    toast.success(t("sendSuccess"));
+    setTimeout(() => {
+      alert(t("contactRespone"));
+    }, 2000);
+  };
 
   return (
     <div
@@ -16,19 +25,19 @@ const ContactPage = () => {
           {t("contactWithMe")}
         </h1>
         <div className="bg-white p-10 rounded-lg shadow-lg w-full dark:bg-dark-backgr">
-          <form className="flex flex-col gap-6">
+          <form className="flex flex-col gap-6" onSubmit={handleContact}>
             <input
               type="text"
-              placeholder={t('yourName')}
+              placeholder={t("yourName")}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
             />
             <input
               type="email"
-              placeholder={t('yourEmail')}
+              placeholder={t("yourEmail")}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
             />
             <textarea
-              placeholder={t('yourMessage')}
+              placeholder={t("yourMessage")}
               className="p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 dark:bg-slate-200 dark:text-light-hard"
               rows="6"
             ></textarea>
@@ -36,7 +45,7 @@ const ContactPage = () => {
               type="submit"
               className="font-bold p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              {t('send')}
+              {t("send")}
             </button>
           </form>
         </div>

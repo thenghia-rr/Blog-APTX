@@ -140,6 +140,14 @@ const resources = {
       enterCommentContent: "Please enter comment content...",
       myPosts: "My Posts",
       noPostCreated: "You haven't written any blog posts yet",
+      savedPosts: "Saved Posts",
+      savePost: "Save Post",
+      noSavePosts: "You haven't saved any posts yet",
+      contactRespone: "Thenghia_rr will respond as soon as possible",
+      sendSuccess: "Sent Successfully",
+      myIdolAndInspiration: "My idols and inspiration",
+      myIdolAndInspirationDesc:
+        "My idols, CR7, Lisa Manobal, Ishikawa and Lu Yu Xiao, each inspire me in their own ways. Cristiano Ronaldo's dedication and work ethic in football demonstrate the power of the Portuguese football captain's perseverance. Lisa Manobal, from Thailand, lives by passion and creativity in music. Ishikawa shows excellence in play and is the leader of the Japanese volleyball team. Lu Yu Xiao is a beautiful and talented girl in the Chinese entertainment industry.",
     },
   },
   vi: {
@@ -273,7 +281,15 @@ const resources = {
       editPost: "Chỉnh sửa bài viết",
       enterCommentContent: "Vui lòng nhập nội dung bình luận...",
       myPosts: "Bài viết của tôi",
-      noPostCreated: "Bạn chưa viết bài blog nào"
+      noPostCreated: "Bạn chưa viết bài blog nào",
+      savedPosts: "Bài viết đã lưu",
+      savePost: "Lưu bài viết",
+      noSavePosts: "Bạn chưa lưu bài viết nào",
+      contactRespone: "Thenghia_rr sẽ phản hồi trong thời gian sớm nhất",
+      sendSuccess: "Gửi thành công",
+      myIdolAndInspiration: "Thần tượng và nguồn cảm hứng",
+      myIdolAndInspirationDesc:
+        "Thần tượng của tôi, CR7, Lisa Manobal, Ishikawa và Lu Yu Xiao, mỗi người đều truyền cảm hứng cho tôi theo cách riêng của họ. Sự cống hiến và đạo đức làm việc của Cristiano Ronaldo trong bóng đá chứng tỏ sức mạnh của sự kiên trì của đội trưởng bóng đá Bồ Đào Nha. Lisa Manobal đến từ Thái Lan sống bằng niềm đam mê và sự sáng tạo trong âm nhạc. Ishikawa thể hiện xuất sắc trong lối chơi và là thủ lĩnh của đội tuyển bóng chuyền Nhật Bản. Lu Yu Xiao là một cô gái xinh đẹp và tài năng của làng giải trí Trung Quốc.",
     },
   },
 };

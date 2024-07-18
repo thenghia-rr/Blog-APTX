@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../../components/MainLayout";
 import BreadCrumbs from "../../components/BreadCrumbs";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { images } from "../../constants";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentContainer from "../../components/comments/CommentContainer";
 import BtnSocialShare from "../../components/BtnSocialShare";
-import { getAllPosts, getSinglePost } from "../../services/index/posts";
+import {
+  getAllPosts,
+  getSinglePost,
+  savePost,
+  unsavePost,
+} from "../../services/index/posts";
+import { CiBookmark, CiBookmarkCheck } from "react-icons/ci";
+import { FaBookmark } from "react-icons/fa";
 // Body content
 import parseJsonToHtml from "../../utils/parseJsonToHtml";
 import ArticleDetailSkeleton from "../articleDetail/components/ArticleDetailSkeleton";
@@ -16,6 +23,7 @@ import { useSelector } from "react-redux";
 import Editor from "../../components/editor/Editor";
 import BtnScrollToTop from "../../components/BtnScrollToTop";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 const ArticleDetailPage = () => {
   const { t } = useTranslation();
@@ -24,6 +32,7 @@ const ArticleDetailPage = () => {
   const { slug } = useParams();
   const userState = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Get All posts
   const { data: postsData } = useQuery({
@@ -49,11 +58,44 @@ const ArticleDetailPage = () => {
     },
   });
 
-  console.log(dataSinglePost);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Save post
+  const { mutate: savePostMutate } = useMutation({
+    mutationFn: ({ token, postId }) => savePost({ token, postId }),
+    onSuccess: () => {
+      toast.success("Post saved successfully")
+      queryClient.invalidateQueries(["blog", slug]);
+    },
+    onError: (error) => {
+      toast.error("Post saved failed")
+      console.log(error.message); // Handle error appropriately
+    },
+  });
+
+  // Unsave post
+  const { mutate: unsavePostMutate } = useMutation({
+    mutationFn: ({ token, postId }) => unsavePost({ token, postId }),
+    onSuccess: () => {
+      toast.success("Post unsaved successfully")
+      queryClient.invalidateQueries(["blog", slug]);
+    },
+    onError: (error) => {
+      toast.error("Post unsaved failed")
+      console.log(error.message); // Handle error appropriately
+    },
+  });
+
+  // Main Func saved post
+  const handleSave = () => {
+    if (dataSinglePost?.savedBy.includes(userState?.userInfo?._id)) { // check user đã lưu bài viết hay chưa
+      unsavePostMutate({token: userState?.userInfo?.token, postId: dataSinglePost._id });
+    } else {
+      savePostMutate({token: userState?.userInfo?.token, postId: dataSinglePost._id });
+    }
+  };
 
   return (
     <MainLayout>
@@ -120,6 +162,15 @@ const ArticleDetailPage = () => {
               tags={dataSinglePost?.tags}
             />
             <div className="mt-7">
+              {/* Saved Post */}
+              <div className="text-3xl text-primary mb-4 cursor-pointer hover:text-red-400 transition-all duration-300">
+                {dataSinglePost?.savedBy.includes(userState?.userInfo?._id) ? (
+                  <FaBookmark onClick={handleSave} />
+                ) : (
+                  <CiBookmark onClick={handleSave} />
+                )}
+              </div>
+
               {/* Btn edit post for owner post */}
               {dataSinglePost?.user?._id === userState?.userInfo?._id && (
                 <button
@@ -131,6 +182,7 @@ const ArticleDetailPage = () => {
                   {t("editPost")}
                 </button>
               )}
+
               <h2 className="w-fit font-roboto font-medium text-light-hard mb-4 md:text-xl dark:text-dark-text">
                 {`${t("shareOn")}: `}
               </h2>

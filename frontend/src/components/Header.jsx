@@ -71,18 +71,13 @@ const Header = () => {
     }
   };
 
-  // Handle redirect my post page
-  const handleRedirectMyPost = () => {
-    navigate('/me/posts')
-  }
+
   // Handle logout account
   const logoutHandler = () => {
     toast.success("Log out Successfully !");
     dispatch(logout());
-    navigate('/')
+    navigate("/");
   };
-
-  
 
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white dark:bg-dark-header">
@@ -163,7 +158,7 @@ const Header = () => {
                               {t("writeBlog")}
                             </button>
                             <button
-                              onClick={handleRedirectMyPost}
+                              onClick={() => navigate("/me/posts")}
                               type="button"
                               className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
                             >
@@ -171,6 +166,14 @@ const Header = () => {
                             </button>
                           </>
                         )}
+
+                        <button
+                          onClick={() => navigate("/me/saved-posts")}
+                          type="button"
+                          className="hover:text-blue-500 hover:bg-light-hard hover:lg:text-white text-white lg:text-light-soft px-4 py-2 dark:text-dark-text dark:hover:bg-dark-soft dark:hover:text-dark-backgr"
+                        >
+                          {t("savedPosts")}
+                        </button>
 
                         <button
                           onClick={() => navigate("/me/profile")}

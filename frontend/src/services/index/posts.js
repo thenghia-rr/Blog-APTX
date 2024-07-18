@@ -18,7 +18,6 @@ export const getAllPosts = async (searchKeyWord = "", page = 1, limit = 5) => {
   }
 };
 
-
 // [GET] /api/posts/${slug}
 export const getSinglePost = async ({ slug }) => {
   try {
@@ -63,7 +62,10 @@ export const deletePostImage = async ({ slug, token }) => {
       },
     };
 
-    const { data } = await axios.delete(`/api/posts/delete-image/${slug}`, config);
+    const { data } = await axios.delete(
+      `/api/posts/delete-image/${slug}`,
+      config
+    );
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
@@ -99,7 +101,6 @@ export const updatePost = async ({ updatedData, slug, token }) => {
   }
 };
 
-
 // [POST] /api/posts/
 export const createPost = async ({ token }) => {
   try {
@@ -109,10 +110,73 @@ export const createPost = async ({ token }) => {
       },
     };
 
-    const { data } = await axios.post(`/api/posts/`,{}, config);
+    const { data } = await axios.post(`/api/posts/`, {}, config);
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [PUT] /api/posts/save/:id
+export const savePost = async ({ token, postId }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/posts/save/${postId}`, {}, config);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [PUT] /api/posts/unsave/:id
+export const unsavePost = async ({ token, postId }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/posts/unsave/${postId}`, {}, config);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// Hàm gọi API để lấy danh sách bài viết đã lưu
+// [GET] /api/posts/saved
+export const getSavedPosts = async ({ token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/posts/saved", config);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return []; // Trả về mảng rỗng nếu không có bài viết nào được lưu
+    } else if (error.response && error.response.data.message) {
       throw new Error(error.response.data.message);
     } else {
       throw new Error(error.message);

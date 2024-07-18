@@ -53,7 +53,8 @@ const updatePost = async (req, res, next) => {
       }
 
       try {
-        const { title, caption, slug, body, tags, categories } = JSON.parse(data);
+        const { title, caption, slug, body, tags, categories } =
+          JSON.parse(data);
 
         postUpdate.title = title || postUpdate.title;
         postUpdate.caption = caption || postUpdate.caption;
@@ -147,11 +148,11 @@ const deletePost = async (req, res, next) => {
 // [DELETE /api/posts/delete-image/:slug
 const deletePostImage = async (req, res) => {
   const { slug } = req.params;
-  
+
   try {
     const post = await PostModel.findOne({ slug });
     if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
+      return res.status(404).json({ message: "Post not found" });
     }
 
     // Xóa ảnh từ Cloudinary
@@ -165,7 +166,7 @@ const deletePostImage = async (req, res) => {
     post.photoId = "";
     await post.save();
 
-    res.status(200).json({ message: 'Image deleted successfully' });
+    res.status(200).json({ message: "Image deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -221,7 +222,7 @@ const getDetailPost = async (req, res, next) => {
   }
 };
 
-// GET /api/posts/
+// GET /api/posts
 const getAllPosts = async (req, res, next) => {
   try {
     const filter = req.query.search;
@@ -269,4 +270,100 @@ const getAllPosts = async (req, res, next) => {
     next(error);
   }
 };
-export { createPost, updatePost, deletePost, getDetailPost, getAllPosts, deletePostImage };
+
+// PUT /api/posts/save/:postId
+const savePost = async (req, res, next) => {
+  try {
+    const post = await PostModel.findById(req.params.postId).populate({
+      path: "user",
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (post.savedBy.includes(req.user._id)) {
+      return res.status(400).json({ message: "Post already saved" });
+    }
+
+    post.savedBy.push(req.user._id);
+    await post.save();
+
+    // Populate savedBy field to return updated user info
+    const updatedPost = await PostModel.findById(req.params.postId).populate({
+      path: "savedBy",
+    });
+
+    res
+      .status(200)
+      .json({ message: "Post saved successfully", post: updatedPost });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// PUT /api/posts/unsave/:postId
+const unsavePost = async (req, res, next) => {
+  try {
+    const post = await PostModel.findById(req.params.postId).populate({
+      path: "user",
+    });
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (!post.savedBy.includes(req.user._id)) {
+      return res.status(400).json({ message: "Post not saved" });
+    }
+
+    post.savedBy = post.savedBy.filter(
+      (userId) => userId.toString() !== req.user._id.toString()
+    );
+    await post.save();
+
+    // Populate savedBy field to return updated user info
+    const updatedPost = await PostModel.findById(req.params.postId).populate({
+      path: "savedBy",
+    });
+
+    res
+      .status(200)
+      .json({ message: "Post unsaved successfully", post: updatedPost });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// GET /api/posts/saved
+const getSavedPosts = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    // console.log("User ID:", userId); // Thêm log để kiểm tra user ID
+
+    const savedPosts = await PostModel.find({ savedBy: userId }).populate([
+      {
+        path: "user",
+        select: ["avatar", "avatarId", "name", "verified"], // lấy các field cần để hiển thị UI 
+      },
+    ]);
+
+    if (!savedPosts || savedPosts.length === 0) {
+      return res.status(404).json({ message: "No saved posts found" });
+    }
+
+    res.status(200).json(savedPosts);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  createPost,
+  updatePost,
+  deletePost,
+  getDetailPost,
+  getAllPosts,
+  deletePostImage,
+  savePost,
+  unsavePost,
+  getSavedPosts,
+};

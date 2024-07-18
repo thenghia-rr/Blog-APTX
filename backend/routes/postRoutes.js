@@ -1,6 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { authGuard, authAdmin, authAuthorVerified } from "../middleware/authMiddleware.js";
+import {
+  authGuard,
+  authAdmin,
+  authAuthorVerified,
+} from "../middleware/authMiddleware.js";
 import {
   getAllPosts,
   createPost,
@@ -8,9 +12,21 @@ import {
   deletePost,
   getDetailPost,
   deletePostImage,
+  savePost,
+  unsavePost,
+  getSavedPosts,
 } from "../controllers/PostControllers.js";
 
-router.route("/").post(authGuard, authAuthorVerified, createPost).get(getAllPosts);
+router
+  .route("/")
+  .post(authGuard, authAuthorVerified, createPost)
+  .get(getAllPosts);
+
+// Tam thoi
+router.put("/save/:postId", authGuard, savePost);
+router.put("/unsave/:postId", authGuard, unsavePost);
+router.get("/saved", authGuard, getSavedPosts);
+
 router
   .route("/:slug")
   .put(authGuard, authAuthorVerified, updatePost)

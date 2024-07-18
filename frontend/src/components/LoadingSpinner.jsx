@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 const LoadingSpinner = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   return (
     <>
       <div role="status">
@@ -23,7 +23,7 @@ const LoadingSpinner = () => {
         </svg>
       </div>
       <h3 className="text-3xl text-primary font-semibold italic">
-        {t('loading')}
+        {t("loading")}
       </h3>
     </>
   );

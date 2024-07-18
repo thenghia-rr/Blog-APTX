@@ -41,31 +41,3 @@ body {
   width: 100%; 
   /* margin: 0 auto;  */
 }
-
-/* TipTap color customization for dark mode */
-/* .prose-dark {
-  --tw-prose-body: #e5e7eb;
-  --tw-prose-headings: #e5e7eb;
-  --tw-prose-links: #3b82f6;
-  --tw-prose-bold: #e5e7eb;
-  --tw-prose-counters: #e5e7eb;
-  --tw-prose-bullets: #e5e7eb;
-  --tw-prose-hr: #e5e7eb;
-  --tw-prose-quotes: #e5e7eb;
-  --tw-prose-quote-borders: #e5e7eb;
-  --tw-prose-captions: #e5e7eb;
-  --tw-prose-code: #e5e7eb;
-  --tw-prose-pre-code: #e5e7eb;
-  --tw-prose-pre-bg: #fff;
-  --tw-prose-th-borders: #e5e7eb;
-  --tw-prose-td-borders: #e5e7eb;
-}
-
-.prose-dark h1,
-.prose-dark h2,
-.prose-dark h3,
-.prose-dark h4,
-.prose-dark h5,
-.prose-dark h6 {
-  color: #e5e7eb;
-} */

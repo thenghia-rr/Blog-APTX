@@ -15,7 +15,8 @@ import Categories from "./pages/admin/screens/categories/Categories";
 import EditCategories from "./pages/admin/screens/categories/EditCategories";
 import Users from "./pages/admin/screens/users/Users";
 import AboutPage from "./pages/about/AboutPage";
-import MyPostsPage from "./pages/myPosts/MyPostsPage";
+import MyPostsPage from "./pages/post/MyPostsPage";
+import MySavedPostsPage from "./pages/post/MySavedPostsPage";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/me/profile" element={<ProfilePage />} />
         <Route path="/me/posts" element={<MyPostsPage />} />
+        <Route path="/me/saved-posts" element={<MySavedPostsPage />} />
         <Route path="posts/edit/:slug" element={<EditPosts />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
