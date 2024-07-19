@@ -34,8 +34,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Connect to MongoDB
 connectDB();
 app.get("/", (req, res) => {
-  res.send("Server Blog-APTX is running...");
+  // res.send("Server Blog-APTX is running...");
+  res.sendFile(path.join(__dirname, 'views', 'home.html'))
 });
+
 
 // Apply Routes
 routes(app);

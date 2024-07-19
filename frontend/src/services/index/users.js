@@ -113,7 +113,7 @@ export const getAllUsers = async (
       },
     };
 
-    // Note: searchKeyword phải trùng bên UserController 
+    // Note: searchKeyword phải trùng bên UserController
     const { data, headers } = await axios.get(
       `/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
       config
@@ -140,6 +140,34 @@ export const deleteUser = async ({ slug, token }) => {
     };
 
     const { data } = await axios.delete(`/api/users/${slug}`, config);
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [POST] /api/users/forgot-password
+export const forgotPassword = async (email) => {
+  try {
+    const { data } = await axios.post(`/api/users/forgot-password`, { email });
+    return data;
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error.message);
+    }
+  }
+};
+
+// [POST] /api/users/reset-password/:
+export const resetPassword = async (resetToken, password) => {
+  try {
+    const { data } = await axios.post(`/api/users/reset-password/${resetToken}`, { password });
     return data;
   } catch (error) {
     if (error.response && error.response.data.message) {

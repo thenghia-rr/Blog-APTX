@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 
-const LoadingSpinner = () => {
+const LoadingSpinner = ({className}) => {
   const { t } = useTranslation();
   return (
-    <>
+    <div className={className}>
       <div role="status">
         <svg
           aria-hidden="true"
-          className="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          className="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-orange-300"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +22,10 @@ const LoadingSpinner = () => {
           />
         </svg>
       </div>
-      <h3 className="text-3xl text-primary font-semibold italic">
+      <h3 className="text-3xl text-orange-300 font-bold italic mt-2">
         {t("loading")}
       </h3>
-    </>
+    </div>
   );
 };
 

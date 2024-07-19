@@ -152,7 +152,7 @@ const RegisterPage = () => {
                   htmlFor="password"
                   className="text-[#5a7184] font-semibold block dark:text-dark-soft"
                 >
-                  {t("forgotPassword")}
+                  {t("password")}
                 </label>
                 <div className="relative">
                   <input

@@ -148,6 +148,11 @@ const resources = {
       myIdolAndInspiration: "My idols and inspiration",
       myIdolAndInspirationDesc:
         "My idols, CR7, Lisa Manobal, Ishikawa and Lu Yu Xiao, each inspire me in their own ways. Cristiano Ronaldo's dedication and work ethic in football demonstrate the power of the Portuguese football captain's perseverance. Lisa Manobal, from Thailand, lives by passion and creativity in music. Ishikawa shows excellence in play and is the leader of the Japanese volleyball team. Lu Yu Xiao is a beautiful and talented girl in the Chinese entertainment industry.",
+      sendResetLink: "Send Reset Link",
+      emailSent: "Email Sent",
+      passwordResetSuccess: "Password Reset Successfully",
+      resetPassword: "Reset Password",
+      newPassword: "New Password",
     },
   },
   vi: {
@@ -216,7 +221,7 @@ const resources = {
       delete: "Xóa",
       cancel: "Hủy bỏ",
       update: "Cập nhật",
-      aboutMe: "Giới thiệu tôi",
+      aboutMe: "Giới thiệu",
       myName: "Tên tôi là",
       iAm: "Tôi là một",
       myDesc:
@@ -290,6 +295,11 @@ const resources = {
       myIdolAndInspiration: "Thần tượng và nguồn cảm hứng",
       myIdolAndInspirationDesc:
         "Thần tượng của tôi, CR7, Lisa Manobal, Ishikawa và Lu Yu Xiao, mỗi người đều truyền cảm hứng cho tôi theo cách riêng của họ. Sự cống hiến và đạo đức làm việc của Cristiano Ronaldo trong bóng đá chứng tỏ sức mạnh của sự kiên trì của đội trưởng bóng đá Bồ Đào Nha. Lisa Manobal đến từ Thái Lan sống bằng niềm đam mê và sự sáng tạo trong âm nhạc. Ishikawa thể hiện xuất sắc trong lối chơi và là thủ lĩnh của đội tuyển bóng chuyền Nhật Bản. Lu Yu Xiao là một cô gái xinh đẹp và tài năng của làng giải trí Trung Quốc.",
+      sendResetLink: "Reset mật khẩu",
+      emailSent: "Đã gửi vào email",
+      passwordResetSuccess: "Đặt lại mật khẩu thành công",
+      resetPassword: "Đặt lại mật khẩu",
+      newPassword: "Mật khẩu mới",
     },
   },
 };

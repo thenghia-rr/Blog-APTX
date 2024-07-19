@@ -17,6 +17,8 @@ import Users from "./pages/admin/screens/users/Users";
 import AboutPage from "./pages/about/AboutPage";
 import MyPostsPage from "./pages/post/MyPostsPage";
 import MySavedPostsPage from "./pages/post/MySavedPostsPage";
+import ForgotPasswordPage from "./pages/forgotPassword/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/forgotPassword/ResetPasswordPage";
 
 
 function App() {
@@ -29,11 +31,13 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:resetToken" element={<ResetPasswordPage />} />
         <Route path="/me/profile" element={<ProfilePage />} />
         <Route path="/me/posts" element={<MyPostsPage />} />
         <Route path="/me/saved-posts" element={<MySavedPostsPage />} />
         <Route path="posts/edit/:slug" element={<EditPosts />} />
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminLayout />}> 
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comment />} />
           <Route path="posts/manage" element={<ManagePosts />} />

@@ -12,6 +12,8 @@ const UserSchema = new Schema(
     verified: { type: Boolean, default: false },
     verificationCode: { type: Boolean, require: false },
     admin: { type: Boolean, default: false },
+    resetPasswordToken: { type: String },
+    resetPasswordExpire: { type: Date },
   },
   {
     timestamps: true,
@@ -39,6 +41,18 @@ UserSchema.methods.generateJWT = async function () {
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 }
+
+// Method to generate reset password token
+UserSchema.methods.getResetPasswordToken = function () {
+  const resetToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: '10m',
+  });
+
+  this.resetPasswordToken = resetToken;
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+  return resetToken;
+};
 
 const UserModel = model("User", UserSchema);
 export default UserModel;

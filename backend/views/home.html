@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- divinectorweb.com -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How To Change Background Color With JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .wrapper input {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            --webkit-appearance: none;
+            width: 50px;
+            height: 50px;
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .content {
+            font-family: montserrat;
+            text-align: center;
+        }
+
+        .content h2 {
+            text-transform: uppercase;
+            font-size: 80px;
+        }
+
+        .content p {
+            font-size: 45px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <input type="color" name="color" id="box" class="box" value="#ff0000">
+        <div class="content">
+            <h2 style="margin-bottom: 20px;">Blog-APTX</h2>
+            <p>This is server of website Blog-APTX</p>
+            <p>Author: Thenghia_rr</p>
+            <p><a href="http://localhost:4000">Link website</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#box").on("input change", function () {
+
+                $("body").css("background-color", $(this).val());
+                if ($("#box").val() <= "#8d8d8d") {
+                    $("h2, p").css("color", "white");
+                } else {
+                    $("h2, p").css("color", "black");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
