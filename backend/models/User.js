@@ -9,6 +9,7 @@ const UserSchema = new Schema(
     name: { type: String, require: true },
     email: { type: String, require: true },
     password: { type: String, require: true },
+    googleId: { type: String, default: "" },
     verified: { type: Boolean, default: false },
     verificationCode: { type: Boolean, require: false },
     admin: { type: Boolean, default: false },
@@ -40,12 +41,12 @@ UserSchema.methods.generateJWT = async function () {
 // Compare password Bcryptjs
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
-}
+};
 
 // Method to generate reset password token
 UserSchema.methods.getResetPasswordToken = function () {
   const resetToken = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: '10m',
+    expiresIn: "10m",
   });
 
   this.resetPasswordToken = resetToken;

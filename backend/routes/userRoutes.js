@@ -11,8 +11,8 @@ import {
   updateProfile,
   updateProfilePicture,
   deleteUser,
-  forgotPassword,
-  resetPassword,
+  // forgotPassword,
+  // resetPassword,
   showResetPasswordPage,
 } from "../controllers/UserController.js";
 
@@ -20,10 +20,10 @@ router.get("/", authGuard, authAdmin, getAllUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-router.post("/reset-password/:resetToken", resetPassword);
+// router.post("/reset-password/:resetToken", resetPassword);
+// router.post("/forgot-password", forgotPassword);
 router.get("/reset-password/:resetToken", showResetPasswordPage);
 
-router.post("/forgot-password", forgotPassword);
 
 router.get("/me/profile", authGuard, userProfile);
 router.put("/update-profile/:userId", authGuard, updateProfile);

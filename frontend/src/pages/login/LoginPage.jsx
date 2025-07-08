@@ -10,14 +10,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../store/reducers/userReducers";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { useGoogleAuth } from "../../services/googleAuth";
+import { GoogleLogin } from "@react-oauth/google";
 
 const LoginPage = () => {
+  const googleLogin = useGoogleAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const userState = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Login manual
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => {
       return login({ email, password });
@@ -33,6 +37,7 @@ const LoginPage = () => {
     },
   });
 
+  // Handle and validate form
   const {
     register,
     handleSubmit,
@@ -45,11 +50,13 @@ const LoginPage = () => {
     mode: "onChange",
   });
 
+  // Main func login manual
   const submitHandler = (data) => {
     const { email, password } = data;
     mutate({ email, password });
   };
 
+  // check if user not login => redirect homepage
   useEffect(() => {
     if (userState.userInfo) {
       navigate("/");
@@ -59,6 +66,18 @@ const LoginPage = () => {
   // Handle toggle show password
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  // Auth using Google
+  const handleGoogleLogin = async () => {
+    try {
+      const data = await googleLogin();
+      dispatch(userActions.setUserInfo(data.user));
+      localStorage.setItem("account", JSON.stringify(data.user));
+      toast.success("Login Successfully");
+    } catch (error) {
+      toast.error("Login Failed");
+    }
   };
 
   return (
@@ -88,14 +107,14 @@ const LoginPage = () => {
                     pattern: {
                       value:
                         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: t('enterValidEmail'),
+                      message: t("enterValidEmail"),
                     },
                     required: {
                       value: true,
-                      message: t('emailRequired'),
+                      message: t("emailRequired"),
                     },
                   })}
-                  placeholder={t('yourEmail')}
+                  placeholder={t("yourEmail")}
                   className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border dark:bg-slate-200 ${
                     errors.email ? "border-red-500" : "border-[#c3cad9]"
                   }`}
@@ -120,14 +139,14 @@ const LoginPage = () => {
                     {...register("password", {
                       required: {
                         value: true,
-                        message: t('passwordRequired'),
+                        message: t("passwordRequired"),
                       },
                       minLength: {
                         value: 6,
-                        message: t('passwordLeastLength'),
+                        message: t("passwordLeastLength"),
                       },
                     })}
-                    placeholder={t('yourPassword')}
+                    placeholder={t("yourPassword")}
                     className={`placeholder:text-[#959ead] text-light-hard mt-3 rounded-lg px-5 py-3 font-medium block outline-none border border-[#c3cad9] dark:bg-slate-200 w-full ${
                       errors.password ? "border-red-500" : "border-[#c3cad9]"
                     }`}
@@ -169,6 +188,20 @@ const LoginPage = () => {
                 </Link>
               </p>
             </form>
+
+            {/* <FaGoogle className="text-[#e74236] mr-2" />
+              <button
+                className="text-dark-text font-bold"
+                onClick={handleGoogleLogin}
+              >
+                Sign in with Google
+              </button> */}
+            <div className="mt-5">
+              <GoogleLogin
+                onSuccess={handleGoogleLogin}
+                onError={() => alert("Login failed")}
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 const LoadingSpinner = ({className}) => {
   const { t } = useTranslation();
   return (
-    <div className={className}>
+    <div className={`${className}`}>
       <div role="status">
         <svg
           aria-hidden="true"

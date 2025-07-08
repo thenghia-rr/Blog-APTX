@@ -10,80 +10,80 @@ import {
 import * as url from "url";
 import path from "path";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
-import transporter from "../config/email.config.js";
+// import transporter from "../config/email.config.js";
 
-// [POST] /api/users/forgot-password
-const forgotPassword = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    const user = await UserModel.findOne({ email });
+// // [POST] /api/users/forgot-password
+// const forgotPassword = async (req, res, next) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await UserModel.findOne({ email });
 
-    if (!user) {
-      throw new Error("User not found");
-    }
+//     if (!user) {
+//       throw new Error("User not found");
+//     }
 
-    const resetToken = user.getResetPasswordToken();
-    await user.save();
+//     const resetToken = user.getResetPasswordToken();
+//     await user.save();
 
-    // HOST
-    const resetUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/users/reset-password/${resetToken}`;
+//     // HOST
+//     const resetUrl = `${req.protocol}://${req.get(
+//       "host"
+//     )}/api/users/reset-password/${resetToken}`;
 
-    // const message = `You are receiving this email because you (or someone else) has requested a password reset. Please make a request to: \n\n ${resetUrl}`;
-    const messageHTML = `
-        <h2 style="color: blue;">Bạn nhận được email này vì bạn (hoặc người khác) đã yêu cầu đặt lại mật khẩu.</h2>
-        <p>Hãy vào link để nhập mật khẩu mới:</p><br/>
-        ${resetUrl}
-    `;
+//     // const message = `You are receiving this email because you (or someone else) has requested a password reset. Please make a request to: \n\n ${resetUrl}`;
+//     const messageHTML = `
+//         <h2 style="color: blue;">Bạn nhận được email này vì bạn (hoặc người khác) đã yêu cầu đặt lại mật khẩu.</h2>
+//         <p>Hãy vào link để nhập mật khẩu mới:</p><br/>
+//         ${resetUrl}
+//     `;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Blog-APTX - Đặt Lại Mật Khẩu",
-      // text: message,
-      html: messageHTML,
-    });
+//     await transporter.sendMail({
+//       from: process.env.EMAIL_USER,
+//       to: user.email,
+//       subject: "Blog-APTX - Đặt Lại Mật Khẩu",
+//       // text: message,
+//       html: messageHTML,
+//     });
 
-    res
-      .status(200)
-      .json({ success: true, data: "Email sent", token: resetToken });
-  } catch (error) {
-    next(error);
-  }
-};
+//     res
+//       .status(200)
+//       .json({ success: true, data: "Email sent", token: resetToken });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-// [POST] /api/users/reset-password/:resetToken
-const resetPassword = async (req, res, next) => {
-  // console.log("Request received for resetting password"); // Log request nhận được
+// // [POST] /api/users/reset-password/:resetToken
+// const resetPassword = async (req, res, next) => {
+//   // console.log("Request received for resetting password"); // Log request nhận được
 
-  try {
-    const resetPasswordToken = req.params.resetToken;
-    // console.log(`Reset Token: ${resetPasswordToken}`); // Log reset token
+//   try {
+//     const resetPasswordToken = req.params.resetToken;
+//     // console.log(`Reset Token: ${resetPasswordToken}`); // Log reset token
 
-    const user = await UserModel.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() },
-    });
+//     const user = await UserModel.findOne({
+//       resetPasswordToken,
+//       resetPasswordExpire: { $gt: Date.now() },
+//     });
 
-    if (!user) {
-      // console.log("Invalid token or token has expired"); // Log khi token không hợp lệ hoặc hết hạn
-      throw new Error("Invalid token or token has expired");
-    }
+//     if (!user) {
+//       // console.log("Invalid token or token has expired"); // Log khi token không hợp lệ hoặc hết hạn
+//       throw new Error("Invalid token or token has expired");
+//     }
 
-    user.password = req.body.password;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-    await user.save();
+//     user.password = req.body.password;
+//     user.resetPasswordToken = undefined;
+//     user.resetPasswordExpire = undefined;
+//     await user.save();
 
-    res
-      .status(200)
-      .json({ success: true, data: "Password updated successfully" });
-  } catch (error) {
-    console.error(`Error: ${error.message}`); // Log lỗi chi tiết
-    next(error);
-  }
-};
+//     res
+//       .status(200)
+//       .json({ success: true, data: "Password updated successfully" });
+//   } catch (error) {
+//     console.error(`Error: ${error.message}`); // Log lỗi chi tiết
+//     next(error);
+//   }
+// };
 
 // [GET] /api/users/reset-password/:resetToken
 const showResetPasswordPage = async (req, res, next) => {
@@ -398,7 +398,7 @@ export {
   updateProfile,
   updateProfilePicture,
   deleteUser,
-  forgotPassword,
-  resetPassword,
+  // forgotPassword,
+  // resetPassword,
   showResetPasswordPage
 };

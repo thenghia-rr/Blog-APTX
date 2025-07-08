@@ -4,6 +4,11 @@ import connectDB from "./config/db.js";
 import cors from "cors";
 import path from "path";
 import * as url from "url";
+import passport from "passport";
+import session from 'express-session';
+
+// Config passport (Auth google)
+import './utils/passport.js'
 
 // Routes
 import routes from "./routes/index.js";
@@ -28,16 +33,34 @@ app.use(
   })
 );
 
+// Sessions - sử dụng bộ nhớ của server để lưu trữ phiên
+app.use(
+  session({
+    secret: 'secret', // Bạn có thể thay đổi secret này
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Add headers to fix Cross-Origin-Opener-Policy and Cross-Origin-Embedder-Policy
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 // Static assets (Middleware static of Express.js)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Connect to MongoDB
-connectDB();
+// Render home page
 app.get("/", (req, res) => {
   // res.send("Server Blog-APTX is running...");
   res.sendFile(path.join(__dirname, 'views', 'home.html'))
 });
-
 
 // Apply Routes
 routes(app);
@@ -48,6 +71,8 @@ app.use(errorInvalidPath);
 // Apply middleware handle Error
 app.use(errorResponseHandler);
 
+// Connect to MongoDB
+connectDB();
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
 });

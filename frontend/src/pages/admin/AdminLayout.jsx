@@ -43,7 +43,7 @@ const AdminLayout = () => {
 
   if (profileIsLoading) {
     return (
-      <div className="w-full flex-col gap-y-4 h-screen flex justify-center items-center">
+      <div className="w-full flex-col gap-y-4 h-screen flex justify-center items-center dark:bg-slate-600">
         <LoadingSpinner />
       </div>
     );
