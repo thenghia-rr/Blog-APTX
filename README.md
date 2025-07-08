@@ -48,9 +48,3 @@ A modern blog web application built with the **MERN stack**, supporting full aut
 4. Navigate to `http://localhost:4000`
 
 ---
-
-## Screenshots (optional)
-
-> Add some screenshots to showcase dark mode, admin panel, and post editor.
-
----
